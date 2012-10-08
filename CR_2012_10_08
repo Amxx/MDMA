@@ -1,0 +1,38 @@
+====== Editeur de configuration =========================
+
+- fenetre de visuation des zones
+- 3 onglets
+- Click pour definir la position -> popup de choix du
+  type de zone :
+	- Nom
+	- Type
+	- Commande mappé (eventuellement changement d'onglet)
+- sauvegarde/chargement au format xml
+
+====== Type de zone =====================================
+
+- Pad (evenement)
+	Type de declenchement
+		> ouverture seul
+		> ouverture et fermeture
+		> frappe
+
+- Segment (evenement)
+	Single/dual event
+	Indicateur d'orientation
+
+- Fadder (value)
+	Axes
+		> x
+		> y
+		> x*y
+	Signaux mappable (x,y)
+	Handle mis au niveau de la main a la fermeture
+
+====== Utilisation ======================================
+
+- Affichage des zones (plus clair quand actives)
+- Indicateur de configuration (tab)
+
+
+
