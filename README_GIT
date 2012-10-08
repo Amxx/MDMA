@@ -1,0 +1,65 @@
+[                   POUR OBTENIR LES DROITS D'EDITION                   ]
+
+1.   Sous linux, executer la commande ls ~/.ssh
+     si il y a des fichier id_rsa / id_rsa.pub sauter a l'etape 3
+            
+2.   Executer : ssh-keygen, [entrer], [enter], [enter]
+     - pas la peine de metre un mot de passe, l'interet de la clef ssh
+       est de ne pas avoir a entre un mot de passe a chaque fois
+     - Ne JAMAIS donner votre "id_rsa" a qui que se soit, fait en une
+       sauvegarde sur clef usb en cas de vol de pc / crash de disque dur
+     - votre id_rsa.pub est a diffuser afin de pouvoir etre identifié
+
+3.   Aller a l'url "github.com" -> Signup and Pricing
+
+4.   Copier votre clef public
+     - soit en ouvrant id_rsa.pub (gedit id_rsa.pub) et en fesant
+       ctrl+A ctrl+C
+     - soit en utilisant "xclip -sel clip < ~/.ssh/id_rsa.pub"
+
+6.   Aller a l'url "https://github.com/settings/ssh" -> Add SSH key
+     et copier votre clef (ctrl+v)
+
+5.   M'envoyer un email avec votre identifiant github pour que je vous
+     ajoute en tant que collaborateur.
+
+#########################################################################
+#       A PARTIR DE LA VOUS POURREZ MODIFIER LE CODE DEPUIS TOUT        #
+#             MACHINE POSSEDANT VOTRE CLEF PRIVEE (id_rsa)              #
+#########################################################################
+
+[            POUR METTRE EN PLACE UNE COPIE LOCALE DU DEPOT             ]
+
+Se placer dans un dossier de travail
+(ne faites pas de git init a la racine de votre dossier personnel)
+
+6.   git init
+7.   git config --global user.name "Your Name Here"
+8.   git config --global user.email "your_email@youremail.com"
+9.   git clone git@github.com:Amxx/MDMA.git
+
+    >> Votre copie a ete crée dans un sous dossier MDMA
+
+[            POUR COMMITER LES MODIFICATIONS SUR UN FICHIER             ]
+
+10.  git add "file"
+10a. git commit
+
+[           POUR COMMITER TOUTES LES MODIFICATIONS EFFECTUÉES           ]
+
+11.  git commit -a
+
+[                 POUR ENVOYER SES COMMIT SUR LE SERVEUR                ]
+
+12.  git push
+
+[             POUR RECUPERER LES COMMITS DES AUTRES MEMBRES             ]
+
+13.  git pull
+
+[               POUR VOIR L'HISTORIQUE DES MOFIFICATIONS                ]
+
+13.  git log
+
+
+REF : http://www.alexgirard.com/git-book/index.html
