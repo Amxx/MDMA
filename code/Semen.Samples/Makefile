@@ -1,15 +1,21 @@
-CC = g++
-CFLAGS = -lopencv_video -lopencv_core -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_objdetect -lopencv_gpu
+CC=g++
+CFLAGS=
+LDFLAGS=-lopencv_video -lopencv_core -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_objdetect -lopencv_gpu
+DEBUG=-g -Wall -DDEBUG
 
 SRC=$(wildcard *.cpp)
-EXE=$(SRC:.cpp=)
+OBJ=$(SRC:.cpp=.o)
+EXE=$(SRC:.cpp=.exe)
 
-.PHONY: all clean
+.PHONY: all clear clean
 
 all: $(EXE)
 
-%: %.cpp Makefile
-	$(CC) $< $(CFLAGS) -o $@
+%.exe: %.o
+	$(CC) -o $@ $< $(LDFLAGS) $(DEBUG)
+
+%.o: %.cpp Makefile
+	$(CC) -c $< $(CFLAGS) $(DEBUG)
 
 clean:
 	-rm -f $(OBJ) *~ \#*
@@ -17,4 +23,3 @@ clean:
 clear:
 	$(MAKE) clean
 	-rm -f $(EXE)
-
