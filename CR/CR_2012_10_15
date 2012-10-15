@@ -1,0 +1,27 @@
+=========================================================
+=					COMMUNICATION						=
+=========================================================
+
+- New logo
+- Everybody should create his own webpage / webpage for
+  his workpackage
+
+=========================================================
+=						MIDI							=
+=========================================================
+
+communication between MDMA and a DAW can be achieved :
+	- directly with R+midi on linux
+	- with the use of Loop Midi on Windows
+Still some research on how to simplify it. Contact the
+developper involved in Loop Midi developpement
+
+=========================================================
+=						OPEN CV							=
+=========================================================
+
+1. RGB -> HSV
+2. Back Proj
+3. Threshold binarization
+4. Erase/Dilate
+

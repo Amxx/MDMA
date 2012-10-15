@@ -1,0 +1,44 @@
+\documentclass[a4paper, 10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel} 
+\usepackage[svgnames]{xcolor}
+\usepackage{pgfgantt}
+
+\begin{document}
+\begin{center}
+\begin{ganttchart}%
+[
+x unit=0.8cm, y unit title=0.4cm,y unit chart=0.5cm,
+vgrid={*1{RoyalBlue!50,dashed}}, hgrid=false,
+title/.style={draw=none, fill=RoyalBlue!50!black},
+title label font=\sffamily\bfseries\color{white},
+title label anchor/.style={below=-1.6ex},
+title left shift=.02,
+title right shift=-.02,
+title height=1,
+group/.style={draw=black, fill=RoyalBlue!50!black},
+group height=.3,
+group peaks={.1}{.2}{.2},
+bar/.style={draw=RoyalBlue!50!black, fill=SteelBlue!75, rounded corners=.5mm},
+bar height=.6,
+bar label font=\normalsize\color{black!50},
+progress label anchor/.style={left=0cm},
+incomplete/.style={fill=SteelBlue!25},
+link/.style={thick, ->, RoyalBlue, rounded corners=.5mm}
+]{12}
+		
+\gantttitle{Oct}{4}\gantttitle{Nov}{4}\gantttitle{Dec}{4}\\
+	\ganttbar[progress=40, name=spec]{[Tot, Louis] Spécifications}{1}{3}\\
+	\ganttbar[progress=0, name=desi]{[Hadrien] Design interface}{4}{6}\\
+	\ganttbar[progress=0, name=midi]{[Gaëtan] Interface Midi}{2}{5}\\
+	\ganttbar[progress=0, name=open]{[Semen] Interface openCV}{2}{5}\\
+	\ganttbar[progress=0, name=even]{[Henri] Caractérisation des événements}{4}{7}\\
+	\ganttbar[progress=0, name=inte]{[Hadrien] Intégration}{7}{12}\\
+	\ganttbar[progress=0, name=test]{[Tot] Testing}{7}{12}\\
+	\ganttbar[progress=5, name=comm]{[Luc] Communication}{1}{12}\\
+		
+%\ganttlink[link mid=.25]{bs}{deamon}
+\end{ganttchart}
+\end{center}
+\end{document}
