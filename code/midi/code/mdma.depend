@@ -1,0 +1,435 @@
+# depslib dependency file v1.0
+1350151493 source:d:\mdma\code\mdma.cpp
+	<iostream>
+	<cstdlib>
+	<map>
+	"RtMidi.h"
+	<conio.h>
+	<cstdio>
+	<windows.h>
+	<time.h>
+
+1338824525 
+
+1341587105 d:\mdma\code\rtmidi.h
+	"RtError.h"
+	<string>
+	<vector>
+
+1338824525 d:\mdma\code\rterror.h
+	<exception>
+	<iostream>
+	<string>
+
+1343323887 source:d:\mdma\code\rtmidi.cpp
+	"RtMidi.h"
+	<sstream>
+	<CoreMIDI/CoreMIDI.h>
+	<CoreAudio/HostTime.h>
+	<CoreServices/CoreServices.h>
+	<pthread.h>
+	<sys/time.h>
+	<alsa/asoundlib.h>
+	<windows.h>
+	<mmsystem.h>
+	<string>
+	<vector>
+	<memory>
+	<stdexcept>
+	<sstream>
+	<windows.h>
+	<setupapi.h>
+	<mmsystem.h>
+	"ks.h"
+	"ksmedia.h"
+	<jack/jack.h>
+	<jack/midiport.h>
+	<jack/ringbuffer.h>
+
+1343323887 buffer.h>
+
+1350291527 source:c:\users\gaetan\desktop\mdma\code\mdma.cpp
+	<iostream>
+	<cstdlib>
+	<map>
+	"RtMidi.h"
+	<conio.h>
+	<cstdio>
+	<windows.h>
+	<time.h>
+
+1341587105 c:\users\gaetan\desktop\mdma\code\rtmidi.h
+	"RtError.h"
+	<string>
+	<vector>
+
+1338824525 c:\users\gaetan\desktop\mdma\code\rterror.h
+	<exception>
+	<iostream>
+	<string>
+
+1343323887 source:c:\users\gaetan\desktop\mdma\code\rtmidi.cpp
+	"RtMidi.h"
+	<sstream>
+	<CoreMIDI/CoreMIDI.h>
+	<CoreAudio/HostTime.h>
+	<CoreServices/CoreServices.h>
+	<pthread.h>
+	<sys/time.h>
+	<alsa/asoundlib.h>
+	<windows.h>
+	<mmsystem.h>
+	<string>
+	<vector>
+	<memory>
+	<stdexcept>
+	<sstream>
+	<windows.h>
+	<setupapi.h>
+	<mmsystem.h>
+	"ks.h"
+	"ksmedia.h"
+	<jack/jack.h>
+	<jack/midiport.h>
+	<jack/ringbuffer.h>
+
+1343323887 source:/media/OS/Users/Gaetan/Desktop/mdma/code/RtMidi.cpp
+	"RtMidi.h"
+	<sstream>
+	<CoreMIDI/CoreMIDI.h>
+	<CoreAudio/HostTime.h>
+	<CoreServices/CoreServices.h>
+	<pthread.h>
+	<sys/time.h>
+	<alsa/asoundlib.h>
+	<windows.h>
+	<mmsystem.h>
+	<string>
+	<vector>
+	<memory>
+	<stdexcept>
+	<sstream>
+	<windows.h>
+	<setupapi.h>
+	<mmsystem.h>
+	"ks.h"
+	"ksmedia.h"
+	<jack/jack.h>
+	<jack/midiport.h>
+	<jack/ringbuffer.h>
+
+1341587105 /media/OS/Users/Gaetan/Desktop/mdma/code/RtMidi.h
+	"RtError.h"
+	<string>
+	<vector>
+
+1338824525 /media/OS/Users/Gaetan/Desktop/mdma/code/RtError.h
+	<exception>
+	<iostream>
+	<string>
+
+1350291527 source:/media/OS/Users/Gaetan/Desktop/mdma/code/mdma.cpp
+	<iostream>
+	<cstdlib>
+	<map>
+	"RtMidi.h"
+	<conio.h>
+	<cstdio>
+	<windows.h>
+	<time.h>
+
+1343323887 source:/home/gaetan/M1/MDMA/MDMA/code/midi/code/RtMidi.cpp
+	"RtMidi.h"
+	<sstream>
+	<CoreMIDI/CoreMIDI.h>
+	<CoreAudio/HostTime.h>
+	<CoreServices/CoreServices.h>
+	<pthread.h>
+	<sys/time.h>
+	<alsa/asoundlib.h>
+	<windows.h>
+	<mmsystem.h>
+	<string>
+	<vector>
+	<memory>
+	<stdexcept>
+	<sstream>
+	<windows.h>
+	<setupapi.h>
+	<mmsystem.h>
+	"ks.h"
+	"ksmedia.h"
+	<jack/jack.h>
+	<jack/midiport.h>
+	<jack/ringbuffer.h>
+
+1341587105 /home/gaetan/M1/MDMA/MDMA/code/midi/code/RtMidi.h
+	"RtError.h"
+	<string>
+	<vector>
+
+1338824525 /home/gaetan/M1/MDMA/MDMA/code/midi/code/RtError.h
+	<exception>
+	<iostream>
+	<string>
+
+1350379021 source:/home/gaetan/M1/MDMA/MDMA/code/midi/code/mdma.cpp
+	<iostream>
+	<cstdlib>
+	<map>
+	"RtMidi.h"
+	<conio.h>
+	<windows.h>
+	<unistd.h>
+	<time.h>
+	<cstdio>
+
+1342975416 /usr/include/pthread.h
+	<features.h>
+	<endian.h>
+	<sched.h>
+	<time.h>
+	<bits/pthreadtypes.h>
+	<bits/setjmp.h>
+	<bits/wordsize.h>
+
+1342975382 /usr/include/features.h
+	<bits/predefs.h>
+	<sys/cdefs.h>
+	<gnu/stubs.h>
+
+1342975404 /usr/include/endian.h
+	<features.h>
+	<bits/endian.h>
+	<bits/byteswap.h>
+
+1342975408 /usr/include/sched.h
+	<features.h>
+	<bits/types.h>
+	<stddef.h>
+	<time.h>
+	<bits/sched.h>
+
+1342975406 /usr/include/time.h
+	<features.h>
+	<stddef.h>
+	<bits/time.h>
+	<bits/types.h>
+	<bits/types.h>
+	<bits/types.h>
+	<bits/types.h>
+	<bits/types.h>
+	<xlocale.h>
+
+1342975383 /usr/include/xlocale.h
+
+1344030287 /usr/include/alsa/asoundlib.h
+	<unistd.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<fcntl.h>
+	<assert.h>
+	<endian.h>
+	<sys/poll.h>
+	<errno.h>
+	<stdarg.h>
+	<alsa/asoundef.h>
+	<alsa/version.h>
+	<alsa/global.h>
+	<alsa/input.h>
+	<alsa/output.h>
+	<alsa/error.h>
+	<alsa/conf.h>
+	<alsa/pcm.h>
+	<alsa/rawmidi.h>
+	<alsa/timer.h>
+	<alsa/hwdep.h>
+	<alsa/control.h>
+	<alsa/mixer.h>
+	<alsa/seq_event.h>
+	<alsa/seq.h>
+	<alsa/seqmid.h>
+	<alsa/seq_midi_event.h>
+
+1342975408 /usr/include/unistd.h
+	<features.h>
+	<bits/posix_opt.h>
+	<bits/environments.h>
+	<bits/types.h>
+	<stddef.h>
+	<bits/confname.h>
+	<getopt.h>
+	<bits/unistd.h>
+
+1342975408 /usr/include/getopt.h
+	<ctype.h>
+
+1342975393 /usr/include/ctype.h
+	<features.h>
+	<bits/types.h>
+	<endian.h>
+	<xlocale.h>
+
+1342975401 /usr/include/stdio.h
+	<features.h>
+	<stddef.h>
+	<bits/types.h>
+	<libio.h>
+	<stdarg.h>
+	<bits/stdio_lim.h>
+	<bits/sys_errlist.h>
+	<getopt.h>
+	<bits/stdio.h>
+	<bits/stdio2.h>
+	<bits/stdio-ldbl.h>
+
+1342975401 /usr/include/libio.h
+	<_G_config.h>
+	<stdarg.h>
+	<sys/cdefs.h>
+	<bits/stdio-lock.h>
+	<shlib-compat.h>
+	<bits/libio-ldbl.h>
+
+1342975401 /usr/include/_G_config.h
+	<bits/types.h>
+	<stddef.h>
+	<wchar.h>
+	<gconv.h>
+
+1342975405 /usr/include/wchar.h
+	<features.h>
+	<stdio.h>
+	<stdarg.h>
+	<bits/wchar.h>
+	<stddef.h>
+	<wctype.h>
+	<xlocale.h>
+	<xlocale.h>
+	<xlocale.h>
+	<wctype.h>
+	<bits/wchar2.h>
+	<bits/wchar-ldbl.h>
+
+1342975413 /usr/include/wctype.h
+	<features.h>
+	<bits/types.h>
+	<wchar.h>
+	<endian.h>
+	<xlocale.h>
+
+1342975383 /usr/include/gconv.h
+	<features.h>
+	<wchar.h>
+	<stddef.h>
+
+1342975399 /usr/include/stdlib.h
+	<features.h>
+	<stddef.h>
+	<bits/waitflags.h>
+	<bits/waitstatus.h>
+	<xlocale.h>
+	<sys/types.h>
+	<alloca.h>
+	<bits/stdlib.h>
+	<bits/stdlib-ldbl.h>
+
+1342975399 /usr/include/alloca.h
+	<features.h>
+	<stddef.h>
+
+1342975404 /usr/include/string.h
+	<features.h>
+	<stddef.h>
+	<xlocale.h>
+	<bits/string.h>
+	<bits/string2.h>
+	<bits/string3.h>
+
+1342975409 /usr/include/fcntl.h
+	<features.h>
+	<bits/fcntl.h>
+	<bits/types.h>
+	<time.h>
+	<bits/stat.h>
+	<bits/fcntl2.h>
+
+1342975393 /usr/include/assert.h
+	<features.h>
+
+1342975399 /usr/include/errno.h
+	<features.h>
+	<bits/errno.h>
+
+1344030287 /usr/include/alsa/asoundef.h
+
+1344030287 /usr/include/alsa/version.h
+
+1344030287 /usr/include/alsa/global.h
+	<time.h>
+
+1344030287 /usr/include/alsa/input.h
+
+1344030287 /usr/include/alsa/output.h
+
+1344030287 /usr/include/alsa/error.h
+
+1344030287 /usr/include/alsa/conf.h
+
+1344030287 /usr/include/alsa/pcm.h
+	"pcm_old.h"
+
+1344030287 /usr/include/alsa/pcm_old.h
+
+1344030287 /usr/include/alsa/rawmidi.h
+
+1344030287 /usr/include/alsa/timer.h
+
+1344030287 /usr/include/alsa/hwdep.h
+
+1344030287 /usr/include/alsa/control.h
+
+1344030287 /usr/include/alsa/mixer.h
+
+1344030287 /usr/include/alsa/seq_event.h
+
+1344030287 /usr/include/alsa/seq.h
+
+1344030287 /usr/include/alsa/seqmid.h
+
+1344030287 /usr/include/alsa/seq_midi_event.h
+
+1348996120 /usr/include/jack/jack.h
+	<jack/types.h>
+	<jack/transport.h>
+	<jack/weakmacros.h>
+
+1348996120 /usr/include/jack/types.h
+	<inttypes.h>
+	<pthread.h>
+
+1342975399 /usr/include/inttypes.h
+	<features.h>
+	<stdint.h>
+	<stddef.h>
+
+1342975399 /usr/include/stdint.h
+	<features.h>
+	<bits/wchar.h>
+	<bits/wordsize.h>
+
+1348996120 /usr/include/jack/transport.h
+	<jack/types.h>
+	<jack/weakmacros.h>
+
+1348996120 /usr/include/jack/weakmacros.h
+
+1348996120 /usr/include/jack/midiport.h
+	<jack/weakmacros.h>
+	<jack/types.h>
+	<stdlib.h>
+
+1348996120 /usr/include/jack/ringbuffer.h
+	<sys/types.h>
+
