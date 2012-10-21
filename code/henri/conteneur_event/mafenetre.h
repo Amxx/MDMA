@@ -6,7 +6,7 @@
 
 #include <opencv2/opencv.hpp>
 
-#include "../evenement.h"
+#include "evenement.h"
 #include "log.h"
 #include "mycamerawindow.h"
 
