@@ -3,6 +3,14 @@
 %% ================================================================
 \begin{document}
 \maketitle
+
+\begin{center}
+	\emph{Coordinateurs :}\\
+	Timothée Bernard, Louis Parlant\bigskip\\
+	\emph{Membres du projet :}\\
+	Hadrien Croubois, Henri Derycke, Gaëtan Gilbert, Semen Marchuk, Luc Rocher
+\end{center}
+
 \newpage
 
 \tableofcontents
@@ -48,11 +56,6 @@ Le logiciel MDMA se présente à l'utilisateur sous la forme d'une unique fenêt
 
 
 \section{Design Interface}
-\subsection{Participants}
-\begin{itemize}
-    \item Hadrien Croubois (responsable d'équipe);
-    \item Luc Rocher
-\end{itemize}
 \subsection{Objectifs}
 \par Le \emph{workpackage} "Design Interface" a pour objectif de mettre au point et d'implémenter l'interface ainsi que de penser a l'interconnexion de l'interface avec l'ensemble des composants du logiciel. Il s'occupe en plus de la gestion des configurations décrites par l'utilisateur, qu'il s'agisse de leurs paramétrages via les différentes fenêtres ou de la partie chargement/enregistrement. La connaissance de l'état d'avancement des différents \emph{workpackages} permet de définir efficacement les formats de configuration ainsi que de penser les flux de données nécessaires a l'affichage au cœur de la structure du programme.
 \par Le \emph{workpackage} "Design Interface" anticipe a ce titre une part de l'intégration.
@@ -107,7 +110,7 @@ Le logiciel MDMA se présente à l'utilisateur sous la forme d'une unique fenêt
 \par Comme extension du projet, nous envisageons de développer une version de notre logiciel fonctionnant avec une \emph{Kinect}. La version ne sera qu'optionnelle tant qu'elle demandera des dépenses supplémentaires de part de l'utilisateur. Malgré ce défaut le développement de la version est raisonnable tant qu'il assure la reconnaissance grâce à l'utilisation de matériels prévus pour le tracking des objets. 
 \subsection*{Algorithme développé}
 \par Pour l'instant le résultat est l'algorithme développé et implémenté avec l'utilisation de la librairie OpenCV. Une implémentation développée pour fournir une plate-forme-indépendante.
-\subsubsection*{Structure de l'algorithme}
+\paragraph{Structure de l'algorithme}
 \begin{itemize}
 \item Calibration du système. L'utilisateur place les mains dans les zones spéciales. Après cela le système fixe $L'$ égal à l'éclairage du point le moins éclairé dehors de ces zones. $L=L'-\Delta$ devient le seuil critique de luminosité. Après cette étape la boucle principale du fonctionnement se déroule.
 \item Commencement de la boucle. Capture de l'image.
@@ -181,7 +184,7 @@ Le logiciel MDMA se présente à l'utilisateur sous la forme d'une unique fenêt
 \end{figure}
 \par Le premier graphique a été sélectionné par l'équipe, et rapidement intégré au site Internet.
 \subsection{Communication numérique}
-\subsubsection{Site Internet}
+\paragraph{Internet}
 \par Afin d'obtenir un minimum de visibilité, le projet avait besoin d'une présence sur Internet. Nous avons donc d'abord travaillé à mettre en place un site Web. Nous avons travaillé sur une interface assez minimaliste, fondée sur les couleurs de la gamme représentée à la figure~\ref{fig:swatch}.
 \par Le site Internet (\url{http://graal.ens-lyon.fr/mdma/}) contient différentes informations, dont :
 \begin{itemize}
@@ -200,7 +203,7 @@ Le logiciel MDMA se présente à l'utilisateur sous la forme d'une unique fenêt
     \includegraphics[width=10cm]{comm-web1.pdf}
   \caption{Capture d'écran du site du projet}
 \end{figure}
-\subsubsection{Autre présence}
+\paragraph{Autre présence}
 \par Le projet dispose aussi d'un page sur \emph{Facebook} (\url{http://www.facebook.com/mdma.project}) et d'un compte \emph{Twitter}. Ces espaces ne sont pas très actifs, mais pourront le devenir dès que le projet disposera d'un logiciel fonctionnel et pouvant être diffusé.
 \subsection{Diffusion numérique}
 \par L'équipe « communication » se charge du lien entre le projet et l'équipe pédagogique, par exemple pour des questions de budget (le financement récent d'un \emph{Microsoft Kinect} par exemple) ; il a aussi pour vocation de diffuser notre projet à des musiciens et des personnes intéressées par la musique électronique. Nous chercherons ainsi des utilisateurs capable de tester MDMA et de produire des retours en situation réelle. Cette axe là pourra se développer dans les semaines qui viennent, avec la finalisation du logiciel.

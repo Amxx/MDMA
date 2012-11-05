@@ -1,23 +1,20 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
 \BOOKMARK [1][-]{section.2}{Sp\351cifications}{}% 2
 \BOOKMARK [1][-]{section.3}{Design Interface}{}% 3
-\BOOKMARK [2][-]{subsection.3.1}{Participants}{section.3}% 4
-\BOOKMARK [2][-]{subsection.3.2}{Objectifs}{section.3}% 5
-\BOOKMARK [2][-]{subsection.3.3}{Avancement}{section.3}% 6
-\BOOKMARK [1][-]{section.4}{Interface MIDI}{}% 7
-\BOOKMARK [1][-]{section.5}{Caract\351risation des \351v\351nements}{}% 8
-\BOOKMARK [2][-]{subsection.5.1}{Introduction}{section.5}% 9
-\BOOKMARK [2][-]{subsection.5.2}{Description des zones}{section.5}% 10
-\BOOKMARK [2][-]{subsection.5.3}{Impl\351mentation}{section.5}% 11
-\BOOKMARK [2][-]{subsection.5.4}{Affichage des zones}{section.5}% 12
-\BOOKMARK [1][-]{section.6}{Workpackage Communication}{}% 13
-\BOOKMARK [2][-]{subsection.6.1}{Introduction}{section.6}% 14
-\BOOKMARK [2][-]{subsection.6.2}{D\351finition d'une identit\351 graphique}{section.6}% 15
-\BOOKMARK [2][-]{subsection.6.3}{Communication num\351rique}{section.6}% 16
-\BOOKMARK [3][-]{subsubsection.6.3.1}{Site Internet}{subsection.6.3}% 17
-\BOOKMARK [3][-]{subsubsection.6.3.2}{Autre pr\351sence}{subsection.6.3}% 18
-\BOOKMARK [2][-]{subsection.6.4}{Diffusion num\351rique}{section.6}% 19
-\BOOKMARK [2][-]{subsection.6.5}{Bilan}{section.6}% 20
-\BOOKMARK [1][-]{section.7}{Conclusion}{}% 21
-\BOOKMARK [1][-]{section.8}{Int\351gration et tests}{}% 22
-\BOOKMARK [1][-]{section.9}{Conclusion}{}% 23
+\BOOKMARK [2][-]{subsection.3.1}{Objectifs}{section.3}% 4
+\BOOKMARK [2][-]{subsection.3.2}{Avancement}{section.3}% 5
+\BOOKMARK [1][-]{section.4}{Interface MIDI}{}% 6
+\BOOKMARK [1][-]{section.5}{Caract\351risation des \351v\351nements}{}% 7
+\BOOKMARK [2][-]{subsection.5.1}{Introduction}{section.5}% 8
+\BOOKMARK [2][-]{subsection.5.2}{Description des zones}{section.5}% 9
+\BOOKMARK [2][-]{subsection.5.3}{Impl\351mentation}{section.5}% 10
+\BOOKMARK [2][-]{subsection.5.4}{Affichage des zones}{section.5}% 11
+\BOOKMARK [1][-]{section.6}{Workpackage Communication}{}% 12
+\BOOKMARK [2][-]{subsection.6.1}{Introduction}{section.6}% 13
+\BOOKMARK [2][-]{subsection.6.2}{D\351finition d'une identit\351 graphique}{section.6}% 14
+\BOOKMARK [2][-]{subsection.6.3}{Communication num\351rique}{section.6}% 15
+\BOOKMARK [2][-]{subsection.6.4}{Diffusion num\351rique}{section.6}% 16
+\BOOKMARK [2][-]{subsection.6.5}{Bilan}{section.6}% 17
+\BOOKMARK [1][-]{section.7}{Conclusion}{}% 18
+\BOOKMARK [1][-]{section.8}{Int\351gration et tests}{}% 19
+\BOOKMARK [1][-]{section.9}{Conclusion}{}% 20
