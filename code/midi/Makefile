@@ -3,11 +3,22 @@ OBJS = build/mdma.o build/RtMidi.o
 
 BIN = mdma
 
-FLAGS = -g -Wall -Wextra -fexceptions -D_DEBUG -D_CONSOLE -D__LINUX_ALSA__
+#comment out to not compile ALSA
+ALSAFL = -D__LINUX_ALSA__
+LALSAFL = -lasound
 
-LFLAGS = -lasound -lfl -lm
+#comment out to not compile JACK
+JACKFL = -D__UNIX_JACK__
+LJACKFL = -ljack
 
-all: $(OBJS)
+FLAGS = -g -Wall -Wextra -fexceptions -D_DEBUG -D_CONSOLE $(ALSAFL) $(JACKFL)
+
+LFLAGS = $(LALSAFL) $(LJACKFL)
+#-lfl -lm
+
+all: mdma
+
+mdma: $(OBJS)
 	g++ $(FLAGS) $(OBJS) $(LFLAGS) -o $(BIN)
 
 
