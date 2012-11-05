@@ -73,15 +73,19 @@ Le logiciel MDMA se présente à l'utilisateur sous la forme d'une unique fenêt
 \section{Interface MIDI}
 \par MDMA produit des messages MIDI qui ont pour but d'être interprétés par d'autres logiciels  – typiquement des séquenceurs – comme des notes, des signaux lecture/stop ou tout autre modification de paramètre à la manière d'un contrôleur MIDI classique.
 \par Pour gérer toutes les tâches concernant le protocole MIDI, nous avons décider d'utiliser la bibliothèque RtMidi. Toujours développée, cette bilbiothèque orientée programmation objet pour le C++ est multi-platforme (Linux, Windows et Mac OS). Nous exploitons essentiellement la classe RtMidiOut, qui gère l'envoie de messages MIDI en temps réel.
-\par La première chose à faire est d'ouvrir un port MIDI virtuel pour y envoyer nos messages, ceux-ci pourront être récupérés par n'importe quel logiciel écoutant sur le port précédemment créé (figure 1/midi.png). Malheureusement RtMidi ne permet pas une telle opération sous système Windows. Nous utilisons actuellement loopMIDI pour contourner ce problème : loopMIDI permet de créer deux ports MIDI, un en entrée et un en sortie, et fait transiter tout message reçu par le port d'entrée vers le port de sortie. MDMA n'a donc qu'à envoyer ses messages sur le port d'entrée, ils pourront alors être récupérés sur le port de sortie (figure 2/midi2.png).
+\par La première chose à faire est d'ouvrir un port MIDI virtuel pour y envoyer nos messages, ceux-ci pourront être récupérés par n'importe quel logiciel écoutant sur le port précédemment créé (figure~\ref{MDMA_port}). Malheureusement RtMidi ne permet pas une telle opération sous système Windows. Nous utilisons actuellement loopMIDI pour contourner ce problème : loopMIDI permet de créer deux ports MIDI, un en entrée et un en sortie, et fait transiter tout message reçu par le port d'entrée vers le port de sortie. MDMA n'a donc qu'à envoyer ses messages sur le port d'entrée, ils pourront alors être récupérés sur le port de sortie (figure~\ref{virtual_port}).
 \par Nous devrions à terme être capable de nous passer de loopMIDI : son développeur a créé un SDK permettant d'intégrer la création de ports MIDI virtuels directement dans un logiciel ; nous venons de le contacter et attendons sa réponse.
 \begin{figure}
 	\centering
 	\includegraphics[width=12cm]{midi.png}
+	\caption{Utilisation d'un port crée par MDMA}
+	\label{MDMA_port}
 \end{figure}
 \begin{figure}
 	\centering
 	\includegraphics[width=12cm]{midi2.png}
+	\caption{Utilisation d'un port virtuel externe à MDMA}
+	\label{virtual_port}
 \end{figure}
 \par Une fois la manière de procéder déterminée (création ou non d'un port directement par MDMA), la gestion des messages est très simple. RtMidiOut possède une méthode openPort permettant de se connecter à un port de sortie, ainsi qu'une méthode sendMessage permettant d'envoyer un std::vector<unsigned char> sur le port précédemment choisi.
 \par L'envoie de messages est commandé par les mouvements de l'utilisateur, et s'effectue en bout de chaîne de la gestion des événements.
