@@ -8,6 +8,13 @@
 \tableofcontents
 \newpage
 %% ================================================================
+\section{Planning}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=11cm]{planning.png}
+    \caption{État d'avancement du projet au 5 novembre 2012}
+\end{figure}
+
 \section{Design Interface}
 \subsection{Participants}
 \begin{itemize}
@@ -22,7 +29,7 @@
 \par La fenetre principale permet, en plus de la visualisation de l'image acquis par la webcam de charger et sauvegarder differentes configuration ainsi que d'avoir un resumé des differentes zones definies. Ces zones peuvent être crées en cliquant sur la video, modifiées et supprimées.
 \begin{figure}
     \centering
-    \includegraphics[width=12cm]{design_window.png}
+    \includegraphics[width=11cm]{design_window.png}
     \caption{La fenêtre principale de l'interface}
 \end{figure}
 \par L'ouverture d'une nouvelle configuration ou la fermeture du programme alors que la configuration actuelle a ete récement modifiée demande a l'utilisateur de sauvegarder la configuration actuelle.
@@ -74,8 +81,7 @@
 \end{itemize}
 \subsection{Roadmap}
 \par Comme l'algorithme est développé et testé il ne reste que l'intégration avec workpackage Gestion des événements. C'est à dire il reste créer l'objet actif qui offre l'interface au module de gestion des événements. 
-%% Caractérisation des événements
-%% ---------------------------------------------------
+
 \section{Caractérisation des événements}
 \subsection{Introduction}
 \par Le workpackage de caractérisation des évènements se charge du déclenchement des signaux MIDI fournis par l'interface MIDI lorsque des évènements sont détectés dans des zones décrites par l'utilisateur et de l'affichage en surimpression des zones activées. Les spécifications nous donnent les types d'évènements qu'il faut pouvoir détecter et quels types de zones on doit disposer et l'interface MIDI nous fournit ce qu'on doit envoyer. Il s'agit donc d'implémenter la détection d'évènement, le déclenchement des signaux et le dessins des zones.
