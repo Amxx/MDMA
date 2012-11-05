@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2012.10.18)  5 NOV 2012 19:18
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2012.10.18)  5 NOV 2012 20:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -712,122 +712,143 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./L2.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 4.
+(Font)              <7> on input line 5.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 4.
+(Font)              <5> on input line 5.
 )
 \tf@toc=\write4
 \openout4 = `L2.toc'.
 
- [2]
-<img/planning.png, id=137, 1187.43625pt x 373.395pt>
+ [2] [3]
+<img/objets_simules.jpg, id=138, 413.545pt x 401.5pt>
+File: img/objets_simules.jpg Graphic file (type jpg)
+
+<use img/objets_simules.jpg>
+Package pdftex.def Info: img/objets_simules.jpg used on input line 36.
+(pdftex.def)             Requested size: 341.43306pt x 331.49275pt.
+ [4 <./img/objets_simules.jpg>]
+<img/planning.png, id=143, 1187.43625pt x 373.395pt>
 File: img/planning.png Graphic file (type png)
  <use img/planning.png>
-Package pdftex.def Info: img/planning.png used on input line 14.
+Package pdftex.def Info: img/planning.png used on input line 44.
 (pdftex.def)             Requested size: 312.9803pt x 98.41933pt.
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 28.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 60.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-<img/design_window.png, id=140, 930.47626pt x 620.3175pt>
+<img/design_window.png, id=146, 930.47626pt x 620.3175pt>
 File: img/design_window.png Graphic file (type png)
 
 <use img/design_window.png>
-Package pdftex.def Info: img/design_window.png used on input line 32.
+Package pdftex.def Info: img/design_window.png used on input line 64.
 (pdftex.def)             Requested size: 312.9803pt x 208.65242pt.
- [3pdfTeX warning (ext4): destination with the same identifier (name{figure.1})
+ [5pdfTeX warning (ext4): destination with the same identifier (name{figure.1})
  has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.36 \par U
-           n bouton "Calibrate" lancera une procédure de calibration, de me...
- <./img/planning.png (PNG copy)>] [4pdfTeX warning (ext4): destination with the
+l.67 \par
+          L'ouverture d'une nouvelle configuration ou la fermeture du progra...
+ <./img/planning.png (PNG copy)>] [6pdfTeX warning (ext4): destination with the
  same identifier (name{figure.2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.44 \begin{itemize}
-                     <./img/design_window.png (PNG copy)>] [5pdfTeX warning (ex
-t4): destination with the same identifier (name{table.1}) has been already used
-, duplicate ignored
+l.77 \par
+          Nous devrions à terme être capable de nous passer de loopMIDI : ...
+ <./img/design_window.png (PNG copy)>]
+<img/midi.png, id=162, 785.334pt x 166.221pt>
+File: img/midi.png Graphic file (type png)
+ <use img/midi.png>
+Package pdftex.def Info: img/midi.png used on input line 80.
+(pdftex.def)             Requested size: 341.43306pt x 72.26749pt.
+
+<img/midi2.png, id=164, 1282.391pt x 164.615pt>
+File: img/midi2.png Graphic file (type png)
+ <use img/midi2.png>
+Package pdftex.def Info: img/midi2.png used on input line 84.
+(pdftex.def)             Requested size: 341.43306pt x 43.82622pt.
+ [7 <./img/midi.png> <./img/midi2.png>] [8pdfTeX warning (ext4): destination wi
+th the same identifier (name{table.1}) has been already used, duplicate ignored
+
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.74 \item L
-            a dilatation de l'image.] [6] [7]
-<img/comm-swatch.pdf, id=182, 637.04602pt x 196.735pt>
+l.127 \item D
+             ilatation de l'image.] [9] [10]
+<img/comm-swatch.pdf, id=195, 637.04602pt x 196.735pt>
 File: img/comm-swatch.pdf Graphic file (type pdf)
 
 <use img/comm-swatch.pdf>
-Package pdftex.def Info: img/comm-swatch.pdf used on input line 111.
+Package pdftex.def Info: img/comm-swatch.pdf used on input line 167.
 (pdftex.def)             Requested size: 284.52756pt x 87.86949pt.
 
-<img/comm-logos.pdf, id=183, 389.10368pt x 358.87276pt>
+<img/comm-logos.pdf, id=196, 389.10368pt x 358.87276pt>
 File: img/comm-logos.pdf Graphic file (type pdf)
 
 <use img/comm-logos.pdf>
-Package pdftex.def Info: img/comm-logos.pdf used on input line 118.
+Package pdftex.def Info: img/comm-logos.pdf used on input line 174.
 (pdftex.def)             Requested size: 227.62204pt x 209.93697pt.
- [8pdfTeX warning (ext4): destination with the same identifier (name{figure.3})
- has been already used, duplicate ignored
+ [11pdfTeX warning (ext4): destination with the same identifier (name{figure.3}
+) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.126 \par
+l.182 \par
            Le site Internet (\url{http://graal.ens-lyon.fr/mdma/}) contient ...
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) ha
 s been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.126 \par
+l.182 \par
            Le site Internet (\url{http://graal.ens-lyon.fr/mdma/}) contient ...
  <./img/comm-swatch.pdf> <./img/comm-logos.pdf>]
-<img/comm-web2.pdf, id=219, 752.8125pt x 874.26625pt>
+<img/comm-web2.pdf, id=232, 752.8125pt x 874.26625pt>
 File: img/comm-web2.pdf Graphic file (type pdf)
  <use img/comm-web2.pdf>
-Package pdftex.def Info: img/comm-web2.pdf used on input line 135.
+Package pdftex.def Info: img/comm-web2.pdf used on input line 191.
 (pdftex.def)             Requested size: 227.62204pt x 264.34962pt.
 
-<img/comm-web1.pdf, id=220, 1405.25pt x 725.71124pt>
+<img/comm-web1.pdf, id=233, 1405.25pt x 725.71124pt>
 File: img/comm-web1.pdf Graphic file (type pdf)
  <use img/comm-web1.pdf>
-Package pdftex.def Info: img/comm-web1.pdf used on input line 140.
+Package pdftex.def Info: img/comm-web1.pdf used on input line 196.
 (pdftex.def)             Requested size: 284.52756pt x 146.93356pt.
 
-[9pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) 
-has been already used, duplicate ignored
+[12pdfTeX warning (ext4): destination with the same identifier (name{figure.5})
+ has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.143 \subsubsection{Autre présence}
-                                      <./img/comm-web2.pdf>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 151.
- [10pdfTeX warning (ext4): destination with the same identifier (name{figure.6}
-) has been already used, duplicate ignored
+l.199 \subsubsection{Autre présence}
+                                      <./img/comm-web2.pdf>] [13pdfTeX warning 
+(ext4): destination with the same identifier (name{figure.6}) has been already 
+used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.151 \end{document}
-                     <./img/comm-web1.pdf>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 151.
+l.216 \section{Conclusion}
+                           <./img/comm-web1.pdf>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 221.
+ [14]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 221.
  (./L2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 151.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 151.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 221.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 221.
 Package rerunfilecheck Info: File `L2.out' has not changed.
-(rerunfilecheck)             Checksum: 92D0D97E495DBD1C59F77A063D17CFF1;1589.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 151.
+(rerunfilecheck)             Checksum: 0426A65347CAC630787B3DAC4741AAC9;1437.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 221.
  ) 
 Here is how much of TeX's memory you used:
- 7242 strings out of 493485
- 102850 string characters out of 3143525
- 191673 words of memory out of 3000000
- 10402 multiletter control sequences out of 15000+200000
+ 7260 strings out of 493485
+ 103082 string characters out of 3143525
+ 192669 words of memory out of 3000000
+ 10413 multiletter control sequences out of 15000+200000
  13665 words of font info for 34 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
- 31i,11n,43p,675b,436s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 31i,10n,43p,1028b,436s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist
@@ -842,10 +863,10 @@ m-super/sfrm0700.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb
 onts/type1/public/cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm
 -super/sfti1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt0800.pfb>
 </usr/share/texmf/fonts/type1/public/cm-super/sftt1000.pfb>
-Output written on L2.pdf (10 pages, 1173219 bytes).
+Output written on L2.pdf (14 pages, 1291981 bytes).
 PDF statistics:
- 621 PDF objects out of 1000 (max. 8388607)
- 445 compressed objects within 5 object streams
- 45 named destinations out of 1000 (max. 500000)
- 223 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 639 PDF objects out of 1000 (max. 8388607)
+ 454 compressed objects within 5 object streams
+ 48 named destinations out of 1000 (max. 500000)
+ 230 words of extra memory for PDF output out of 10000 (max. 10000000)
 
