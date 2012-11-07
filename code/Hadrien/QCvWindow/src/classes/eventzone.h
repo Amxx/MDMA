@@ -1,12 +1,13 @@
 #ifndef EVENTZONE_H
 #define EVENTZONE_H
 
-#include <QString>
 #include <QMap>
+#include <QPoint>
+#include <QString>
 
 #include "midisignal.h"
 
-namespace zone
+namespace MDMA
 {
 	enum type
 	{
@@ -22,25 +23,33 @@ namespace zone
 	};
 	enum event
 	{
+		EVENT_X,
+		EVENT_Y,
 		ENTER,
 		EXIT,
 		OPEN,
 		CLOSE,
 		SHOCK
 	};
+	QString type_to_string(type t);
 }
 
-class EventZone
+class eventZone
 {
 	public:
-		EventZone();
+		explicit eventZone();
+		explicit eventZone(QPoint _P1, QPoint _P2, int _tab);
+		~eventZone();
 
-		QString Name;
+		QString name;
+		QPoint P1;
+		QPoint P2;
 		int tab;
 
-		zone::type type;
-		zone::axes axes;
-		QMap<zone::event, MidiSignal*> event_lists;
+		MDMA::type type;
+		MDMA::axes axes;
+
+		char events[7][3];
 
 };
 

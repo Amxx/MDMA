@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>zoneEditor</class>
+ <widget class="QDialog" name="zoneEditor">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>320</width>
+    <height>320</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Editeur de zone</string>
+  </property>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>285</y>
+     <width>310</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_x2">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>35</y>
+     <width>60</width>
+     <height>30</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_y2">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>35</y>
+     <width>60</width>
+     <height>30</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_x1">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>35</y>
+     <width>60</width>
+     <height>30</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_y1">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>35</y>
+     <width>60</width>
+     <height>30</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_name">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>0</y>
+     <width>81</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Name</string>
+   </property>
+  </widget>
+  <widget class="QTabWidget" name="tabWidget_type">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>70</y>
+     <width>310</width>
+     <height>215</height>
+    </rect>
+   </property>
+   <property name="tabPosition">
+    <enum>QTabWidget::North</enum>
+   </property>
+   <property name="tabShape">
+    <enum>QTabWidget::Rounded</enum>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="tab_Fadder">
+    <attribute name="title">
+     <string>Fadder</string>
+    </attribute>
+    <widget class="QLineEdit" name="lineEdit_axex_2">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>80</y>
+       <width>100</width>
+       <height>27</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_axex_1">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>80</y>
+       <width>100</width>
+       <height>27</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBox_axes">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>10</y>
+       <width>80</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>X only</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Y only</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>X and Y</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="label_axex">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>55</y>
+       <width>40</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Axe X</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_axey">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>120</y>
+       <width>40</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Axe Y</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_axey_1">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>145</y>
+       <width>100</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_axey_2">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>145</y>
+       <width>100</width>
+       <height>27</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_Pad">
+    <attribute name="title">
+     <string>Pad</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="tab_Segment">
+    <attribute name="title">
+     <string>Segment</string>
+    </attribute>
+   </widget>
+  </widget>
+  <widget class="QLabel" name="label_coords">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>32</y>
+     <width>81</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Position</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_name">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>0</y>
+     <width>170</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>New zone</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_tab">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>0</y>
+     <width>70</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Tab 1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Tab 2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Tab 3</string>
+    </property>
+   </item>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>zoneEditor</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>zoneEditor</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

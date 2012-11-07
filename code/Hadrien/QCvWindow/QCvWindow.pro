@@ -5,7 +5,9 @@ SOURCES += \
     src/objects/cvcameradisplay.cpp \
     src/classes/eventzone.cpp \
     src/classes/midisignal.cpp \
-    src/classes/configuration.cpp
+    src/classes/configuration.cpp \
+    src/objects/zonedisplay.cpp \
+    src/UI/zoneeditor.cpp
 
 HEADERS += \
     src/UI/mainwindow.h \
@@ -13,11 +15,14 @@ HEADERS += \
 		src/objects/cvcameradisplay.h \
     src/classes/eventzone.h \
     src/classes/midisignal.h \
-    src/classes/configuration.h
+    src/classes/configuration.h \
+    src/objects/zonedisplay.h \
+    src/UI/zoneeditor.h
 
 FORMS += \
     src/UI/mainwindow.ui \
-    src/UI/configwindow.ui
+    src/UI/configwindow.ui \
+    src/UI/zoneeditor.ui
 
 LIBS += \
     /usr/lib/libopencv_calib3d.so \
@@ -32,6 +37,9 @@ LIBS += \
     /usr/lib/libopencv_imgproc.so \
     /usr/lib/libopencv_ml.so \
     /usr/lib/libopencv_video.so
+
+QMAKE_CXXFLAGS += \
+    -std=c++0x
 
 Release:DESTDIR = release
 Release:OBJECTS_DIR = release/.obj

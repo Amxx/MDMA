@@ -1,4 +1,27 @@
 #include "cvcameradisplay.h"
+#include "ui_mainwindow.h"
+
+cvCameraDisplay::cvCameraDisplay(configuration* _config, QObject *parent) :
+	QObject(parent),
+	config(_config)
+{
+	startTimer(40);
+}
+
+cvCameraDisplay::~cvCameraDisplay()
+{
+}
+
+void cvCameraDisplay::timerEvent(QTimerEvent*)
+{
+	cv::Mat frame;
+	*config->camera >> frame;
+	cv::flip(frame, frame, 1);
+	config->ui->label_camera->setPixmap(QPixmap::fromImage(mat2qimage(frame)));
+}
+
+
+
 
 QImage mat2qimage(const cv::Mat& mat)
 {
@@ -22,21 +45,4 @@ QImage mat2qimage(const cv::Mat& mat)
 	{
 		return QImage();
 	}
-}
-
-cvCameraDisplay::cvCameraDisplay(QLabel* _displayLabel, cv::VideoCapture* _camera, QObject *parent) :
-	QObject(parent),
-	displayLabel(_displayLabel),
-	camera(_camera)
-{
-	startTimer(25);
-}
-
-void cvCameraDisplay::timerEvent(QTimerEvent*)
-{
-	cv::Mat frame;
-	(*camera) >> frame;
-	cv::flip(frame, frame, 1);
-	displayLabel->setPixmap(QPixmap::fromImage(mat2qimage(frame)));
-	//displayLabel->setPixmap(QPixmap::fromImage(IplImage2QImage(cvQueryFrame(camera))));
 }

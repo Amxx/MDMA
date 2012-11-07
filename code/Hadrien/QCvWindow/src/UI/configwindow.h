@@ -1,6 +1,7 @@
 #ifndef CONFIGWINDOW_H
 #define CONFIGWINDOW_H
 
+#include <QDebug>
 #include <QDialog>
 
 namespace Ui {

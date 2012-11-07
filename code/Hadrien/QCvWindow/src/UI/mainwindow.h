@@ -4,14 +4,15 @@
 #include <QDebug>
 #include <QLayout>
 #include <QMainWindow>
+#include <QMessageBox>
 #include <QMouseEvent>
-
-#include <QPainter>
 
 #include <opencv2/opencv.hpp>
 
 #include "configwindow.h"
+#include "../classes/configuration.h"
 #include "../objects/cvcameradisplay.h"
+#include "../objects/zonedisplay.h"
 
 namespace Ui {
 	class MainWindow;
@@ -31,16 +32,20 @@ class MainWindow : public QMainWindow
 		void on_actionAbout_Qt_triggered();
 		void on_pushButton_run_clicked();
 
+		void on_pushButton_delete_clicked();
+
+		void on_pushButton_deleteAll_clicked();
+
+		void on_pushButton_edit_clicked();
+
 	private:
-		void display_clic(int x, int y);
 		void ui_disable(bool b = true);
 
 		Ui::MainWindow *ui;
-		cv::VideoCapture* camera;
-		cvCameraDisplay* displayer;
 
-		//QPainter* zone_painter;
-		//QPixmap* zone_pixmax;
+		configuration * config;
+		cvCameraDisplay* cameraDisplayer;
+		zoneDisplay* zoneDisplayer;
 };
 
 #endif // MAINWINDOW_H

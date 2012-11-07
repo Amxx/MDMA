@@ -10,30 +10,36 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
-	camera = new cv::VideoCapture(0);
-	//assert(camera->isOpened());
 
-	displayer = new cvCameraDisplay(ui->label_display, camera, this);
-/*
-	zone_pixmax = new QPixmap(100, 100);
-	zone_painter = new QPainter(zone_pixmax);
-	ui->label_zone->setPixmap((*zone_pixmax));
-*/
+	config = new configuration(ui);
+	cameraDisplayer = new cvCameraDisplay(config, this);
+	zoneDisplayer = new zoneDisplay(config, this);
+
 	ui->statusbar->showMessage("Ready");
 }
 
 void MainWindow::mousePressEvent(QMouseEvent* ev)
 {
-	int x = ev->x()-ui->label_display->x();
-	int y = ev->y()-ui->label_display->y()-ui->menubar->size().height();
-	if(x>=0 && x<=640 && y>=0 && y<=480)
-		display_clic(x, y);
+	switch(ev->button())
+	{
+		case Qt::LeftButton:
+		{
+			int x = ev->x()-ui->label_camera->x();
+			int y = ev->y()-ui->label_camera->y()-ui->menubar->size().height();
+			if(x>=0 && x<=640 && y>=0 && y<=480)
+			{
+				zoneDisplayer->clic(QPoint(x, y));
+			}
+			break;
+		}
+		default:
+			break;
+	}
 }
 
 MainWindow::~MainWindow()
 {
 	delete ui;
-	delete displayer;
 }
 
 /*
@@ -69,17 +75,53 @@ void MainWindow::on_pushButton_run_clicked()
 	}
 }
 
+
+void MainWindow::on_pushButton_edit_clicked()
+{
+	if(ui->treeWidget_list->currentItem() != NULL)
+	{
+		QString name = ui->treeWidget_list->currentItem()->text(0);
+		eventZone evz = config->zones[name];
+		zoneEditor popup(&evz);
+
+		if(popup.exec())
+		{
+//			delete config->zones.find(name);
+//			config->zones.insert(evz.name, evz);
+
+//			ui->treeWidget_list->currentItem()->setText(0, evz.name);
+//			ui->treeWidget_list->currentItem()->setText(1, MDMA::type_to_string(evz.type));
+//			ui->treeWidget_list->currentItem()->setText(2, QString::number(evz.tab));
+		}
+	}
+}
+
+
+void MainWindow::on_pushButton_delete_clicked()
+{
+	if(ui->treeWidget_list->currentItem() != NULL)
+	{
+		config->zones.erase(config->zones.find(ui->treeWidget_list->currentItem()->text(0)));
+		delete ui->treeWidget_list->currentItem();
+	}
+}
+
+
+void MainWindow::on_pushButton_deleteAll_clicked()
+{
+	if(QMessageBox::question(this, "Delete all", "Are you sure ?", QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
+	{
+		ui->treeWidget_list->clear();
+		config->zones.clear();
+	}
+}
+
+
 /*
  *	###############################################################################################
  *  #                                     Ui Private Methodes                                     #
  *	###############################################################################################
  */
-
-void MainWindow::display_clic(int x, int y)
-{
-	qDebug() << "[display_clic] x" << x << "y" << y;
-	//zone_painter->drawPoint(x, y);
-}
 
 void MainWindow::ui_disable(bool b)
 {
