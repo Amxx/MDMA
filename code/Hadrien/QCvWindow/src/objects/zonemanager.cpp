@@ -1,96 +1,87 @@
-#include "zonedisplay.h"
+#include "zonemanager.h"
 #include "ui_mainwindow.h"
 
-zoneDisplay::zoneDisplay(configuration* _config, QObject *parent) :
+zoneManager::zoneManager(configuration& _config, QObject *parent) :
 	QObject(parent),
 	QPainter(),
 	config(_config),
-	cursor(QPoint(-1, -1))
+	pixmax(640,480),
+	P1(-1, -1),
+	P2(-1, -1)
 {
-	pixmax = new QPixmap(640, 480);
-	pixmax->fill(Qt::transparent);
-	begin(pixmax);
+	pixmax.fill(Qt::transparent);
+	begin(&pixmax);
 	startTimer(40);
 }
 
 
-zoneDisplay::~zoneDisplay()
+zoneManager::~zoneManager()
 {
 	end();
-	delete pixmax;
 }
 
 
-void zoneDisplay::timerEvent(QTimerEvent*)
+void zoneManager::timerEvent(QTimerEvent*)
 {
-	pixmax->fill(Qt::transparent);
-
-
-	for(eventZone evz : config->zones.values())
-	{
-		if(evz.tab == config->current_tab())
-		{
-			QFont font;
-			font.setPointSize(8);
-			setFont(font);
-
-			switch(evz.type)
-			{
-				case MDMA::FADER :
-					setPen(Qt::green);
-					drawRect(QRect(evz.P1, evz.P2));
-					setPen(Qt::white);
-					drawText(std::min(evz.P1.x(),evz.P2.x())+2, std::min(evz.P1.y(),evz.P2.y())+10, evz.name);
-					break;
-				case MDMA::PAD :
-					setPen(Qt::blue);
-					drawRect(QRect(evz.P1, evz.P2));
-					setPen(Qt::white);
-					drawText(std::min(evz.P1.x(),evz.P2.x())+2, std::min(evz.P1.y(),evz.P2.y())+10, evz.name);
-					break;
-				case MDMA::SEGMENT :
-					setPen(Qt::yellow);
-					drawLine(evz.P1, evz.P2);
-					setPen(Qt::white);
-					drawText((evz.P1.x()>evz.P2.y())?evz.P1:evz.P2, evz.name);
-					break;
-			}
-
-		}
-	}
-
-	config->ui->label_zone->setPixmap(*pixmax);
+	display();
 }
 
 
-void zoneDisplay::clic(QPoint pointer)
+void zoneManager::clic(QPoint pointer)
 {
-	if(cursor.x() < 0 || cursor.y() < 0)
+	if(P1.x() == -1)
 	{
-		cursor = pointer;
+		P1 = pointer;
 	}
 	else
 	{
-		eventZone evz(cursor, pointer, config->current_tab());
-		zoneEditor popup(&evz);
+		P2 = pointer;
+
+		eventZone evz(P1, P2, config.current_tab);
+		zoneEditor popup(evz);
 
 		if(popup.exec())
 		{
-			if(config->zones.find(evz.name) != config->zones.end())
+			if(config.zones.find(evz.name) != config.zones.end())
 			{
 				int i = 0;
-				while(config->zones.find(evz.name+"_"+QString::number(i)) != config->zones.end()) i++;
+				while(config.zones.find(evz.name+"_"+QString::number(i)) != config.zones.end()) i++;
 				evz.name+=("_"+QString::number(i));
 			}
-			config->zones.insert(evz.name, evz);
-
-			config->ui->treeWidget_list->addTopLevelItem(new QTreeWidgetItem(QStringList() << evz.name << MDMA::type_to_string(evz.type) << QString::number(evz.tab+1)));
+			config.zones.insert(evz.name, evz);
+			config.ui->treeWidget_list->addTopLevelItem(new QTreeWidgetItem(QStringList() << evz.name << MDMA::type_to_string(evz.type) << QString::number(evz.tab+1)));
+			config.changed = true;
 		}
-		cursor = QPoint(-1, -1);
+		reset_clic();
 	}
 }
 
-void zoneDisplay::clear()
+void zoneManager::reset_clic()
 {
-	//zones.clear();
+	P1 = QPoint(-1, -1);
+	P2 = QPoint(-1, -1);
+}
+
+void zoneManager::display()
+{
+	pixmax.fill(Qt::transparent);
+	if(P1.x() != -1)
+	{
+		if(P2.x() != -1)
+		{
+			fillRect(QRect(P1, P2), MDMA::temp_color);
+		}
+		else
+		{
+			setPen(MDMA::temp_color);
+			drawLine(P1.x()-3, P1.y(), P1.x()+3, P1.y());
+			drawLine(P1.x(), P1.y()-3, P1.x(), P1.y()+3);
+		}
+	}
+	for(eventZone& evz : config.zones.values())
+	{
+		if(evz.tab == config.current_tab)
+			evz.display(*this);
+	}
+	config.ui->label_zone->setPixmap(pixmax);
 }

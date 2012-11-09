@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MDMA - Motion Detection Midi Inteface</string>
+   <string>MDMA - Motion Detection Midi Interface - Unamed configuration</string>
   </property>
   <property name="locale">
    <locale language="English" country="UnitedStates"/>
@@ -276,6 +276,16 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>comboBox_tab</tabstop>
+  <tabstop>pushButton_run</tabstop>
+  <tabstop>pushButton_calibrate</tabstop>
+  <tabstop>pushButton_configure</tabstop>
+  <tabstop>treeWidget_list</tabstop>
+  <tabstop>pushButton_edit</tabstop>
+  <tabstop>pushButton_delete</tabstop>
+  <tabstop>pushButton_deleteAll</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
