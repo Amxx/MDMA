@@ -1,27 +1,29 @@
-#ifndef CVCAMERADISPLAY_H
-#define CVCAMERADISPLAY_H
+#ifndef CAMERAMANAGER_H
+#define CAMERAMANAGER_H
 
 #include <QDebug>
 #include <QObject>
 
 #include <opencv2/opencv.hpp>
 
-#include "../classes/configuration.h"
+#include "configuration.h"
+#include "../config/constant.h"
 
-class cvCameraDisplay : public QObject
+class cameraManager : public QObject
 {
 		Q_OBJECT
 	public:
-		explicit cvCameraDisplay(configuration* _config, QObject *parent = 0);
-		~cvCameraDisplay();
+		cameraManager(configuration& _config, QObject *parent = 0);
+		~cameraManager();
 
 	protected:
 		void timerEvent(QTimerEvent*);
 
 	private:
-		configuration* config;
+		configuration& config;
+		void display(cv::Mat frame);
 };
 
 QImage mat2qimage(const cv::Mat& mat);
 
-#endif // CVCAMERADISPLAY_H
+#endif // CAMERAMANAGER_H

@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QPoint>
 
-#include "../classes/configuration.h"
+#include "../objects/configuration.h"
 
 namespace Ui {
 	class zoneEditor;
@@ -15,20 +15,28 @@ class zoneEditor : public QDialog
 		Q_OBJECT
 		
 	public:
-		explicit zoneEditor(eventZone* _evz, QWidget* parent = 0);
+		explicit zoneEditor(eventZone& _evz, QWidget* parent = 0);
 		~zoneEditor();
 		
 	protected:
 		void init();
 
 	private slots:
-		void on_comboBox_axes_currentIndexChanged(int index);
-
 		void on_buttonBox_accepted();
+
+		void on_comboBox_axex_0_currentIndexChanged(int index);
+		void on_comboBox_axey_0_currentIndexChanged(int index);
+
+		void on_comboBox_enter_currentIndexChanged(int index);
+		void on_comboBox_exit_currentIndexChanged(int index);
+		void on_comboBox_open_currentIndexChanged(int index);
+		void on_comboBox_close_currentIndexChanged(int index);
+		void on_comboBox_shock_currentIndexChanged(int index);
+
 
 	private:
 		Ui::zoneEditor *ui;
-		eventZone* evz;
+		eventZone& evz;
 };
 
 #endif // ZONEEDITOR_H

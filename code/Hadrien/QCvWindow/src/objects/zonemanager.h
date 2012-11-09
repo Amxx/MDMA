@@ -1,5 +1,5 @@
-#ifndef ZONEDISPLAY_H
-#define ZONEDISPLAY_H
+#ifndef ZONEMANAGER_H
+#define ZONEMANAGER_H
 
 #include <algorithm>
 
@@ -9,29 +9,29 @@
 #include <QObject>
 #include <QVector>
 
-#include "../classes/configuration.h"
+#include "configuration.h"
+#include "../config/constant.h"
 #include "../UI/zoneeditor.h"
 
-class zoneDisplay : public QObject, public QPainter
+class zoneManager : public QObject, public QPainter
 {
 		Q_OBJECT
 	public:
-		explicit zoneDisplay(configuration* _config, QObject *parent = 0);
-		~zoneDisplay();
+		explicit zoneManager(configuration& _config, QObject *parent = 0);
+		~zoneManager();
 
 		void clic(QPoint pointer);
-		void clear();
+		void reset_clic();
 
 	protected:
 		void timerEvent(QTimerEvent*);
 
 	private:
-		configuration* config;
-		QPixmap* pixmax;
-
-		QPoint cursor;
-
-		//QVector<QRect> zones;
+		void display();
+		configuration& config;
+		QPixmap pixmax;
+		QPoint P1;
+		QPoint P2;
 };
 
-#endif // ZONEDISPLAY_H
+#endif // ZONEMANAGER_H

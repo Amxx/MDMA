@@ -10,9 +10,9 @@
 #include <opencv2/opencv.hpp>
 
 #include "configwindow.h"
-#include "../classes/configuration.h"
-#include "../objects/cvcameradisplay.h"
-#include "../objects/zonedisplay.h"
+#include "../objects/configuration.h"
+#include "../objects/cameramanager.h"
+#include "../objects/zonemanager.h"
 
 namespace Ui {
 	class MainWindow;
@@ -26,26 +26,33 @@ class MainWindow : public QMainWindow
 		explicit MainWindow(QWidget *parent = 0);
 		~MainWindow();
 		void mousePressEvent(QMouseEvent* ev);
+		void closeEvent(QCloseEvent* ev);
 
 	private slots:
-		void on_pushButton_configure_pressed();
+		void on_actionNew_triggered();
+		void on_actionOpen_triggered();
+		void on_actionSave_triggered();
+		void on_actionSave_As_triggered();
 		void on_actionAbout_Qt_triggered();
+
 		void on_pushButton_run_clicked();
-
+		void on_pushButton_configure_pressed();
 		void on_pushButton_delete_clicked();
-
 		void on_pushButton_deleteAll_clicked();
-
 		void on_pushButton_edit_clicked();
+		void on_comboBox_tab_currentIndexChanged(int index);
+
+		void on_actionAbout_MDMA_triggered();
 
 	private:
 		void ui_disable(bool b = true);
 
 		Ui::MainWindow *ui;
 
-		configuration * config;
-		cvCameraDisplay* cameraDisplayer;
-		zoneDisplay* zoneDisplayer;
+		configuration config;
+		cameraManager camera_manager;
+		zoneManager zone_manager;
+
 };
 
 #endif // MAINWINDOW_H
