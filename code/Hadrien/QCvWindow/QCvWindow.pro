@@ -1,27 +1,27 @@
 SOURCES += \
     src/main.cpp \
-    src/UI/mainwindow.cpp \
-    src/UI/configwindow.cpp \
-    src/objects/cvcameradisplay.cpp \
     src/classes/eventzone.cpp \
-    src/classes/midisignal.cpp \
-    src/classes/configuration.cpp \
-    src/objects/zonedisplay.cpp \
-    src/UI/zoneeditor.cpp
+    src/UI/configwindow.cpp \
+    src/UI/mainwindow.cpp \
+    src/UI/zoneeditor.cpp \
+    src/config/constant.cpp \
+    src/objects/cameramanager.cpp \
+    src/objects/configuration.cpp \
+    src/objects/zonemanager.cpp
 
 HEADERS += \
-    src/UI/mainwindow.h \
-    src/UI/configwindow.h \
-		src/objects/cvcameradisplay.h \
     src/classes/eventzone.h \
-    src/classes/midisignal.h \
-    src/classes/configuration.h \
-    src/objects/zonedisplay.h \
-    src/UI/zoneeditor.h
+    src/UI/configwindow.h \
+    src/UI/mainwindow.h \
+    src/UI/zoneeditor.h \
+    src/config/constant.h \
+    src/objects/cameramanager.h \
+    src/objects/configuration.h \
+    src/objects/zonemanager.h
 
 FORMS += \
-    src/UI/mainwindow.ui \
     src/UI/configwindow.ui \
+    src/UI/mainwindow.ui \
     src/UI/zoneeditor.ui
 
 LIBS += \
@@ -39,7 +39,9 @@ LIBS += \
     /usr/lib/libopencv_video.so
 
 QMAKE_CXXFLAGS += \
-    -std=c++0x
+    -std=c++11
+
+
 
 Release:DESTDIR = release
 Release:OBJECTS_DIR = release/.obj
