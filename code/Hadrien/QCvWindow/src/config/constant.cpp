@@ -17,9 +17,12 @@ QColor MDMA::type_to_color(MDMA::type t)
 {
 	switch(t)
 	{
-		case FADER : return QColor(167, 78, 255, 128);
-		case PAD : return QColor(78, 98, 255, 128);
-		case SEGMENT : return QColor(78, 167, 255, 128);
+		case FADER:
+			return QColor(167, 78, 255, 128);
+		case PAD:
+			return QColor(78, 98, 255, 128);
+		case SEGMENT:
+			return QColor(78, 167, 255, 128);
 	}
 	return QColor();
 }
@@ -53,6 +56,7 @@ bool usesGnome()
 		if (env.startsWith(prefix))
 		{
 			QString value = env.mid(prefix.length());
+			qDebug() << value;
 			return value.contains("GNOME", Qt::CaseInsensitive);
 		}
 	return false;

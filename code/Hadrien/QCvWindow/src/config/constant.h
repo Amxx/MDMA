@@ -2,6 +2,7 @@
 #define CONSTANT_H
 
 #include <QColor>
+#include <QDebug>
 #include <QFileDialog>
 #include <QProcess>
 #include <QString>
