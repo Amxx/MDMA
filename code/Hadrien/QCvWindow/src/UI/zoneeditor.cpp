@@ -17,10 +17,10 @@ zoneEditor::zoneEditor(eventZone& _evz, QWidget *parent) :
 
 	ui->tabWidget_type->setCurrentIndex(evz.type);
 
-	ui->comboBox_axex_0->setCurrentIndex(evz.active[MDMA::EVENT_X]);
+	ui->comboBox_axex_0->setCurrentIndex(MDMA::is_midi(evz.active[MDMA::EVENT_X])?evz.active[MDMA::EVENT_X]:MDMA::GOTO_TAB1);
 	ui->spinBox_axex_1->setValue(evz.signal[MDMA::EVENT_X][0] & 15);
 	ui->spinBox_axex_2->setValue(evz.signal[MDMA::EVENT_X][1] & 127);
-	ui->comboBox_axey_0->setCurrentIndex(evz.active[MDMA::EVENT_Y]);
+	ui->comboBox_axey_0->setCurrentIndex(MDMA::is_midi(evz.active[MDMA::EVENT_Y])?evz.active[MDMA::EVENT_Y]:MDMA::GOTO_TAB1);
 	ui->spinBox_axey_1->setValue(evz.signal[MDMA::EVENT_Y][0] & 15);
 	ui->spinBox_axey_2->setValue(evz.signal[MDMA::EVENT_Y][1] & 127);
 
@@ -64,30 +64,32 @@ void zoneEditor::on_buttonBox_accepted()
 	evz.type = MDMA::type(ui->tabWidget_type->currentIndex());
 
 	evz.active[MDMA::EVENT_X] = (MDMA::active) (ui->comboBox_axex_0->currentIndex());
-	evz.signal[MDMA::EVENT_X][0] = ((MDMA::is_midi(evz.active[MDMA::EVENT_X]))?(evz.active[MDMA::EVENT_X]-1)<<4:0) | ui->spinBox_axex_1->value();
+	if(!MDMA::is_midi(evz.active[MDMA::EVENT_X])) evz.active[MDMA::EVENT_X] = MDMA::NOTHING;
+	evz.signal[MDMA::EVENT_X][0] = ((MDMA::is_midi(evz.active[MDMA::EVENT_X]))?evz.active[MDMA::EVENT_X]<<4:0) | ui->spinBox_axex_1->value();
 	evz.signal[MDMA::EVENT_X][1] = 128 | ui->spinBox_axex_2->value();
 	evz.active[MDMA::EVENT_Y] = (MDMA::active) (ui->comboBox_axey_0->currentIndex());
-	evz.signal[MDMA::EVENT_Y][0] = ((MDMA::is_midi(evz.active[MDMA::EVENT_Y]))?(evz.active[MDMA::EVENT_Y]-1)<<4:0) | ui->spinBox_axey_1->value();
+	if(!MDMA::is_midi(evz.active[MDMA::EVENT_Y])) evz.active[MDMA::EVENT_Y] = MDMA::NOTHING;
+	evz.signal[MDMA::EVENT_Y][0] = ((MDMA::is_midi(evz.active[MDMA::EVENT_Y]))?evz.active[MDMA::EVENT_Y]<<4:0) | ui->spinBox_axey_1->value();
 	evz.signal[MDMA::EVENT_Y][1] = 128 | ui->spinBox_axey_2->value();
 
 	evz.active[MDMA::ENTER] = (MDMA::active) ui->comboBox_enter->currentIndex();
-	evz.signal[MDMA::ENTER][0] = ((MDMA::is_midi(evz.active[MDMA::ENTER]))?(evz.active[MDMA::ENTER]-1)<<4:0) | ui->spinBox_enter_1->value();
+	evz.signal[MDMA::ENTER][0] = ((MDMA::is_midi(evz.active[MDMA::ENTER]))?evz.active[MDMA::ENTER]<<4:0) | ui->spinBox_enter_1->value();
 	evz.signal[MDMA::ENTER][1] = 128 | ui->spinBox_enter_2->value();
 	evz.signal[MDMA::ENTER][2] = 128 | ui->spinBox_enter_3->value();
 	evz.active[MDMA::EXIT] = (MDMA::active) ui->comboBox_exit->currentIndex();
-	evz.signal[MDMA::EXIT][0] = ((MDMA::is_midi(evz.active[MDMA::EXIT]))?(evz.active[MDMA::EXIT]-1)<<4:0) | ui->spinBox_exit_1->value();
+	evz.signal[MDMA::EXIT][0] = ((MDMA::is_midi(evz.active[MDMA::EXIT]))?evz.active[MDMA::EXIT]<<4:0) | ui->spinBox_exit_1->value();
 	evz.signal[MDMA::EXIT][1] = 128 | ui->spinBox_exit_2->value();
 	evz.signal[MDMA::EXIT][2] = 128 | ui->spinBox_exit_3->value();
 	evz.active[MDMA::OPEN] = (MDMA::active) ui->comboBox_open->currentIndex();
-	evz.signal[MDMA::OPEN][0] = ((MDMA::is_midi(evz.active[MDMA::OPEN]))?(evz.active[MDMA::OPEN]-1)<<4:0) | ui->spinBox_open_1->value();
+	evz.signal[MDMA::OPEN][0] = ((MDMA::is_midi(evz.active[MDMA::OPEN]))?evz.active[MDMA::OPEN]<<4:0) | ui->spinBox_open_1->value();
 	evz.signal[MDMA::OPEN][1] = 128 | ui->spinBox_open_2->value();
 	evz.signal[MDMA::OPEN][2] = 128 | ui->spinBox_open_3->value();
 	evz.active[MDMA::CLOSE] = (MDMA::active) ui->comboBox_close->currentIndex();
-	evz.signal[MDMA::CLOSE][0] = ((MDMA::is_midi(evz.active[MDMA::CLOSE]))?(evz.active[MDMA::CLOSE]-1)<<4:0) | ui->spinBox_close_1->value();
+	evz.signal[MDMA::CLOSE][0] = ((MDMA::is_midi(evz.active[MDMA::CLOSE]))?evz.active[MDMA::CLOSE]<<4:0) | ui->spinBox_close_1->value();
 	evz.signal[MDMA::CLOSE][1] = 128 | ui->spinBox_close_2->value();
 	evz.signal[MDMA::CLOSE][2] = 128 | ui->spinBox_close_3->value();
 	evz.active[MDMA::SHOCK] = (MDMA::active) ui->comboBox_shock->currentIndex();
-	evz.signal[MDMA::SHOCK][0] = ((MDMA::is_midi(evz.active[MDMA::SHOCK]))?(evz.active[MDMA::SHOCK]-1)<<4:0) | ui->spinBox_shock_1->value();
+	evz.signal[MDMA::SHOCK][0] = ((MDMA::is_midi(evz.active[MDMA::SHOCK]))?evz.active[MDMA::SHOCK]<<4:0) | ui->spinBox_shock_1->value();
 	evz.signal[MDMA::SHOCK][1] = 128 | ui->spinBox_shock_2->value();
 	evz.signal[MDMA::SHOCK][2] = 128 | ui->spinBox_shock_3->value();
 

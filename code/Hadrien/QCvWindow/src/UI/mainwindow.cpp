@@ -46,15 +46,15 @@ void MainWindow::closeEvent(QCloseEvent* ev)
 {
 	if(config.changed)
 	{
-		switch(QMessageBox::question(this, "Changed have been made to the configuration", "Would you like to save changes made to \""+config.name+"\" before closing ?", QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel))
+		switch(QMessageBox::question(this, "Changed have been made to the configuration", "Would you like to save changes made to \""+config.name+"\" before closing ?", QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel, QMessageBox::Save))
 		{
-			case QMessageBox::Yes:
+			case QMessageBox::Save:
 				if(config.save())
 					ev->accept();
 				else
 					ev->ignore();
 				break;
-			case QMessageBox::No:
+			case QMessageBox::Discard:
 				ev->accept();
 				break;
 			default:

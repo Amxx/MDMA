@@ -11,7 +11,7 @@ float hue_rangeV[] = { 0, 256 };
 const float *ranges[] = {hue_rangeH, hue_rangeV};
 Mat frame;
 Mat edges;
-Mat hsv;
+//Mat hsv;
 Mat base;
 MatND hist;
 MatND backproj;
@@ -38,7 +38,7 @@ int main(int, char**)
 		cvtColor(frame, edges, CV_BGR2GRAY);
 		GaussianBlur(edges, edges, Size(7,7), 1.5, 1.5);
 		Canny(edges, edges, 30, 80, 3);	
-		cvtColor( frame, hsv, CV_BGR2HSV );
+		Mat hsv(frame);//cvtColor( frame, hsv, CV_BGR2HSV );
 		if(base.empty())
 		{
 			Point a(500,200);

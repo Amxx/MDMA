@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>320</width>
-    <height>320</height>
+    <height>350</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>320</width>
-    <height>320</height>
+    <height>350</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>320</width>
-    <height>320</height>
+    <height>350</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -29,7 +29,7 @@
    <property name="geometry">
     <rect>
      <x>5</x>
-     <y>285</y>
+     <y>315</y>
      <width>310</width>
      <height>30</height>
     </rect>
@@ -100,7 +100,7 @@
      <x>5</x>
      <y>70</y>
      <width>310</width>
-     <height>215</height>
+     <height>245</height>
     </rect>
    </property>
    <property name="tabPosition">
@@ -119,10 +119,10 @@
     <widget class="QLabel" name="label_axex">
      <property name="geometry">
       <rect>
-       <x>130</x>
-       <y>20</y>
+       <x>10</x>
+       <y>70</y>
        <width>40</width>
-       <height>20</height>
+       <height>30</height>
       </rect>
      </property>
      <property name="text">
@@ -132,10 +132,10 @@
     <widget class="QLabel" name="label_axey">
      <property name="geometry">
       <rect>
-       <x>130</x>
-       <y>100</y>
+       <x>10</x>
+       <y>110</y>
        <width>40</width>
-       <height>20</height>
+       <height>30</height>
       </rect>
      </property>
      <property name="text">
@@ -148,9 +148,9 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>220</x>
-       <y>50</y>
-       <width>80</width>
+       <x>225</x>
+       <y>70</y>
+       <width>75</width>
        <height>30</height>
       </rect>
      </property>
@@ -167,9 +167,9 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>160</x>
-       <y>50</y>
-       <width>60</width>
+       <x>170</x>
+       <y>70</y>
+       <width>55</width>
        <height>30</height>
       </rect>
      </property>
@@ -183,17 +183,12 @@
     <widget class="QComboBox" name="comboBox_axex_0">
      <property name="geometry">
       <rect>
-       <x>5</x>
-       <y>50</y>
-       <width>151</width>
+       <x>50</x>
+       <y>70</y>
+       <width>120</width>
        <height>30</height>
       </rect>
      </property>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-     </item>
      <item>
       <property name="text">
        <string>note off</string>
@@ -232,6 +227,11 @@
      <item>
       <property name="text">
        <string>system</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>---</string>
       </property>
      </item>
     </widget>
@@ -241,17 +241,12 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>5</x>
-       <y>130</y>
-       <width>151</width>
+       <x>50</x>
+       <y>110</y>
+       <width>120</width>
        <height>30</height>
       </rect>
      </property>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-     </item>
      <item>
       <property name="text">
        <string>note off</string>
@@ -292,6 +287,11 @@
        <string>system</string>
       </property>
      </item>
+     <item>
+      <property name="text">
+       <string>---</string>
+      </property>
+     </item>
     </widget>
     <widget class="QSpinBox" name="spinBox_axey_1">
      <property name="enabled">
@@ -299,9 +299,9 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>160</x>
-       <y>130</y>
-       <width>60</width>
+       <x>170</x>
+       <y>110</y>
+       <width>55</width>
        <height>30</height>
       </rect>
      </property>
@@ -315,9 +315,9 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>220</x>
-       <y>130</y>
-       <width>80</width>
+       <x>225</x>
+       <y>110</y>
+       <width>75</width>
        <height>30</height>
       </rect>
      </property>
@@ -334,7 +334,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>10</y>
+       <y>40</y>
        <width>66</width>
        <height>32</height>
       </rect>
@@ -347,7 +347,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>42</y>
+       <y>72</y>
        <width>66</width>
        <height>32</height>
       </rect>
@@ -360,7 +360,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>74</y>
+       <y>104</y>
        <width>66</width>
        <height>32</height>
       </rect>
@@ -373,7 +373,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>106</y>
+       <y>136</y>
        <width>66</width>
        <height>32</height>
       </rect>
@@ -386,7 +386,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>138</y>
+       <y>168</y>
        <width>66</width>
        <height>32</height>
       </rect>
@@ -402,7 +402,7 @@
      <property name="geometry">
       <rect>
        <x>169</x>
-       <y>10</y>
+       <y>40</y>
        <width>40</width>
        <height>32</height>
       </rect>
@@ -418,16 +418,11 @@
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>10</y>
+       <y>40</y>
        <width>119</width>
        <height>32</height>
       </rect>
      </property>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-     </item>
      <item>
       <property name="text">
        <string>note off</string>
@@ -483,6 +478,11 @@
        <string>goto tab 3</string>
       </property>
      </item>
+     <item>
+      <property name="text">
+       <string>---</string>
+      </property>
+     </item>
     </widget>
     <widget class="QSpinBox" name="spinBox_exit_1">
      <property name="enabled">
@@ -491,7 +491,7 @@
      <property name="geometry">
       <rect>
        <x>169</x>
-       <y>42</y>
+       <y>72</y>
        <width>40</width>
        <height>32</height>
       </rect>
@@ -507,7 +507,7 @@
      <property name="geometry">
       <rect>
        <x>169</x>
-       <y>74</y>
+       <y>104</y>
        <width>40</width>
        <height>32</height>
       </rect>
@@ -523,7 +523,7 @@
      <property name="geometry">
       <rect>
        <x>169</x>
-       <y>106</y>
+       <y>136</y>
        <width>40</width>
        <height>32</height>
       </rect>
@@ -539,7 +539,7 @@
      <property name="geometry">
       <rect>
        <x>169</x>
-       <y>138</y>
+       <y>168</y>
        <width>40</width>
        <height>32</height>
       </rect>
@@ -555,7 +555,7 @@
      <property name="geometry">
       <rect>
        <x>209</x>
-       <y>10</y>
+       <y>40</y>
        <width>49</width>
        <height>32</height>
       </rect>
@@ -574,7 +574,7 @@
      <property name="geometry">
       <rect>
        <x>209</x>
-       <y>42</y>
+       <y>72</y>
        <width>49</width>
        <height>32</height>
       </rect>
@@ -590,7 +590,7 @@
      <property name="geometry">
       <rect>
        <x>209</x>
-       <y>74</y>
+       <y>104</y>
        <width>49</width>
        <height>32</height>
       </rect>
@@ -606,7 +606,7 @@
      <property name="geometry">
       <rect>
        <x>209</x>
-       <y>106</y>
+       <y>136</y>
        <width>49</width>
        <height>32</height>
       </rect>
@@ -622,7 +622,7 @@
      <property name="geometry">
       <rect>
        <x>209</x>
-       <y>138</y>
+       <y>168</y>
        <width>49</width>
        <height>32</height>
       </rect>
@@ -638,7 +638,7 @@
      <property name="geometry">
       <rect>
        <x>258</x>
-       <y>10</y>
+       <y>40</y>
        <width>49</width>
        <height>32</height>
       </rect>
@@ -654,7 +654,7 @@
      <property name="geometry">
       <rect>
        <x>258</x>
-       <y>42</y>
+       <y>72</y>
        <width>49</width>
        <height>32</height>
       </rect>
@@ -670,7 +670,7 @@
      <property name="geometry">
       <rect>
        <x>258</x>
-       <y>74</y>
+       <y>104</y>
        <width>49</width>
        <height>32</height>
       </rect>
@@ -686,7 +686,7 @@
      <property name="geometry">
       <rect>
        <x>258</x>
-       <y>106</y>
+       <y>136</y>
        <width>49</width>
        <height>32</height>
       </rect>
@@ -702,7 +702,7 @@
      <property name="geometry">
       <rect>
        <x>258</x>
-       <y>138</y>
+       <y>168</y>
        <width>49</width>
        <height>32</height>
       </rect>
@@ -715,16 +715,11 @@
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>40</y>
+       <y>72</y>
        <width>119</width>
        <height>32</height>
       </rect>
      </property>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-     </item>
      <item>
       <property name="text">
        <string>note off</string>
@@ -778,6 +773,11 @@
      <item>
       <property name="text">
        <string>goto tab 3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>---</string>
       </property>
      </item>
     </widget>
@@ -785,16 +785,11 @@
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>74</y>
+       <y>104</y>
        <width>119</width>
        <height>32</height>
       </rect>
      </property>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-     </item>
      <item>
       <property name="text">
        <string>note off</string>
@@ -848,6 +843,11 @@
      <item>
       <property name="text">
        <string>goto tab 3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>---</string>
       </property>
      </item>
     </widget>
@@ -855,16 +855,11 @@
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>106</y>
+       <y>136</y>
        <width>119</width>
        <height>32</height>
       </rect>
      </property>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-     </item>
      <item>
       <property name="text">
        <string>note off</string>
@@ -918,6 +913,11 @@
      <item>
       <property name="text">
        <string>goto tab 3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>---</string>
       </property>
      </item>
     </widget>
@@ -925,16 +925,11 @@
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>138</y>
+       <y>168</y>
        <width>119</width>
        <height>32</height>
       </rect>
      </property>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-     </item>
      <item>
       <property name="text">
        <string>note off</string>
@@ -990,6 +985,75 @@
        <string>goto tab 3</string>
       </property>
      </item>
+     <item>
+      <property name="text">
+       <string>---</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="label_ch_pad">
+     <property name="geometry">
+      <rect>
+       <x>169</x>
+       <y>10</y>
+       <width>40</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Ch</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="ladel_data1_pad">
+     <property name="geometry">
+      <rect>
+       <x>209</x>
+       <y>10</y>
+       <width>49</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Data 1</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_data2_pad">
+     <property name="geometry">
+      <rect>
+       <x>258</x>
+       <y>10</y>
+       <width>49</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Data 2</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_cmd">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>10</y>
+       <width>119</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Commande</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="tab_Segment">

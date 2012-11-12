@@ -18,7 +18,7 @@ class eventZone
 
 		void display(QPainter& painter);
 
-
+		unsigned char* getMidi(MDMA::event);
 
 		QString name;
 		QPoint P1;
