@@ -4,6 +4,11 @@
 
 using std::vector;
 
+MidiSignal::~MidiSignal() throw()
+{
+	
+}
+
 void MidiSignal::createPort()
 {
 	openVirtualPort("MDMA Midi Out Port");
@@ -23,7 +28,7 @@ void MidiSignal::sendMessage(const unsigned char* msg)
 	else
 		v.assign(msg, msg+3);
 	
-	sendMessage(&v);
+	RtMidiOut::sendMessage(&v);
 }
 
 
