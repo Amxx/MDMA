@@ -10,6 +10,7 @@ class MidiSignal : public QObject, public RtMidiOut
 	Q_OBJECT
 	
 	public:
+		~MidiSignal() throw();
 	
 	public slots:
 		void createPort();
