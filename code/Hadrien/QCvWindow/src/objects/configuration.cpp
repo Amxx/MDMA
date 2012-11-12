@@ -6,6 +6,7 @@ configuration::configuration(Ui::MainWindow *_ui, QWidget* parent) :
 	name("Unamed configuration"),
 	path(""),
 	current_tab(0),
+	calibration_status(MDMA::NOT_CALIBRATED),
 	running(false),
 	changed(false),
 	cameraPort(0),

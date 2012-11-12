@@ -27,7 +27,6 @@ namespace MDMA
 	};
 	enum active
 	{
-		NOTHING,
 		NOTE_OFF,
 		NOTE_ON,
 		POLYFONIC_AFTERTOUCH,
@@ -38,9 +37,18 @@ namespace MDMA
 		SYSTEM,
 		GOTO_TAB1,
 		GOTO_TAB2,
-		GOTO_TAB3
+		GOTO_TAB3,
+		NOTHING
 	};
-	typedef char signal[3];
+	enum calibration
+	{
+		NOT_CALIBRATED,
+		MASK_DRAW,
+		HANDS_CLOSED,
+		HANDS_OPEN,
+		CALIBRATED
+	};
+	typedef unsigned char signal[3];
 
 	const QColor temp_color = QColor(QColor(255, 255, 78, 128));
 	const QColor text_color = Qt::white;
