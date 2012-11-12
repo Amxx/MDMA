@@ -37,7 +37,7 @@ eventZone::eventZone(QPoint _P1, QPoint _P2, int _tab) :
 				active[i] = MDMA::NOTHING;
 				signal[i][0] = 0;
 				signal[i][1] = 0;
-				signal[i][2] = 196;
+				signal[i][2] = 64;
 				break;
 			case MDMA::ENTER:
 			case MDMA::EXIT:
@@ -87,3 +87,11 @@ void eventZone::display(QPainter& painter)
 	}
 }
 
+unsigned char* eventZone::getMidi(MDMA::event ev)
+{
+	unsigned char* midi_signal = new unsigned char[3];
+	midi_signal[0] = active[ev] << 8 & signal[ev][0];
+	midi_signal[1] = 0x80 & signal[ev][1];
+	midi_signal[2] = 0x80 & signal[ev][2];
+	return midi_signal;
+}

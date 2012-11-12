@@ -33,6 +33,10 @@ class configuration : public QWidget
 		QString name;
 		QString path;
 		int current_tab;
+
+		MDMA::calibration calibration_status;
+		QVector<QPoint> user_mask;
+
 		bool running;
 		bool changed;
 		QMap<QString, eventZone> zones;

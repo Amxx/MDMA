@@ -1,6 +1,8 @@
 SOURCES += \
     src/main.cpp \
     src/classes/eventzone.cpp \
+    src/classes/RtMidi.cpp \
+    src/classes/MidiSignal.cpp \
     src/UI/configwindow.cpp \
     src/UI/mainwindow.cpp \
     src/UI/zoneeditor.cpp \
@@ -11,6 +13,9 @@ SOURCES += \
 
 HEADERS += \
     src/classes/eventzone.h \
+    src/classes/RtMidi.h \
+    src/classes/RtError.h \
+    src/classes/MidiSignal.h \
     src/UI/configwindow.h \
     src/UI/mainwindow.h \
     src/UI/zoneeditor.h \
