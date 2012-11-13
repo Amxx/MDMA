@@ -95,6 +95,9 @@
    </property>
   </widget>
   <widget class="QTabWidget" name="tabWidget_type">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>5</x>

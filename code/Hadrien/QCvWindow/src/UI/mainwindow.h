@@ -12,6 +12,7 @@
 #include "configwindow.h"
 #include "../objects/configuration.h"
 #include "../objects/cameramanager.h"
+#include "../objects/midimanager.h"
 #include "../objects/zonemanager.h"
 
 namespace Ui {
@@ -51,6 +52,7 @@ class MainWindow : public QMainWindow
 
 		configuration config;
 		cameraManager camera_manager;
+		midiManager midi_manager;
 		zoneManager zone_manager;
 
 };

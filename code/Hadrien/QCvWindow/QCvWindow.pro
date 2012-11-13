@@ -2,14 +2,14 @@ SOURCES += \
     src/main.cpp \
     src/classes/eventzone.cpp \
     src/classes/RtMidi.cpp \
-    src/UI/configwindow.cpp \
     src/UI/mainwindow.cpp \
     src/UI/zoneeditor.cpp \
     src/config/constant.cpp \
     src/objects/cameramanager.cpp \
     src/objects/configuration.cpp \
     src/objects/midimanager.cpp \
-    src/objects/zonemanager.cpp
+    src/objects/zonemanager.cpp \
+    src/UI/configwindow.cpp
 
 HEADERS += \
     src/classes/eventzone.h \
@@ -25,9 +25,9 @@ HEADERS += \
     src/objects/zonemanager.h
 
 FORMS += \
-    src/UI/configwindow.ui \
     src/UI/mainwindow.ui \
-    src/UI/zoneeditor.ui
+    src/UI/zoneeditor.ui \
+    src/UI/configwindow.ui
 
 LIBS += \
     /usr/lib/libopencv_calib3d.so \

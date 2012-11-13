@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui(new Ui::MainWindow),
 	config(ui, this),
 	camera_manager(config, this),
+	midi_manager(),
 	zone_manager(config, this)
 {
 	ui->setupUi(this);
@@ -144,8 +145,8 @@ void MainWindow::on_pushButton_run_clicked()
 
 void MainWindow::on_pushButton_configure_pressed()
 {
-	configwindow configW;
-	configW.exec();
+	ConfigWindow config_window(midi_manager, config, this);
+	config_window.exec();
 }
 
 void MainWindow::on_pushButton_edit_clicked()

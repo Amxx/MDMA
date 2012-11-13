@@ -1,23 +1,23 @@
-#ifndef MIDISIGNAL_H
-#define MIDISIGNAL_H
+#ifndef MIDIMANAGER_H
+#define MIDIMANAGER_H
 
 #include <QObject>
 
 #include "../classes/RtMidi.h"
 
-class MidiSignal : public QObject, public RtMidiOut
+class midiManager : public QObject, public RtMidiOut
 {
 	Q_OBJECT
 	
 	public:
-		~MidiSignal() throw();
+		~midiManager() throw();
 	
 	public slots:
-		void createPort();
+		void createPort(QString name);
 		void changePort(int n);
 		void sendMessage(const unsigned char* msg);
 	
 };
 
-#endif //MIDISIGNAL_H
+#endif //MIDIMANAGER_H
 
