@@ -18,7 +18,10 @@ class zoneManager : public QObject, public QPainter
 		explicit zoneManager(configuration& _config, QObject *parent = 0);
 		~zoneManager();
 
-		void clic(QPoint pointer);
+		void left_clic(QPoint pointer);
+		void right_clic(QPoint pointer);
+
+		void set_zone(QPoint pointer);
 		void reset_clic();
 
 	protected:

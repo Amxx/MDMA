@@ -45,26 +45,13 @@
      <string>Run</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_calibrate">
-    <property name="geometry">
-     <rect>
-      <x>650</x>
-      <y>40</y>
-      <width>250</width>
-      <height>35</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Calibrate</string>
-    </property>
-   </widget>
    <widget class="QTreeWidget" name="treeWidget_list">
     <property name="geometry">
      <rect>
       <x>650</x>
-      <y>110</y>
+      <y>80</y>
       <width>250</width>
-      <height>328</height>
+      <height>360</height>
      </rect>
     </property>
     <column>
@@ -138,7 +125,7 @@
     <property name="geometry">
      <rect>
       <x>650</x>
-      <y>75</y>
+      <y>40</y>
       <width>250</width>
       <height>35</height>
      </rect>
@@ -279,7 +266,6 @@
  <tabstops>
   <tabstop>comboBox_tab</tabstop>
   <tabstop>pushButton_run</tabstop>
-  <tabstop>pushButton_calibrate</tabstop>
   <tabstop>pushButton_configure</tabstop>
   <tabstop>treeWidget_list</tabstop>
   <tabstop>pushButton_edit</tabstop>

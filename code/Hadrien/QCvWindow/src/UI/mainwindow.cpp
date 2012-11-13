@@ -33,10 +33,10 @@ void MainWindow::mousePressEvent(QMouseEvent* ev)
 		switch(ev->button())
 		{
 			case Qt::LeftButton:
-				zone_manager.clic(QPoint(x, y));
+				zone_manager.left_clic(QPoint(x, y));
 				break;
 			case Qt::RightButton:
-				zone_manager.reset_clic();
+				zone_manager.right_clic(QPoint(x, y));
 				break;
 			default:
 				break;
@@ -118,14 +118,17 @@ void MainWindow::on_actionAbout_MDMA_triggered()
 
 void MainWindow::on_actionAbout_Qt_triggered()
 {
-	if(!config.running)
-	{
-		qApp->aboutQt();
-	}
+	if(!config.running) qApp->aboutQt();
 }
 
 void MainWindow::on_pushButton_run_clicked()
 {
+	if(config.calibration_status != MDMA::CALIBRATED)
+	{
+		QMessageBox::information(this, "Setup isn't configured", "This setup hasn't been configured yet, please run the configuration window before running");
+		return;
+	}
+
 	if(config.running)
 	{
 		config.running = false;
@@ -212,7 +215,6 @@ void MainWindow::on_comboBox_tab_currentIndexChanged(int index)
 void MainWindow::ui_disable(bool b)
 {
 	ui->comboBox_tab->setDisabled(b);
-	ui->pushButton_calibrate->setDisabled(b);
 	ui->pushButton_configure->setDisabled(b);
 	ui->pushButton_delete->setDisabled(b);
 	ui->pushButton_deleteAll->setDisabled(b);

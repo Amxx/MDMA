@@ -20,8 +20,12 @@ void cameraManager::timerEvent(QTimerEvent*)
 		config.camera >> frame;
 		cv::flip(frame, frame, 1);
 
-		// envoye au tracker
 		display(frame);
+
+		if(config.running)
+		{
+			// envoye au tracker
+		}
 	}
 }
 
