@@ -37,7 +37,7 @@ bool configuration::reset()
 bool configuration::open()
 {
 	if(changed && !save()) return false;
-	QString file = QFileDialog::getOpenFileName(this, "Open file", "/home", "*.mdma", 0, QFILEDIALOGOPTION);
+	QString file = QFileDialog::getOpenFileName(this, "Open file", QDir::homePath(), "*.mdma", 0, QFILEDIALOGOPTION);
 	QFileInfo file_info(file);
 
 	qDebug() << "path : " << file_info.filePath();
@@ -50,11 +50,12 @@ bool configuration::save()
 {
 	if(changed)
 	{
-		if(path == "") path = QFileDialog::getSaveFileName(this, "Save file", "/home/new_config.mdma", "*.mdma", 0, QFILEDIALOGOPTION);
+		if(path == "") path = QFileDialog::getSaveFileName(this, "Save file", QDir::homePath()+"/new_config.mdma", "*.mdma", 0, QFILEDIALOGOPTION);
 		if(path == "") return false;
 
 		name = QFileInfo(path).fileName();
 
+		// save
 
 		changed = false;
 		return true;
@@ -64,11 +65,13 @@ bool configuration::save()
 
 bool configuration::saveas()
 {
-	QString new_path = QFileDialog::getSaveFileName(this, "Save file as", (path == "")?"/home/new_config.mdma":path, "*.mdma", 0, QFILEDIALOGOPTION);
+	QString new_path = QFileDialog::getSaveFileName(this, "Save file as", (path == "")?(QDir::homePath()+"/new_config.mdma"):path, "*.mdma", 0, QFILEDIALOGOPTION);
 	if(new_path == "") return false;
 
 	path = new_path;
 	name = QFileInfo(new_path).fileName();
+
+	// save
 
 	changed = false;
 	return true;
