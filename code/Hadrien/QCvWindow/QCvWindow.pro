@@ -2,26 +2,26 @@ SOURCES += \
     src/main.cpp \
     src/classes/eventzone.cpp \
     src/classes/RtMidi.cpp \
-    src/classes/MidiSignal.cpp \
     src/UI/configwindow.cpp \
     src/UI/mainwindow.cpp \
     src/UI/zoneeditor.cpp \
     src/config/constant.cpp \
     src/objects/cameramanager.cpp \
     src/objects/configuration.cpp \
+    src/objects/midimanager.cpp \
     src/objects/zonemanager.cpp
 
 HEADERS += \
     src/classes/eventzone.h \
     src/classes/RtMidi.h \
     src/classes/RtError.h \
-    src/classes/MidiSignal.h \
     src/UI/configwindow.h \
     src/UI/mainwindow.h \
     src/UI/zoneeditor.h \
     src/config/constant.h \
     src/objects/cameramanager.h \
     src/objects/configuration.h \
+    src/objects/midimanager.h \
     src/objects/zonemanager.h
 
 FORMS += \
