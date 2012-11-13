@@ -34,6 +34,10 @@ class zoneEditor : public QDialog
 		void on_comboBox_shock_currentIndexChanged(int index);
 
 
+		void on_comboBox_in_currentIndexChanged(int index);
+
+		void on_comboBox_out_currentIndexChanged(int index);
+
 	private:
 		Ui::zoneEditor *ui;
 		eventZone& evz;

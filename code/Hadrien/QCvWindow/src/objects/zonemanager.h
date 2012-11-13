@@ -1,8 +1,6 @@
 #ifndef ZONEMANAGER_H
 #define ZONEMANAGER_H
 
-#include <algorithm>
-
 #include <QDebug>
 #include <QLabel>
 #include <QPainter>

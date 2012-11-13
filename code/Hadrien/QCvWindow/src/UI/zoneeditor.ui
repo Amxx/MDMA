@@ -110,7 +110,7 @@
     <enum>QTabWidget::Rounded</enum>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab_Fader">
     <attribute name="title">
@@ -119,27 +119,33 @@
     <widget class="QLabel" name="label_axex">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>-1</x>
        <y>70</y>
-       <width>40</width>
+       <width>51</width>
        <height>30</height>
       </rect>
      </property>
      <property name="text">
       <string>Axe X</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
     <widget class="QLabel" name="label_axey">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>-1</x>
        <y>110</y>
-       <width>40</width>
+       <width>51</width>
        <height>30</height>
       </rect>
      </property>
      <property name="text">
       <string>Axe Y</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QSpinBox" name="spinBox_axex_2">
@@ -148,9 +154,9 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>225</x>
+       <x>209</x>
        <y>70</y>
-       <width>75</width>
+       <width>49</width>
        <height>30</height>
       </rect>
      </property>
@@ -167,9 +173,9 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>170</x>
+       <x>169</x>
        <y>70</y>
-       <width>55</width>
+       <width>40</width>
        <height>30</height>
       </rect>
      </property>
@@ -185,7 +191,7 @@
       <rect>
        <x>50</x>
        <y>70</y>
-       <width>120</width>
+       <width>119</width>
        <height>30</height>
       </rect>
      </property>
@@ -206,7 +212,7 @@
      </item>
      <item>
       <property name="text">
-       <string>channel pressure</string>
+       <string>control change</string>
       </property>
      </item>
      <item>
@@ -216,17 +222,12 @@
      </item>
      <item>
       <property name="text">
-       <string>control change</string>
+       <string>channel aftertouch</string>
       </property>
      </item>
      <item>
       <property name="text">
        <string>pitch bending</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>system</string>
       </property>
      </item>
      <item>
@@ -243,7 +244,7 @@
       <rect>
        <x>50</x>
        <y>110</y>
-       <width>120</width>
+       <width>119</width>
        <height>30</height>
       </rect>
      </property>
@@ -264,7 +265,7 @@
      </item>
      <item>
       <property name="text">
-       <string>channel pressure</string>
+       <string>control change</string>
       </property>
      </item>
      <item>
@@ -274,17 +275,12 @@
      </item>
      <item>
       <property name="text">
-       <string>control change</string>
+       <string>channel aftertouch</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>pitch bending</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>system</string>
+       <string>pitch bend</string>
       </property>
      </item>
      <item>
@@ -299,9 +295,9 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>170</x>
+       <x>169</x>
        <y>110</y>
-       <width>55</width>
+       <width>40</width>
        <height>30</height>
       </rect>
      </property>
@@ -315,14 +311,116 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>225</x>
+       <x>209</x>
        <y>110</y>
-       <width>75</width>
+       <width>49</width>
        <height>30</height>
       </rect>
      </property>
      <property name="maximum">
       <number>127</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_cmd_fader">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>40</y>
+       <width>119</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Commande</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_ch_fader">
+     <property name="geometry">
+      <rect>
+       <x>169</x>
+       <y>40</y>
+       <width>40</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Ch</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_data1_fader">
+     <property name="geometry">
+      <rect>
+       <x>209</x>
+       <y>40</y>
+       <width>49</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Data 1</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_data1_fader_5">
+     <property name="geometry">
+      <rect>
+       <x>258</x>
+       <y>40</y>
+       <width>49</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Data 2</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBox_axex_3">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>258</x>
+       <y>70</y>
+       <width>49</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <number>127</number>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBox_axey_3">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>258</x>
+       <y>110</y>
+       <width>49</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <number>127</number>
+     </property>
+     <property name="value">
+      <number>0</number>
      </property>
     </widget>
    </widget>
@@ -333,66 +431,81 @@
     <widget class="QLabel" name="label_enter">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>0</x>
        <y>40</y>
-       <width>66</width>
+       <width>51</width>
        <height>32</height>
       </rect>
      </property>
      <property name="text">
       <string>Enter</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
     <widget class="QLabel" name="label_exit">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>0</x>
        <y>72</y>
-       <width>66</width>
+       <width>51</width>
        <height>32</height>
       </rect>
      </property>
      <property name="text">
       <string>Exit</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
     <widget class="QLabel" name="label_open">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>0</x>
        <y>104</y>
-       <width>66</width>
+       <width>51</width>
        <height>32</height>
       </rect>
      </property>
      <property name="text">
       <string>Open</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
     <widget class="QLabel" name="label_close">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>0</x>
        <y>136</y>
-       <width>66</width>
+       <width>51</width>
        <height>32</height>
       </rect>
      </property>
      <property name="text">
       <string>Close</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
     <widget class="QLabel" name="label_shock">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>0</x>
        <y>168</y>
-       <width>66</width>
+       <width>51</width>
        <height>32</height>
       </rect>
      </property>
      <property name="text">
       <string>Shock</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QSpinBox" name="spinBox_enter_1">
@@ -440,7 +553,7 @@
      </item>
      <item>
       <property name="text">
-       <string>channel pressure</string>
+       <string>control change</string>
       </property>
      </item>
      <item>
@@ -450,17 +563,12 @@
      </item>
      <item>
       <property name="text">
-       <string>control change</string>
+       <string>channel aftertouch</string>
       </property>
      </item>
      <item>
       <property name="text">
        <string>pitch bending</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>system</string>
       </property>
      </item>
      <item>
@@ -737,7 +845,7 @@
      </item>
      <item>
       <property name="text">
-       <string>channel pressure</string>
+       <string>control change</string>
       </property>
      </item>
      <item>
@@ -747,17 +855,12 @@
      </item>
      <item>
       <property name="text">
-       <string>control change</string>
+       <string>channel aftertouch</string>
       </property>
      </item>
      <item>
       <property name="text">
        <string>pitch bending</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>system</string>
       </property>
      </item>
      <item>
@@ -807,7 +910,7 @@
      </item>
      <item>
       <property name="text">
-       <string>channel pressure</string>
+       <string>control change</string>
       </property>
      </item>
      <item>
@@ -817,17 +920,12 @@
      </item>
      <item>
       <property name="text">
-       <string>control change</string>
+       <string>channel aftertouch</string>
       </property>
      </item>
      <item>
       <property name="text">
        <string>pitch bending</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>system</string>
       </property>
      </item>
      <item>
@@ -877,7 +975,7 @@
      </item>
      <item>
       <property name="text">
-       <string>channel pressure</string>
+       <string>control change</string>
       </property>
      </item>
      <item>
@@ -887,17 +985,12 @@
      </item>
      <item>
       <property name="text">
-       <string>control change</string>
+       <string>channel aftertouch</string>
       </property>
      </item>
      <item>
       <property name="text">
        <string>pitch bending</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>system</string>
       </property>
      </item>
      <item>
@@ -947,7 +1040,7 @@
      </item>
      <item>
       <property name="text">
-       <string>channel pressure</string>
+       <string>control change</string>
       </property>
      </item>
      <item>
@@ -957,17 +1050,12 @@
      </item>
      <item>
       <property name="text">
-       <string>control change</string>
+       <string>channel aftertouch</string>
       </property>
      </item>
      <item>
       <property name="text">
        <string>pitch bending</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>system</string>
       </property>
      </item>
      <item>
@@ -1060,6 +1148,334 @@
     <attribute name="title">
      <string>Segment</string>
     </attribute>
+    <widget class="QComboBox" name="comboBox_in">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>70</y>
+       <width>119</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>note off</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>note on</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>polyfonic aftertouch</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>control change</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>program change</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>channel aftertouch</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>pitch bending</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>goto tab 1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>goto tab 2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>goto tab 3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>---</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QSpinBox" name="spinBox_in_1">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>169</x>
+       <y>70</y>
+       <width>40</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <number>15</number>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBox_in_3">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>258</x>
+       <y>70</y>
+       <width>49</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <number>127</number>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBox_in_2">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>209</x>
+       <y>70</y>
+       <width>49</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <number>127</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_cmd_sgmt">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>40</y>
+       <width>119</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Commande</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_ch_sgmt">
+     <property name="geometry">
+      <rect>
+       <x>169</x>
+       <y>40</y>
+       <width>40</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Ch</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="ladel_data1_sgmt">
+     <property name="geometry">
+      <rect>
+       <x>209</x>
+       <y>40</y>
+       <width>49</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Data 1</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="ladel_data2_sgmt">
+     <property name="geometry">
+      <rect>
+       <x>258</x>
+       <y>40</y>
+       <width>49</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Data 2</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBox_out">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>110</y>
+       <width>119</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>note off</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>note on</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>polyfonic aftertouch</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>control change</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>program change</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>channel aftertouch</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>pitch bending</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>goto tab 1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>goto tab 2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>goto tab 3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>---</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QSpinBox" name="spinBox_out_1">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>169</x>
+       <y>110</y>
+       <width>40</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <number>15</number>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBox_out_2">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>209</x>
+       <y>110</y>
+       <width>49</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <number>127</number>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBox_out_3">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>258</x>
+       <y>110</y>
+       <width>49</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <number>127</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_in">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>70</y>
+       <width>51</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>In</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_out">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>110</y>
+       <width>51</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Out</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QLabel" name="label_coords">
