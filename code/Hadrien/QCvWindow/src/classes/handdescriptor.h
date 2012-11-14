@@ -9,17 +9,21 @@ public:
     HandDescriptor();
     HandDescriptor(int x, int y);
 
-    void newPosition(int x, int y);
+	void updatePoss(int x, int y);
 
-    QPoint actuel;
-    QPoint precedent;
+	QPoint last_pos;
+	QPoint curr_pos;
+	QPoint last_speed;
+	QPoint curr_speed;
+	QPoint last_acc;
+	QPoint curr_acc;
 
-    bool gauche;
+	bool left;
     int ouverture;
     int seuil;
 
-    time_t lastUpdate;
-    int duree;
+	time_t duration;
+	time_t lastUpdate;
 };
 
 #endif // HANDDESCRIPTOR_H

@@ -1,6 +1,7 @@
 SOURCES += \
     src/main.cpp \
     src/classes/eventzone.cpp \
+    src/classes/handdescriptor.cpp \
     src/classes/RtMidi.cpp \
     src/config/constant.cpp \
     src/objects/cameramanager.cpp \
@@ -17,6 +18,7 @@ SOURCES += \
 
 HEADERS += \
     src/classes/eventzone.h \
+    src/classes/handdescriptor.h \
     src/classes/RtMidi.h \
     src/classes/RtError.h \
     src/config/constant.h \
