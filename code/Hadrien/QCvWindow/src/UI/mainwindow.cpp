@@ -73,6 +73,7 @@ void MainWindow::mousePressEvent(QMouseEvent* ev)
 
 void MainWindow::closeEvent(QCloseEvent* ev)
 {
+	qDebug() << "exit";
 	if(config.changed)
 	{
 		switch(QMessageBox::question(this, "Changed have been made to the configuration", "Would you like to save changes made to \""+config.name+"\" before closing ?", QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel, QMessageBox::Save))
@@ -176,16 +177,16 @@ void MainWindow::on_pushButton_run_clicked()
 
 void MainWindow::on_pushButton_configure_pressed()
 {
-	ui_disable(true, true);
-
+	MDMA::calibration old_calib = config.calibration_status;
 	QEventLoop loop;
 	zone_manager.reset_clic();
+	ui_disable(true, true);
 
 	// -------------------------------------------------------
 
 	config.calibration_status = MDMA::PORT;
 
-	ConfigWindow config_window(midi_manager, config, this);
+	ConfigWindow config_window(midi_manager, config, 0);
 	config_window.show();
 	connect(&config_window, SIGNAL(finished(int)), &loop, SLOT(quit()));
 	loop.exec();
@@ -194,7 +195,7 @@ void MainWindow::on_pushButton_configure_pressed()
 
 	if(config_window.result() == QDialog::Rejected)
 	{
-		config.calibration_status = MDMA::NOT_CALIBRATED;
+		config.calibration_status = old_calib;
 		ui_disable(false, true);
 		return;
 	}
@@ -203,7 +204,7 @@ void MainWindow::on_pushButton_configure_pressed()
 
 	config.calibration_status = MDMA::MASK_DRAW;
 
-	MaskWindow mask_window(config, this);
+	MaskWindow mask_window(config, 0);
 	mask_window.show();
 	connect(&mask_window, SIGNAL(finished(int)), &loop, SLOT(quit()));
 	loop.exec();
@@ -214,7 +215,7 @@ void MainWindow::on_pushButton_configure_pressed()
 
 	if(mask_window.result() == QDialog::Rejected)
 	{
-		config.calibration_status = MDMA::NOT_CALIBRATED;
+		config.calibration_status = (config.user_mask.empty())?MDMA::NOT_CALIBRATED:old_calib;
 		ui_disable(false, true);
 		return;
 	}
@@ -223,7 +224,7 @@ void MainWindow::on_pushButton_configure_pressed()
 
 	config.calibration_status = MDMA::HANDS_CLOSED;
 
-	HandCloseWindow handclose_window(config, this);
+	HandCloseWindow handclose_window(config, 0);
 	handclose_window.show();
 	connect(&handclose_window, SIGNAL(finished(int)), &loop, SLOT(quit()));
 	loop.exec();
@@ -241,7 +242,7 @@ void MainWindow::on_pushButton_configure_pressed()
 
 	config.calibration_status = MDMA::HANDS_OPEN;
 
-	HandOpenWindow handopen_window(config, this);
+	HandOpenWindow handopen_window(config, 0);
 	handopen_window.show();
 	connect(&handopen_window, SIGNAL(finished(int)), &loop, SLOT(quit()));
 	loop.exec();

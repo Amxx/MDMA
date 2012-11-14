@@ -18,7 +18,7 @@ class HandOpenWindow : public QDialog
 	public:
 		HandOpenWindow(Configuration& _config, QWidget *parent = 0);
 		~HandOpenWindow();
-		void closeEvent(QCloseEvent* ev);
+		void closeEvent();
 		
 	private slots:
 		void on_pushButton_next_clicked();

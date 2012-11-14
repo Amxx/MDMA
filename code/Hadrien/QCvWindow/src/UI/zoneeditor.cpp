@@ -118,6 +118,11 @@ void ZoneEditor::on_buttonBox_accepted()
 	accept();
 }
 
+void ZoneEditor::on_buttonBox_rejected()
+{
+	reject();
+}
+
 // ========================================================================================
 
 
@@ -192,3 +197,4 @@ void ZoneEditor::on_comboBox_out_currentIndexChanged(int index)
 	ui->spinBox_out_2->setDisabled(MDMA::is_midi((MDMA::active) index) < 1);
 	ui->spinBox_out_3->setDisabled(MDMA::is_midi((MDMA::active) index) < 2);
 }
+

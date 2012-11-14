@@ -16,7 +16,7 @@ MaskWindow::~MaskWindow()
 	delete ui;
 }
 
-void MaskWindow::closeEvent(QCloseEvent* ev)
+void MaskWindow::closeEvent()
 {
 	reject();
 }

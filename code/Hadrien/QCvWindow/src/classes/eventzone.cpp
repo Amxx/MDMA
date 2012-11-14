@@ -13,12 +13,13 @@ EventZone::EventZone() :
 	for(int i=0; i<9; i++)
 	{
 		active[i] = MDMA::NOTHING;
+		signal[i] = new unsigned char[3];
 		signal[i][0] = 0;
 		signal[i][1] = 0;
 		signal[i][2] = 0;
 	}
 }
-
+::
 EventZone::EventZone(QPoint _P1, QPoint _P2, int _tab) :
 	name("New Zone"),
 	P1(_P1),
@@ -32,6 +33,7 @@ EventZone::EventZone(QPoint _P1, QPoint _P2, int _tab) :
 	for(int i=0; i<9; i++)
 	{
 		active[i] = MDMA::NOTHING;
+		signal[i] = new unsigned char[3];
 		signal[i][0] = 0;
 		signal[i][1] = 0;
 		signal[i][2] = 0;
@@ -43,11 +45,15 @@ EventZone::EventZone(const EventZone &cpy) :
 	P1(cpy.P1),
 	P2(cpy.P2),
 	tab(cpy.tab),
-	type(cpy.type)
+	type(cpy.type),
+	is_active(false),
+	hand_in(false),
+	hand_open(false)
 {
 	for(int i=0; i<9; i++)
 	{
 		active[i] = cpy.active[i];
+		signal[i] = new unsigned char[3];
 		signal[i][0] = cpy.signal[i][0];
 		signal[i][1] = cpy.signal[i][1];
 		signal[i][2] = cpy.signal[i][2];
@@ -56,6 +62,8 @@ EventZone::EventZone(const EventZone &cpy) :
 
 EventZone::~EventZone()
 {
+	for(int i=0; i<9; i++)
+		delete[] signal[i];
 }
 
 

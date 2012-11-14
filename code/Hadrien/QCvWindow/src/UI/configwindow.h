@@ -21,7 +21,7 @@ class ConfigWindow : public QDialog
 	public:
 		ConfigWindow(MidiManager& _midi, Configuration& _config, QWidget *parent = 0);
 		~ConfigWindow();
-		void closeEvent(QCloseEvent* ev);
+		void closeEvent();
 		
 	private slots:
 		void on_pushButton_cancel_clicked();

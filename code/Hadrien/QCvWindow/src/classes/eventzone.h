@@ -38,7 +38,7 @@ class EventZone
 
 		MDMA::type type;
 		MDMA::active active[9];
-		unsigned char signal[9][3];
+		MDMA::signal signal[9];
 
 		// ----------------------------------------------------------
 

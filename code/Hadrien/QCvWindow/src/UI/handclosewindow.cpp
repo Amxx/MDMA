@@ -15,7 +15,7 @@ HandCloseWindow::~HandCloseWindow()
 	delete ui;
 }
 
-void HandCloseWindow::closeEvent(QCloseEvent* ev)
+void HandCloseWindow::closeEvent()
 {
 	reject();
 }

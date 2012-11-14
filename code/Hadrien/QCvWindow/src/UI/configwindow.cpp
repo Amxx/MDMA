@@ -16,7 +16,7 @@ ConfigWindow::~ConfigWindow()
 	delete ui;
 }
 
-void ConfigWindow::closeEvent(QCloseEvent* ev)
+void ConfigWindow::closeEvent()
 {
 	reject();
 }

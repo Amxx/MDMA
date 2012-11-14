@@ -38,6 +38,8 @@ class ZoneEditor : public QDialog
 
 		void on_comboBox_out_currentIndexChanged(int index);
 
+		void on_buttonBox_rejected();
+
 	private:
 		Ui::ZoneEditor *ui;
 		EventZone& evz;
