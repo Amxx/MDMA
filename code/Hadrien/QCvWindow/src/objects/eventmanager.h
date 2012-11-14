@@ -3,6 +3,8 @@
 
 #include "../objects/configuration.h"
 
+class HandDescriptor;
+
 class eventManager
 {
 public:
@@ -13,10 +15,10 @@ private:
 
 
 public slots:
-    //void detection(Info& main);
+    void detection(HandDescriptor& main);
 
 signals:
-    void sendMidi();
+    void sendMidi(MDMA::signal);
 };
 
 #endif // EVENTMANAGER_H

@@ -3,12 +3,17 @@
 eventManager::eventManager(configuration &_config) : config(_config)
 {
 }
-/*
+
 void eventManager::detection(HandDescriptor& main)
 {
-        foreach(eventZone zone, config.zones)
+    for(eventZone& zone : config.zones.values())
+    {
+        if(zone.tab == config.current_tab)
         {
-            zone.change(main);
-
+            QList<unsigned char*> msg = zone.update(main);
+            for(unsigned char* s : msg)
+                emit sendMidi(s);
+            //delete[] msg;
         }
-}*/
+    }
+}

@@ -121,3 +121,60 @@ unsigned char* EventZone::getMidi(MDMA::event ev)
 	midi_signal[2] = 0x80 & signal[ev][2];
 	return midi_signal;
 }
+
+unsigned char* eventZone::update(HandDescriptor &main)
+{
+    int d = 0, t;
+    QPoint vec1, vec2;
+    QPoint x;
+    QRect rect(P1,P2);
+
+    QList<unsigned char*> msg;
+    if(valide)
+    {
+        switch(type)
+        {
+        case MDMA::FADER:
+            if(main.ouvert < MAIN_OUVERTE && rect.contains(main.actuel))
+            {
+                signal[MDMA::EVENT_X][1] = (main.actuel.x - rect.x())*128/rect.width();
+                signal[MDMA::EVENT_Y][1] = (main.actuel.y - rect.y())*128/rect.height();
+
+                if(active[MDMA::EVENT_X] != MDMA::NOTHING) msg.push_back(getMidi(MDMA::EVENT_X));
+                if(active[MDMA::EVENT_Y] != MDMA::NOTHING) msg.push_back(getMidi(MDMA::EVENT_Y));
+                return true;
+            }
+            break;
+        case MDMA::PAD:
+            /*if(main.ouvert < MAIN_OUVERTE && main.actuel.inside(rect))
+            {
+                if(main.gauche && gauche_dedans)
+                return true;
+            }*/
+            break;
+        case MDMA::SEGMENT:
+            //Intersection des deux segments, celui de la zone et celui de la main
+            vec1 = main.actuel - main.precedent;
+            vec2 = coin2 - coin1;
+            //Calcul du dénominateur
+            d = vec1.x() * vec2.y() - vec1.y() * vec2.x();
+            if(d == 0)
+                break;
+            //Vérifie si l'intersection est dans le segment de la zone
+            x = main.precedent - coin1;
+            t = vec1.x() * x.y() - vec1.y() * x.x();
+            if(d*t < 0 || abs(t) > abs(d))
+                break;
+
+            //Vérifie si l'intersection est dans le segment décrit par la main
+            x = coin1 - main.precedent;
+            t = vec2.x() * x.y() - vec2.y() * x.x();
+            if(d*t < 0 || abs(t) > abs(d))
+                break;
+
+            msg.push_back(getMidi(MDMA::ENTER));
+            break;
+        }
+    }
+    return msg;
+}

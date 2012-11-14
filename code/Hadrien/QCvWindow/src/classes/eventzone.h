@@ -10,6 +10,8 @@
 
 #include "../config/constant.h"
 
+class HandDescriptor;
+
 class EventZone
 {
 	public:
@@ -22,10 +24,15 @@ class EventZone
 
 		unsigned char* getMidi(MDMA::event);
 
+	unsigned char* update(HandDescriptor& main);
+
 		QString name;
 		QPoint P1;
 		QPoint P2;
 		int tab;
+
+	bool state;
+	bool hand_in;
 
 		MDMA::type type;
 
