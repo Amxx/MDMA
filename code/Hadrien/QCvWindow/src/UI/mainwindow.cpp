@@ -223,10 +223,41 @@ void MainWindow::on_pushButton_configure_pressed()
 
 	config.calibration_status = MDMA::HANDS_CLOSED;
 
+	HandCloseWindow handclose_window(config, this);
+	handclose_window.show();
+	connect(&handclose_window, SIGNAL(finished(int)), &loop, SLOT(quit()));
+	loop.exec();
 
-	qDebug() << "done";
+	// -------------------------------------------------------
 
-//	config.calibration_status = MDMA::CALIBRATED;
+	if(handclose_window.result() == QDialog::Rejected)
+	{
+		config.calibration_status = MDMA::NOT_CALIBRATED;
+		ui_disable(false, true);
+		return;
+	}
+
+	// -------------------------------------------------------
+
+	config.calibration_status = MDMA::HANDS_OPEN;
+
+	HandOpenWindow handopen_window(config, this);
+	handopen_window.show();
+	connect(&handopen_window, SIGNAL(finished(int)), &loop, SLOT(quit()));
+	loop.exec();
+
+	// -------------------------------------------------------
+
+	if(handopen_window.result() == QDialog::Rejected)
+	{
+		config.calibration_status = MDMA::NOT_CALIBRATED;
+		ui_disable(false, true);
+		return;
+	}
+
+	// -------------------------------------------------------
+
+	config.calibration_status = MDMA::CALIBRATED;
 	ui_disable(false, true);
 }
 

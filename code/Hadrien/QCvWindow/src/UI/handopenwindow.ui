@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MaskWindow</class>
- <widget class="QDialog" name="MaskWindow">
+ <class>HandOpenWindow</class>
+ <widget class="QDialog" name="HandOpenWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Configuration - 2/4</string>
+   <string>Configuration - 4/4</string>
   </property>
   <widget class="QPushButton" name="pushButton_cancel">
    <property name="geometry">
@@ -49,7 +49,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Configure Mask</string>
+    <string>Open Hands Calibration</string>
    </property>
   </widget>
   <widget class="QLCDNumber" name="lcdNumber">
@@ -78,7 +78,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>In order for the software to work properly, you should create a mask around your body. When ready clic the &quot;configure mask&quot; button. you will then have 5 secound before a static picture is taken. you can then clic around your body to set the mask</string>
+    <string/>
    </property>
    <property name="alignment">
     <set>Qt::AlignJustify|Qt::AlignTop</set>

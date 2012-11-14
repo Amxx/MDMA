@@ -16,8 +16,8 @@ class EventZone
 {
 	public:
 		EventZone();
-		EventZone(const EventZone &cpy);
 		EventZone(QPoint _P1, QPoint _P2, int _tab);
+		EventZone(const EventZone &cpy);
 		~EventZone();
 
 		// ----------------------------------------------------------
@@ -38,7 +38,7 @@ class EventZone
 
 		MDMA::type type;
 		MDMA::active active[9];
-		MDMA::signal signal[9];
+		unsigned char signal[9][3];
 
 		// ----------------------------------------------------------
 

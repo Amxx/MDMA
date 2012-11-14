@@ -1,9 +1,42 @@
 #include "eventzone.h"
 
-EventZone::EventZone()
+EventZone::EventZone() :
+	name(""),
+	P1(),
+	P2(),
+	tab(0),
+	type(MDMA::FADER),
+	is_active(false),
+	hand_in(false),
+	hand_open(false)
 {
+	for(int i=0; i<9; i++)
+	{
+		active[i] = MDMA::NOTHING;
+		signal[i][0] = 0;
+		signal[i][1] = 0;
+		signal[i][2] = 0;
+	}
 }
 
+EventZone::EventZone(QPoint _P1, QPoint _P2, int _tab) :
+	name("New Zone"),
+	P1(_P1),
+	P2(_P2),
+	tab(_tab),
+	type(MDMA::FADER),
+	is_active(false),
+	hand_in(false),
+	hand_open(false)
+{
+	for(int i=0; i<9; i++)
+	{
+		active[i] = MDMA::NOTHING;
+		signal[i][0] = 0;
+		signal[i][1] = 0;
+		signal[i][2] = 0;
+	}
+}
 
 EventZone::EventZone(const EventZone &cpy) :
 	name(cpy.name),
@@ -15,25 +48,9 @@ EventZone::EventZone(const EventZone &cpy) :
 	for(int i=0; i<9; i++)
 	{
 		active[i] = cpy.active[i];
-		for(int j=0; j<3; j++)
-			signal[i][j] = cpy.signal[i][j];
-	}
-}
-
-
-EventZone::EventZone(QPoint _P1, QPoint _P2, int _tab) :
-	name("New Zone"),
-	P1(_P1),
-	P2(_P2),
-	tab(_tab),
-	type(MDMA::FADER)
-{
-	for(int i=0; i<9; i++)
-	{
-		active[i] = MDMA::NOTHING;
-		signal[i][0] = 0;
-		signal[i][1] = 0;
-		signal[i][2] = 0;
+		signal[i][0] = cpy.signal[i][0];
+		signal[i][1] = cpy.signal[i][1];
+		signal[i][2] = cpy.signal[i][2];
 	}
 }
 

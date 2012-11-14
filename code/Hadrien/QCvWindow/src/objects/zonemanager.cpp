@@ -40,7 +40,6 @@ void ZoneManager::set_zone(QPoint pointer)
 
 		EventZone evz(P1, P2, config.current_tab);
 		ZoneEditor popup(evz);
-
 		if(popup.exec())
 		{
 			if(config.zones.find(evz.name) != config.zones.end())

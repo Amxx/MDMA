@@ -1,5 +1,5 @@
-#ifndef MASKWINDOW_H
-#define MASKWINDOW_H
+#ifndef HANDOPENWINDOW_H
+#define HANDOPENWINDOW_H
 
 #include <QDialog>
 #include <QMessageBox>
@@ -8,16 +8,16 @@
 #include "../objects/configuration.h"
 
 namespace Ui {
-	class MaskWindow;
+	class HandOpenWindow;
 }
 
-class MaskWindow : public QDialog
+class HandOpenWindow : public QDialog
 {
 		Q_OBJECT
 		
 	public:
-		MaskWindow(Configuration& _config, QWidget *parent = 0);
-		~MaskWindow();
+		HandOpenWindow(Configuration& _config, QWidget *parent = 0);
+		~HandOpenWindow();
 		void closeEvent(QCloseEvent* ev);
 		
 	private slots:
@@ -29,7 +29,7 @@ class MaskWindow : public QDialog
 	private:
 		QTimer timer;
 		Configuration& config;
-		Ui::MaskWindow *ui;
+		Ui::HandOpenWindow *ui;
 };
 
 #endif // MASKWINDOW_H

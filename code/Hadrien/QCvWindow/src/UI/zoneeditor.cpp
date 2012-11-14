@@ -3,7 +3,7 @@
 
 ZoneEditor::ZoneEditor(EventZone& _evz, QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::zoneEditor),
+	ui(new Ui::ZoneEditor),
 	evz(_evz)
 {
 	ui->setupUi(this);

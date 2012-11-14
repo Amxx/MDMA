@@ -7,7 +7,7 @@
 #include "../objects/configuration.h"
 
 namespace Ui {
-	class zoneEditor;
+	class ZoneEditor;
 }
 
 class ZoneEditor : public QDialog
@@ -39,7 +39,7 @@ class ZoneEditor : public QDialog
 		void on_comboBox_out_currentIndexChanged(int index);
 
 	private:
-		Ui::zoneEditor *ui;
+		Ui::ZoneEditor *ui;
 		EventZone& evz;
 };
 

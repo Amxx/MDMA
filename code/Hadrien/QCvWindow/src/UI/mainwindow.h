@@ -10,6 +10,8 @@
 #include <opencv2/opencv.hpp>
 
 #include "configwindow.h"
+#include "handclosewindow.h"
+#include "handopenwindow.h"
 #include "maskwindow.h"
 #include "../objects/configuration.h"
 #include "../objects/cameramanager.h"
