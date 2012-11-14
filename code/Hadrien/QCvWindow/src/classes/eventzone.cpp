@@ -125,58 +125,74 @@ MDMA::signal EventZone::getMidi(MDMA::event ev)
 QList<MDMA::signal> EventZone::update(HandDescriptor &main)
 {
 	QList<MDMA::signal> msgs;
+
 	/*
-	int d = 0, t;
-    QPoint vec1, vec2;
-    QPoint x;
-    QRect rect(P1,P2);
+	switch(type)
+	{
+		case MDMA::FADER:
+		{
+			QRect rect(P1,P2);
 
-    if(valide)
-    {
-        switch(type)
-        {
-        case MDMA::FADER:
-            if(main.ouvert < MAIN_OUVERTE && rect.contains(main.actuel))
-            {
-                signal[MDMA::EVENT_X][1] = (main.actuel.x - rect.x())*128/rect.width();
-                signal[MDMA::EVENT_Y][1] = (main.actuel.y - rect.y())*128/rect.height();
 
-                if(active[MDMA::EVENT_X] != MDMA::NOTHING) msg.push_back(getMidi(MDMA::EVENT_X));
-                if(active[MDMA::EVENT_Y] != MDMA::NOTHING) msg.push_back(getMidi(MDMA::EVENT_Y));
-                return true;
-            }
-            break;
-        case MDMA::PAD:
-			if(main.ouvert < MAIN_OUVERTE && main.actuel.inside(rect))
-            {
-                if(main.gauche && gauche_dedans)
-                return true;
+			//if(main.ouvert > MAIN_OUVERTE || !rect.contains(main.actuel))
+			//	is_active = false;
+			//if(main.ouvert < MAIN_OUVERTE && rect.contains(main.actuel))
+
+
+			if(!is_active) break;
+
+			if(active[MDMA::EVENT_X] != MDMA::NOTHING)
+			{
+				signal[MDMA::EVENT_X][MDMA::is_midi(active[MDMA::EVENT_X])] = (main.actuel.x - rect.x())*127/rect.width();
+				msgs << getMidi(MDMA::EVENT_X);
 			}
-            break;
-        case MDMA::SEGMENT:
-            //Intersection des deux segments, celui de la zone et celui de la main
-            vec1 = main.actuel - main.precedent;
-            vec2 = coin2 - coin1;
-            //Calcul du dénominateur
-            d = vec1.x() * vec2.y() - vec1.y() * vec2.x();
-            if(d == 0)
-                break;
-            //Vérifie si l'intersection est dans le segment de la zone
-            x = main.precedent - coin1;
-            t = vec1.x() * x.y() - vec1.y() * x.x();
-            if(d*t < 0 || abs(t) > abs(d))
-                break;
+			if(active[MDMA::EVENT_Y] != MDMA::NOTHING)
+			{
+				signal[MDMA::EVENT_Y][MDMA::is_midi(active[MDMA::EVENT_Y])] = (rect.y() + rect.height() - main.actuel.y)*127/rect.height();
+				msgs << getMidi(MDMA::EVENT_Y);
+			}
+			break;
+		}
+		case MDMA::PAD:
+		{
+			//if(main.ouvert < MAIN_OUVERTE && main.actuel.inside(rect))
+			//{
+			//	if(main.gauche && gauche_dedans)
+			//	return true;
+			//}
+			break;
+		}
+		case MDMA::SEGMENT:
+		{
+			//Intersection des deux segments, celui de la zone et celui de la main
+			QPoint vect_hand = main.actuel - main.precedent;
+			QPoint vect_segm = P1 - P2;
+			QPoint x;
+			int d, t;
 
-            //Vérifie si l'intersection est dans le segment décrit par la main
-            x = coin1 - main.precedent;
-            t = vec2.x() * x.y() - vec2.y() * x.x();
-            if(d*t < 0 || abs(t) > abs(d))
-                break;
+			//Calcul du dénominateur
+			d = vect_hand.x() * vect_segm.y() - vect_hand.y() * vect_segm.x();
 
-            msg.push_back(getMidi(MDMA::ENTER));
-            break;
-        }
-    }
+			if(d == 0) break;
+
+			//Vérifie si l'intersection est dans le segment de la zone
+			x = main.precedent - P1;
+			t = vect_hand.x() * x.y() - vect_hand.y() * x.x();
+
+			if(d*t < 0 || abs(t) > abs(d)) break;
+
+			//Vérifie si l'intersection est dans le segment décrit par la main
+			x = P1 - main.precedent;
+			t = vect_segm.x() * x.y() - vect_segm.y() * x.x();
+
+			if(d*t < 0 || abs(t) > abs(d)) break;
+				if(d > 0)
+				msgs << getMidi(MDMA::IN);
+			else
+				msgs << getMidi(MDMA::OUT);
+			break;
+		}
+	}
 	*/
 	return msgs;
 }
