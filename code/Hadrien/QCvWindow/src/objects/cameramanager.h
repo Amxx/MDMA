@@ -9,19 +9,19 @@
 #include "configuration.h"
 #include "../config/constant.h"
 
-class cameraManager : public QObject
+class CameraManager : public QObject
 {
 		Q_OBJECT
 	public:
-		cameraManager(configuration& _config, QObject *parent = 0);
-		~cameraManager();
+		CameraManager(Configuration& _config, QObject *parent = 0);
+		~CameraManager();
 
 	protected:
 		void timerEvent(QTimerEvent*);
 
 	private:
-		configuration& config;
-		void display(cv::Mat frame);
+		Configuration& config;
+		void display();
 };
 
 QImage mat2qimage(const cv::Mat& mat);

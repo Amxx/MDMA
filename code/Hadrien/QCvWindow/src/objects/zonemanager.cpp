@@ -1,7 +1,7 @@
 #include "zonemanager.h"
 #include "ui_mainwindow.h"
 
-zoneManager::zoneManager(configuration& _config, QObject *parent) :
+ZoneManager::ZoneManager(Configuration& _config, QObject *parent) :
 	QObject(parent),
 	QPainter(),
 	config(_config),
@@ -15,59 +15,20 @@ zoneManager::zoneManager(configuration& _config, QObject *parent) :
 }
 
 
-zoneManager::~zoneManager()
+ZoneManager::~ZoneManager()
 {
 	end();
 }
 
 
-void zoneManager::timerEvent(QTimerEvent*)
+void ZoneManager::timerEvent(QTimerEvent*)
 {
 	display();
 }
 
-
-void zoneManager::left_clic(QPoint pointer)
-{
-	switch(config.calibration_status)
-	{
-		case MDMA::NOT_CALIBRATED:
-		case MDMA::CALIBRATED:
-			set_zone(pointer);
-			break;
-		case MDMA::MASK_DRAW:
-			config.user_mask.push_back(pointer);
-			break;
-		case MDMA::HANDS_CLOSED:
-		case MDMA::HANDS_OPEN:
-			//
-			break;
-
-	}
-}
-
-void zoneManager::right_clic(QPoint pointer)
-{
-	switch(config.calibration_status)
-	{
-		case MDMA::NOT_CALIBRATED:
-		case MDMA::CALIBRATED:
-			reset_clic();
-			break;
-		case MDMA::MASK_DRAW:
-			config.user_mask.pop_back();
-			break;
-		case MDMA::HANDS_CLOSED:
-		case MDMA::HANDS_OPEN:
-			//
-			break;
-
-	}
-}
-
 // ======================================================================
 
-void zoneManager::set_zone(QPoint pointer)
+void ZoneManager::set_zone(QPoint pointer)
 {
 	if(P1.x() == -1)
 	{
@@ -77,8 +38,8 @@ void zoneManager::set_zone(QPoint pointer)
 	{
 		P2 = pointer;
 
-		eventZone evz(P1, P2, config.current_tab);
-		zoneEditor popup(evz);
+		EventZone evz(P1, P2, config.current_tab);
+		ZoneEditor popup(evz);
 
 		if(popup.exec())
 		{
@@ -96,7 +57,7 @@ void zoneManager::set_zone(QPoint pointer)
 	}
 }
 
-void zoneManager::reset_clic()
+void ZoneManager::reset_clic()
 {
 	P1 = QPoint(-1, -1);
 	P2 = QPoint(-1, -1);
@@ -104,15 +65,14 @@ void zoneManager::reset_clic()
 
 // ======================================================================
 
-void zoneManager::display()
+void ZoneManager::display()
 {
 	pixmax.fill(Qt::transparent);
+
 	if(P1.x() != -1)
 	{
 		if(P2.x() != -1)
-		{
 			fillRect(QRect(P1, P2), MDMA::temp_color);
-		}
 		else
 		{
 			setPen(MDMA::temp_color);
@@ -120,10 +80,31 @@ void zoneManager::display()
 			drawLine(P1.x(), P1.y()-3, P1.x(), P1.y()+3);
 		}
 	}
-	for(eventZone& evz : config.zones.values())
+
+	config.displayMask(*this);
+
+	switch(config.calibration_status)
 	{
-		if(evz.tab == config.current_tab)
-			evz.display(*this);
+		case MDMA::NOT_CALIBRATED:
+		case MDMA::CALIBRATED:
+		case MDMA::PORT:
+			for(EventZone& evz : config.zones.values())
+				if(evz.tab == config.current_tab) evz.display(*this);
+			break;
+
+		case MDMA::MASK_DRAW:
+			break;
+
+		case MDMA::HANDS_CLOSED:
+			fillRect(40, 200, 100, 100, MDMA::calib_color);
+			fillRect(500, 200, 100, 100, MDMA::calib_color);
+			break;
+
+		case MDMA::HANDS_OPEN:
+			fillRect(40, 50, 100, 100, MDMA::calib_color);
+			fillRect(500, 50, 100, 100, MDMA::calib_color);
+			break;
 	}
+
 	config.ui->label_zone->setPixmap(pixmax);
 }

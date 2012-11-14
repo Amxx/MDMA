@@ -2,26 +2,24 @@
 
 #include <vector>
 
-using std::vector;
-
-midiManager::~midiManager() throw()
+MidiManager::~MidiManager() throw()
 {
 	
 }
 
-void midiManager::createPort(QString name)
+void MidiManager::createPort(QString name)
 {
 	openVirtualPort(name.toStdString());
 }
 
-void midiManager::changePort(int n)
+void MidiManager::changePort(int n)
 {
 	openPort(n);
 }
 
-void midiManager::sendMessage(const unsigned char* msg)
+void MidiManager::sendMessage(const unsigned char* msg)
 {
-	vector<unsigned char> v;
+	std::vector <unsigned char> v;
 	
 	if(((msg[0] & 0xf0) == 0xc0) || ((msg[0] & 0xf0) == 0xd0))//program change or channel aftertouch
 		v.assign(msg, msg+2);

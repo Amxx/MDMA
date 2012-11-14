@@ -19,18 +19,22 @@ class ConfigWindow : public QDialog
 		Q_OBJECT
 		
 	public:
-		ConfigWindow(midiManager& _midi, configuration& _config, QWidget *parent = 0);
+		ConfigWindow(MidiManager& _midi, Configuration& _config, QWidget *parent = 0);
 		~ConfigWindow();
+		void closeEvent(QCloseEvent* ev);
 		
 	private slots:
+		void on_pushButton_cancel_clicked();
+		void on_pushButton_next_clicked();
+
 		void on_pushButton_midi_clicked();
 
 	private:
 		void refreshPorts();
 
+		MidiManager& midi;
+		Configuration& config;
 		Ui::ConfigWindow *ui;
-		midiManager& midi;
-		configuration& config;
 };
 
 #endif // CONFIGWINDOW_H

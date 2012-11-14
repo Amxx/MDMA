@@ -29,18 +29,46 @@ void MainWindow::mousePressEvent(QMouseEvent* ev)
 	int x = ev->x()-ui->label_camera->x();
 	int y = ev->y()-ui->label_camera->y()-ui->menubar->size().height();
 
-	if(!config.running && x>=0 && x<=640 && y>=0 && y<=480)
-		switch(ev->button())
-		{
-			case Qt::LeftButton:
-				zone_manager.left_clic(QPoint(x, y));
-				break;
-			case Qt::RightButton:
-				zone_manager.right_clic(QPoint(x, y));
-				break;
-			default:
-				break;
-		}
+	switch(config.calibration_status)
+	{
+		case MDMA::NOT_CALIBRATED:
+		case MDMA::CALIBRATED:
+			if(!config.running && x>=0 && x<=640 && y>=0 && y<=480)
+				switch(ev->button())
+				{
+					case Qt::LeftButton:
+						zone_manager.set_zone(QPoint(x, y));
+						break;
+					case Qt::RightButton:
+						zone_manager.reset_clic();
+						break;
+					default:
+						break;
+				}
+			break;
+
+		case MDMA::MASK_DRAW:
+			if(!config.running && x>=0 && x<=640 && y>=0)
+			{
+				y = std::min(y,480);
+				switch(ev->button())
+				{
+					case Qt::LeftButton:
+						config.user_mask.push_back(QPoint(x, y));
+						break;
+					case Qt::RightButton:
+						if(!config.user_mask.empty()) config.user_mask.pop_back();
+						break;
+					default:
+						break;
+				}
+			}
+		case MDMA::PORT:
+		case MDMA::HANDS_CLOSED:
+		case MDMA::HANDS_OPEN:
+			break;
+
+	}
 }
 
 void MainWindow::closeEvent(QCloseEvent* ev)
@@ -148,8 +176,58 @@ void MainWindow::on_pushButton_run_clicked()
 
 void MainWindow::on_pushButton_configure_pressed()
 {
+	ui_disable(true, true);
+
+	QEventLoop loop;
+	zone_manager.reset_clic();
+
+	// -------------------------------------------------------
+
+	config.calibration_status = MDMA::PORT;
+
 	ConfigWindow config_window(midi_manager, config, this);
-	config_window.exec();
+	config_window.show();
+	connect(&config_window, SIGNAL(finished(int)), &loop, SLOT(quit()));
+	loop.exec();
+
+	// -------------------------------------------------------
+
+	if(config_window.result() == QDialog::Rejected)
+	{
+		config.calibration_status = MDMA::NOT_CALIBRATED;
+		ui_disable(false, true);
+		return;
+	}
+
+	// -------------------------------------------------------
+
+	config.calibration_status = MDMA::MASK_DRAW;
+
+	MaskWindow mask_window(config, this);
+	mask_window.show();
+	connect(&mask_window, SIGNAL(finished(int)), &loop, SLOT(quit()));
+	loop.exec();
+
+	config.freeze = false;
+
+	// -------------------------------------------------------
+
+	if(mask_window.result() == QDialog::Rejected)
+	{
+		config.calibration_status = MDMA::NOT_CALIBRATED;
+		ui_disable(false, true);
+		return;
+	}
+
+	// -------------------------------------------------------
+
+	config.calibration_status = MDMA::HANDS_CLOSED;
+
+
+	qDebug() << "done";
+
+//	config.calibration_status = MDMA::CALIBRATED;
+	ui_disable(false, true);
 }
 
 void MainWindow::on_pushButton_edit_clicked()
@@ -157,14 +235,14 @@ void MainWindow::on_pushButton_edit_clicked()
 	if(ui->treeWidget_list->currentItem() != NULL)
 	{
 		QString name = ui->treeWidget_list->currentItem()->text(0);
-		eventZone& evz = config.zones[name];
-		zoneEditor popup(evz);
+		EventZone& evz = config.zones[name];
+		ZoneEditor popup(evz);
 
 		if(popup.exec())
 		{
 			if(name != evz.name)
 			{
-				eventZone evz_t(config.zones[name]);
+				EventZone evz_t(config.zones[name]);
 				config.zones.remove(name);
 				config.zones.insert(evz_t.name, evz_t);
 			}
@@ -212,12 +290,14 @@ void MainWindow::on_comboBox_tab_currentIndexChanged(int index)
  *	###############################################################################################
  */
 
-void MainWindow::ui_disable(bool b)
+void MainWindow::ui_disable(bool b, bool all)
 {
+	ui->menubar->setDisabled(b);
 	ui->comboBox_tab->setDisabled(b);
 	ui->pushButton_configure->setDisabled(b);
 	ui->pushButton_delete->setDisabled(b);
 	ui->pushButton_deleteAll->setDisabled(b);
 	ui->pushButton_edit->setDisabled(b);
+	if(all) ui->pushButton_run->setDisabled(b);
 }
 

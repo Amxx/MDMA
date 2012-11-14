@@ -9,7 +9,8 @@ SOURCES += \
     src/objects/configuration.cpp \
     src/objects/midimanager.cpp \
     src/objects/zonemanager.cpp \
-    src/UI/configwindow.cpp
+    src/UI/configwindow.cpp \
+    src/UI/maskwindow.cpp
 
 HEADERS += \
     src/classes/eventzone.h \
@@ -22,12 +23,14 @@ HEADERS += \
     src/objects/cameramanager.h \
     src/objects/configuration.h \
     src/objects/midimanager.h \
-    src/objects/zonemanager.h
+    src/objects/zonemanager.h \
+    src/UI/maskwindow.h
 
 FORMS += \
     src/UI/mainwindow.ui \
     src/UI/zoneeditor.ui \
-    src/UI/configwindow.ui
+    src/UI/configwindow.ui \
+    src/UI/maskwindow.ui
 
 LIBS += \
     /usr/lib/libopencv_calib3d.so \

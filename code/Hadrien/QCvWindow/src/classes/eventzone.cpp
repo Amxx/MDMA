@@ -1,11 +1,11 @@
 #include "eventzone.h"
 
-eventZone::eventZone()
+EventZone::EventZone()
 {
 }
 
 
-eventZone::eventZone(const eventZone &cpy) :
+EventZone::EventZone(const EventZone &cpy) :
 	name(cpy.name),
 	P1(cpy.P1),
 	P2(cpy.P2),
@@ -21,7 +21,7 @@ eventZone::eventZone(const eventZone &cpy) :
 }
 
 
-eventZone::eventZone(QPoint _P1, QPoint _P2, int _tab) :
+EventZone::EventZone(QPoint _P1, QPoint _P2, int _tab) :
 	name("New Zone"),
 	P1(_P1),
 	P2(_P2),
@@ -30,31 +30,19 @@ eventZone::eventZone(QPoint _P1, QPoint _P2, int _tab) :
 {
 	for(int i=0; i<9; i++)
 	{
-		switch((MDMA::event)i)
-		{
-			case MDMA::EVENT_X:
-			case MDMA::EVENT_Y:
-			case MDMA::ENTER:
-			case MDMA::EXIT:
-			case MDMA::OPEN:
-			case MDMA::CLOSE:
-			case MDMA::SHOCK:
-			case MDMA::IN:
-			case MDMA::OUT:
-				active[i] = MDMA::NOTHING;
-				signal[i][0] = 0;
-				signal[i][1] = 0;
-				signal[i][2] = 0;
-		}
+		active[i] = MDMA::NOTHING;
+		signal[i][0] = 0;
+		signal[i][1] = 0;
+		signal[i][2] = 0;
 	}
 }
 
-eventZone::~eventZone()
+EventZone::~EventZone()
 {
 }
 
 
-void eventZone::display(QPainter& painter)
+void EventZone::display(QPainter& painter)
 {
 	QFont font;
 	font.setPointSize(8);
@@ -64,8 +52,8 @@ void eventZone::display(QPainter& painter)
 	{
 		case MDMA::FADER :
 		{
-			painter.setPen(QPen(QBrush(MDMA::type_to_border_color(type)), 0, Qt::SolidLine, Qt::SquareCap));
-			painter.drawRect(QRect(P1,P2));
+			//painter.setPen(QPen(QBrush(MDMA::type_to_border_color(type)), 0, Qt::SolidLine, Qt::SquareCap));
+			//painter.drawRect(QRect(P1,P2));
 			painter.fillRect(QRect(P1, P2), MDMA::type_to_fill_color(type));
 
 			painter.setPen(QPen(QBrush(MDMA::type_to_border_color(type)), 3, Qt::SolidLine, Qt::SquareCap));
@@ -91,8 +79,8 @@ void eventZone::display(QPainter& painter)
 
 		case MDMA::PAD :
 		{
-			painter.setPen(QPen(QBrush(MDMA::type_to_border_color(type)), 0, Qt::SolidLine, Qt::SquareCap));
-			painter.drawRect(QRect(P1,P2));
+			//painter.setPen(QPen(QBrush(MDMA::type_to_border_color(type)), 0, Qt::SolidLine, Qt::SquareCap));
+			//painter.drawRect(QRect(P1,P2));
 			painter.fillRect(QRect(P1, P2), MDMA::type_to_fill_color(type));
 
 			painter.setPen(MDMA::text_color);
@@ -125,7 +113,7 @@ void eventZone::display(QPainter& painter)
 	}
 }
 
-unsigned char* eventZone::getMidi(MDMA::event ev)
+unsigned char* EventZone::getMidi(MDMA::event ev)
 {
 	unsigned char* midi_signal = new unsigned char[3];
 	midi_signal[0] = active[ev] << 8 & signal[ev][0];

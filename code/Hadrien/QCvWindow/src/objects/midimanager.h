@@ -5,12 +5,12 @@
 
 #include "../classes/RtMidi.h"
 
-class midiManager : public QObject, public RtMidiOut
+class MidiManager : public QObject, public RtMidiOut
 {
 	Q_OBJECT
 	
 	public:
-		~midiManager() throw();
+		~MidiManager() throw();
 	
 	public slots:
 		void createPort(QString name);

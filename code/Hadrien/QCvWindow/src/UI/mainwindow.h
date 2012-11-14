@@ -10,6 +10,7 @@
 #include <opencv2/opencv.hpp>
 
 #include "configwindow.h"
+#include "maskwindow.h"
 #include "../objects/configuration.h"
 #include "../objects/cameramanager.h"
 #include "../objects/midimanager.h"
@@ -46,14 +47,14 @@ class MainWindow : public QMainWindow
 		void on_actionAbout_MDMA_triggered();
 
 	private:
-		void ui_disable(bool b = true);
+		void ui_disable(bool b = true, bool all = false);
 
 		Ui::MainWindow *ui;
 
-		configuration config;
-		cameraManager camera_manager;
-		midiManager midi_manager;
-		zoneManager zone_manager;
+		Configuration config;
+		CameraManager camera_manager;
+		MidiManager midi_manager;
+		ZoneManager zone_manager;
 
 };
 

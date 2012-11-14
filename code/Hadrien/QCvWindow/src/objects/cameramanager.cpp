@@ -1,37 +1,31 @@
 #include "cameramanager.h"
 #include "ui_mainwindow.h"
 
-cameraManager::cameraManager(configuration& _config, QObject *parent) :
+CameraManager::CameraManager(Configuration& _config, QObject *parent) :
 	QObject(parent),
 	config(_config)
 {
 	startTimer(40);
 }
 
-cameraManager::~cameraManager()
+CameraManager::~CameraManager()
 {
 }
 
-void cameraManager::timerEvent(QTimerEvent*)
+void CameraManager::timerEvent(QTimerEvent*)
 {
-	if(config.camera.isOpened())
+	if(config.camera.isOpened() && !config.freeze)
 	{
-		cv::Mat frame;
-		config.camera >> frame;
-		cv::flip(frame, frame, 1);
+		config.camera >> config.current_frame;
+		cv::flip(config.current_frame, config.current_frame, 1);
 
-		display(frame);
-
-		if(config.running)
-		{
-			// envoye au tracker
-		}
+		display();
 	}
 }
 
-void cameraManager::display(cv::Mat frame)
+void CameraManager::display()
 {
-	config.ui->label_camera->setPixmap(QPixmap::fromImage(mat2qimage(frame)));
+	config.ui->label_camera->setPixmap(QPixmap::fromImage(mat2qimage(config.current_frame)));
 }
 
 

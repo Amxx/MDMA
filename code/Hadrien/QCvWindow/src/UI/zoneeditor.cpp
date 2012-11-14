@@ -1,7 +1,7 @@
 #include "zoneeditor.h"
 #include "ui_zoneeditor.h"
 
-zoneEditor::zoneEditor(eventZone& _evz, QWidget *parent) :
+ZoneEditor::ZoneEditor(EventZone& _evz, QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::zoneEditor),
 	evz(_evz)
@@ -57,14 +57,14 @@ zoneEditor::zoneEditor(eventZone& _evz, QWidget *parent) :
 	ui->spinBox_out_3->setValue(evz.signal[MDMA::OUT][2]);
 }
 
-zoneEditor::~zoneEditor()
+ZoneEditor::~ZoneEditor()
 {
 	delete ui;
 }
 
 // ========================================================================================
 
-void zoneEditor::on_buttonBox_accepted()
+void ZoneEditor::on_buttonBox_accepted()
 {
 
 	evz.name = ui->lineEdit_name->text();
@@ -121,7 +121,7 @@ void zoneEditor::on_buttonBox_accepted()
 // ========================================================================================
 
 
-void zoneEditor::on_comboBox_axex_0_currentIndexChanged(int index)
+void ZoneEditor::on_comboBox_axex_0_currentIndexChanged(int index)
 {
 	ui->spinBox_axex_1->setDisabled(MDMA::is_midi((MDMA::active) index) < 1);
 	ui->spinBox_axex_2->setDisabled(MDMA::is_midi((MDMA::active) index) < 2);
@@ -131,7 +131,7 @@ void zoneEditor::on_comboBox_axex_0_currentIndexChanged(int index)
 	ui->spinBox_axex_3->setValue((MDMA::is_midi((MDMA::active) index) == 2)?64:0);
 }
 
-void zoneEditor::on_comboBox_axey_0_currentIndexChanged(int index)
+void ZoneEditor::on_comboBox_axey_0_currentIndexChanged(int index)
 {
 	ui->spinBox_axey_1->setDisabled(MDMA::is_midi((MDMA::active) index) < 1);
 	ui->spinBox_axey_2->setDisabled(MDMA::is_midi((MDMA::active) index) < 2);
@@ -143,35 +143,35 @@ void zoneEditor::on_comboBox_axey_0_currentIndexChanged(int index)
 
 // ========================================================================================
 
-void zoneEditor::on_comboBox_enter_currentIndexChanged(int index)
+void ZoneEditor::on_comboBox_enter_currentIndexChanged(int index)
 {
 	ui->spinBox_enter_1->setDisabled(MDMA::is_midi((MDMA::active) index) < 1);
 	ui->spinBox_enter_2->setDisabled(MDMA::is_midi((MDMA::active) index) < 1);
 	ui->spinBox_enter_3->setDisabled(MDMA::is_midi((MDMA::active) index) < 2);
 }
 
-void zoneEditor::on_comboBox_exit_currentIndexChanged(int index)
+void ZoneEditor::on_comboBox_exit_currentIndexChanged(int index)
 {
 	ui->spinBox_exit_1->setDisabled(MDMA::is_midi((MDMA::active) index) < 1);
 	ui->spinBox_exit_2->setDisabled(MDMA::is_midi((MDMA::active) index) < 1);
 	ui->spinBox_exit_3->setDisabled(MDMA::is_midi((MDMA::active) index) < 2);
 }
 
-void zoneEditor::on_comboBox_open_currentIndexChanged(int index)
+void ZoneEditor::on_comboBox_open_currentIndexChanged(int index)
 {
 	ui->spinBox_open_1->setDisabled(MDMA::is_midi((MDMA::active) index) < 1);
 	ui->spinBox_open_2->setDisabled(MDMA::is_midi((MDMA::active) index) < 1);
 	ui->spinBox_open_3->setDisabled(MDMA::is_midi((MDMA::active) index) < 2);
 }
 
-void zoneEditor::on_comboBox_close_currentIndexChanged(int index)
+void ZoneEditor::on_comboBox_close_currentIndexChanged(int index)
 {
 	ui->spinBox_close_1->setDisabled(MDMA::is_midi((MDMA::active) index) < 1);
 	ui->spinBox_close_2->setDisabled(MDMA::is_midi((MDMA::active) index) < 1);
 	ui->spinBox_close_3->setDisabled(MDMA::is_midi((MDMA::active) index) < 2);
 }
 
-void zoneEditor::on_comboBox_shock_currentIndexChanged(int index)
+void ZoneEditor::on_comboBox_shock_currentIndexChanged(int index)
 {
 	ui->spinBox_shock_1->setDisabled(MDMA::is_midi((MDMA::active) index) < 1);
 	ui->spinBox_shock_2->setDisabled(MDMA::is_midi((MDMA::active) index) < 1);
@@ -179,14 +179,14 @@ void zoneEditor::on_comboBox_shock_currentIndexChanged(int index)
 }
 
 
-void zoneEditor::on_comboBox_in_currentIndexChanged(int index)
+void ZoneEditor::on_comboBox_in_currentIndexChanged(int index)
 {
 	ui->spinBox_in_1->setDisabled(MDMA::is_midi((MDMA::active) index) < 1);
 	ui->spinBox_in_2->setDisabled(MDMA::is_midi((MDMA::active) index) < 1);
 	ui->spinBox_in_3->setDisabled(MDMA::is_midi((MDMA::active) index) < 2);
 }
 
-void zoneEditor::on_comboBox_out_currentIndexChanged(int index)
+void ZoneEditor::on_comboBox_out_currentIndexChanged(int index)
 {
 	ui->spinBox_out_1->setDisabled(MDMA::is_midi((MDMA::active) index) < 1);
 	ui->spinBox_out_2->setDisabled(MDMA::is_midi((MDMA::active) index) < 1);

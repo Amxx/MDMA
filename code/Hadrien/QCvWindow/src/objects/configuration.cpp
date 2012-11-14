@@ -1,40 +1,59 @@
 #include "configuration.h"
 #include "ui_mainwindow.h"
 
-configuration::configuration(Ui::MainWindow *_ui, QWidget* parent) :
+Configuration::Configuration(Ui::MainWindow *_ui, QWidget* parent) :
 	QWidget(parent),
 	name("Unamed configuration"),
 	path(""),
 	current_tab(0),
+	freeze(false),
 	calibration_status(MDMA::NOT_CALIBRATED),
 	running(false),
 	changed(false),
 	cameraPort(0),
-	camera(cameraPort),
 	ui(_ui)
 {
-	assert(camera.isOpened());
+	setCamera();
 }
 
-configuration::~configuration()
+Configuration::~Configuration()
 {
 }
 
-bool configuration::reset()
+// =========================================================================================================
+
+bool Configuration::setCamera(bool check)
+{
+	camera.open(cameraPort);
+	bool ok = check;
+	while(ok && !camera.isOpened())
+	{
+		cameraPort = QInputDialog::getInt(this, "Couldn't open camera", "Please select camera port", cameraPort, -2147483647, 2147483647, 1, &ok);
+		camera.open(cameraPort);
+	}
+	return !check || ok;
+}
+
+bool Configuration::reset()
 {
 	if(changed && !save()) return false;
 
 	name = "unamed configuration";
 	path = "";
 	current_tab = 0;
+	freeze = false;
 	running = false;
 	changed = false;
+	zones.clear();
 	cameraPort = 0;
 	ui->comboBox_tab->setCurrentIndex(0);
+	ui->treeWidget_list->clear();
 	return true;
 }
 
-bool configuration::open()
+// =========================================================================================================
+
+bool Configuration::open()
 {
 	if(changed && !save()) return false;
 	QString file = QFileDialog::getOpenFileName(this, "Open file", QDir::homePath(), "*.mdma", 0, QFILEDIALOGOPTION);
@@ -46,7 +65,7 @@ bool configuration::open()
 	return true;
 }
 
-bool configuration::save()
+bool Configuration::save()
 {
 	if(changed)
 	{
@@ -63,7 +82,7 @@ bool configuration::save()
 	return false;
 }
 
-bool configuration::saveas()
+bool Configuration::saveas()
 {
 	QString new_path = QFileDialog::getSaveFileName(this, "Save file as", (path == "")?(QDir::homePath()+"/new_config.mdma"):path, "*.mdma", 0, QFILEDIALOGOPTION);
 	if(new_path == "") return false;
@@ -77,3 +96,14 @@ bool configuration::saveas()
 	return true;
 }
 
+
+// =========================================================================================================
+
+void Configuration::displayMask(QPainter& painter)
+{
+	painter.setPen(QPen(QBrush(MDMA::mask_color), 1, Qt::SolidLine, Qt::RoundCap));
+	painter.setBrush(QBrush(MDMA::mask_color));
+	QPolygon poly;
+	for(QPoint& p : user_mask.toList()) poly << p;
+	painter.drawPolygon(poly);
+}

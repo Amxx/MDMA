@@ -10,13 +10,13 @@
 
 #include "../config/constant.h"
 
-class eventZone
+class EventZone
 {
 	public:
-		eventZone();
-		eventZone(const eventZone &cpy);
-		eventZone(QPoint _P1, QPoint _P2, int _tab);
-		~eventZone();
+		EventZone();
+		EventZone(const EventZone &cpy);
+		EventZone(QPoint _P1, QPoint _P2, int _tab);
+		~EventZone();
 
 		void display(QPainter& painter);
 

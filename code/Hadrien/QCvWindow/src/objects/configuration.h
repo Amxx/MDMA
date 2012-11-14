@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QLabel>
 #include <QFileDialog>
+#include <QInputDialog>
 #include <QString>
 #include <QMap>
 
@@ -16,17 +17,22 @@ namespace Ui {
 	class MainWindow;
 }
 
-class configuration : public QWidget
+class Configuration : public QWidget
 {
 		Q_OBJECT
 	public:
-		configuration(Ui::MainWindow *_ui, QWidget *parent = 0);
-		~configuration();
+		Configuration(Ui::MainWindow *_ui, QWidget *parent = 0);
+		~Configuration();
 
+
+		bool setCamera(bool check = true);
 		bool reset();
+
 		bool open();
 		bool save();
 		bool saveas();
+
+		void displayMask(QPainter& painter);
 
 		// ========================================
 
@@ -34,25 +40,24 @@ class configuration : public QWidget
 		QString path;
 		int current_tab;
 
+		bool freeze;
 		MDMA::calibration calibration_status;
 		QVector<QPoint> user_mask;
 
 		bool running;
 		bool changed;
-		QMap<QString, eventZone> zones;
+		QMap<QString, EventZone> zones;
 
 		// ========================================
 
 		int cameraPort;
 		cv::VideoCapture camera;
+		cv::Mat current_frame;
 
 		// ========================================
 
 		Ui::MainWindow *ui;
 };
-
-//Q_DECLARE_METATYPE(configuration);
-
 
 
 #endif // CONFIGURATION_H

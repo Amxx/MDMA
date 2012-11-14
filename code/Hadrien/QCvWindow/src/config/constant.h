@@ -44,6 +44,7 @@ namespace MDMA
 	enum calibration
 	{
 		NOT_CALIBRATED,
+		PORT,
 		MASK_DRAW,
 		HANDS_CLOSED,
 		HANDS_OPEN,
@@ -51,7 +52,9 @@ namespace MDMA
 	};
 	typedef unsigned char signal[3];
 
-	const QColor temp_color = QColor(QColor(255, 255, 78, 128));
+	const QColor calib_color = QColor(64, 64, 64, 128);
+	const QColor mask_color = QColor(196, 196, 196, 128);
+	const QColor temp_color = QColor(255, 255, 78, 128);
 	const QColor text_color = Qt::white;
 
 	QString type_to_string(type t);

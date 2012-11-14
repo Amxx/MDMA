@@ -10,13 +10,13 @@ namespace Ui {
 	class zoneEditor;
 }
 
-class zoneEditor : public QDialog
+class ZoneEditor : public QDialog
 {
 		Q_OBJECT
 		
 	public:
-		explicit zoneEditor(eventZone& _evz, QWidget* parent = 0);
-		~zoneEditor();
+		explicit ZoneEditor(EventZone& _evz, QWidget* parent = 0);
+		~ZoneEditor();
 		
 	protected:
 		void init();
@@ -40,7 +40,7 @@ class zoneEditor : public QDialog
 
 	private:
 		Ui::zoneEditor *ui;
-		eventZone& evz;
+		EventZone& evz;
 };
 
 #endif // ZONEEDITOR_H
