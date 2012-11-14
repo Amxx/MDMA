@@ -1,19 +1,23 @@
 #include "eventmanager.h"
 
-eventManager::eventManager(configuration &_config) : config(_config)
+EventManager::EventManager(Configuration &_config, QObject* parent) :
+	QObject(parent),
+	config(_config)
 {
 }
 
-void eventManager::detection(HandDescriptor& main)
+
+void EventManager::detection(HandDescriptor& main)
 {
-    for(eventZone& zone : config.zones.values())
+	for(EventZone& evz : config.zones.values())
     {
-        if(zone.tab == config.current_tab)
+		if(evz.tab == config.current_tab)
         {
-            QList<unsigned char*> msg = zone.update(main);
-            for(unsigned char* s : msg)
-                emit sendMidi(s);
-            //delete[] msg;
-        }
+			QList<MDMA::signal> msgs = evz.update(main);
+			for(MDMA::signal msg: msgs)
+			{
+				emit sendMidi(msg);
+			}
+		}
     }
 }

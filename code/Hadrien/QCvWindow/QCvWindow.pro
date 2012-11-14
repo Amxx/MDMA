@@ -7,6 +7,7 @@ SOURCES += \
     src/config/constant.cpp \
     src/objects/cameramanager.cpp \
     src/objects/configuration.cpp \
+    src/objects/eventmanager.cpp \
     src/objects/midimanager.cpp \
     src/objects/zonemanager.cpp \
     src/UI/configwindow.cpp \
@@ -22,6 +23,7 @@ HEADERS += \
     src/config/constant.h \
     src/objects/cameramanager.h \
     src/objects/configuration.h \
+    src/objects/eventmanager.h \
     src/objects/midimanager.h \
     src/objects/zonemanager.h \
     src/UI/maskwindow.h

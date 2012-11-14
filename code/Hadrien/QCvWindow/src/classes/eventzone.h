@@ -22,9 +22,8 @@ class EventZone
 
 		void display(QPainter& painter);
 
-		unsigned char* getMidi(MDMA::event);
-
-	unsigned char* update(HandDescriptor& main);
+		MDMA::signal getMidi(MDMA::event);
+		QList<MDMA::signal> update(HandDescriptor& main);
 
 		QString name;
 		QPoint P1;

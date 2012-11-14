@@ -113,23 +113,24 @@ void EventZone::display(QPainter& painter)
 	}
 }
 
-unsigned char* EventZone::getMidi(MDMA::event ev)
+MDMA::signal EventZone::getMidi(MDMA::event ev)
 {
-	unsigned char* midi_signal = new unsigned char[3];
+	MDMA::signal midi_signal = new unsigned char[3];
 	midi_signal[0] = active[ev] << 8 & signal[ev][0];
 	midi_signal[1] = 0x80 & signal[ev][1];
 	midi_signal[2] = 0x80 & signal[ev][2];
 	return midi_signal;
 }
 
-unsigned char* eventZone::update(HandDescriptor &main)
+QList<MDMA::signal> EventZone::update(HandDescriptor &main)
 {
-    int d = 0, t;
+	QList<MDMA::signal> msgs;
+	/*
+	int d = 0, t;
     QPoint vec1, vec2;
     QPoint x;
     QRect rect(P1,P2);
 
-    QList<unsigned char*> msg;
     if(valide)
     {
         switch(type)
@@ -146,11 +147,11 @@ unsigned char* eventZone::update(HandDescriptor &main)
             }
             break;
         case MDMA::PAD:
-            /*if(main.ouvert < MAIN_OUVERTE && main.actuel.inside(rect))
+			if(main.ouvert < MAIN_OUVERTE && main.actuel.inside(rect))
             {
                 if(main.gauche && gauche_dedans)
                 return true;
-            }*/
+			}
             break;
         case MDMA::SEGMENT:
             //Intersection des deux segments, celui de la zone et celui de la main
@@ -176,5 +177,6 @@ unsigned char* eventZone::update(HandDescriptor &main)
             break;
         }
     }
-    return msg;
+	*/
+	return msgs;
 }

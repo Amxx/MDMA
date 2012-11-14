@@ -50,7 +50,7 @@ namespace MDMA
 		HANDS_OPEN,
 		CALIBRATED
 	};
-	typedef unsigned char signal[3];
+	typedef unsigned char* signal;
 
 	const QColor calib_color = QColor(64, 64, 64, 128);
 	const QColor mask_color = QColor(196, 196, 196, 128);
