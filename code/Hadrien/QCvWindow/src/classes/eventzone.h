@@ -1,6 +1,8 @@
 #ifndef EVENTZONE_H
 #define EVENTZONE_H
 
+#include <algorithm>
+
 #include <QMap>
 #include <QPainter>
 #include <QPoint>
@@ -34,8 +36,8 @@ class eventZone
 
 		MDMA::type type;
 
-		MDMA::active active[7];
-		MDMA::signal signal[7];
+		MDMA::active active[9];
+		MDMA::signal signal[9];
 
 };
 

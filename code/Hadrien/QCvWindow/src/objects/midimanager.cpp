@@ -1,25 +1,25 @@
-#include "MidiSignal.h"
+#include "midimanager.h"
 
 #include <vector>
 
 using std::vector;
 
-MidiSignal::~MidiSignal() throw()
+midiManager::~midiManager() throw()
 {
 	
 }
 
-void MidiSignal::createPort()
+void midiManager::createPort(QString name)
 {
-	openVirtualPort("MDMA Midi Out Port");
+	openVirtualPort(name.toStdString());
 }
 
-void MidiSignal::changePort(int n)
+void midiManager::changePort(int n)
 {
 	openPort(n);
 }
 
-void MidiSignal::sendMessage(const unsigned char* msg)
+void midiManager::sendMessage(const unsigned char* msg)
 {
 	vector<unsigned char> v;
 	

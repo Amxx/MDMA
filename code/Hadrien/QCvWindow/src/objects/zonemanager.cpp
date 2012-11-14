@@ -27,7 +27,47 @@ void zoneManager::timerEvent(QTimerEvent*)
 }
 
 
-void zoneManager::clic(QPoint pointer)
+void zoneManager::left_clic(QPoint pointer)
+{
+	switch(config.calibration_status)
+	{
+		case MDMA::NOT_CALIBRATED:
+		case MDMA::CALIBRATED:
+			set_zone(pointer);
+			break;
+		case MDMA::MASK_DRAW:
+			config.user_mask.push_back(pointer);
+			break;
+		case MDMA::HANDS_CLOSED:
+		case MDMA::HANDS_OPEN:
+			//
+			break;
+
+	}
+}
+
+void zoneManager::right_clic(QPoint pointer)
+{
+	switch(config.calibration_status)
+	{
+		case MDMA::NOT_CALIBRATED:
+		case MDMA::CALIBRATED:
+			reset_clic();
+			break;
+		case MDMA::MASK_DRAW:
+			config.user_mask.pop_back();
+			break;
+		case MDMA::HANDS_CLOSED:
+		case MDMA::HANDS_OPEN:
+			//
+			break;
+
+	}
+}
+
+// ======================================================================
+
+void zoneManager::set_zone(QPoint pointer)
 {
 	if(P1.x() == -1)
 	{
@@ -61,6 +101,8 @@ void zoneManager::reset_clic()
 	P1 = QPoint(-1, -1);
 	P2 = QPoint(-1, -1);
 }
+
+// ======================================================================
 
 void zoneManager::display()
 {

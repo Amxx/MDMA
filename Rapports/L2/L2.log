@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2012.10.18)  5 NOV 2012 20:39
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2012.10.18)  5 NOV 2012 21:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -720,14 +720,14 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \openout4 = `L2.toc'.
 
  [2] [3]
-<img/objets_simules.jpg, id=123, 413.545pt x 401.5pt>
+<img/objets_simules.jpg, id=118, 413.545pt x 401.5pt>
 File: img/objets_simules.jpg Graphic file (type jpg)
 
 <use img/objets_simules.jpg>
 Package pdftex.def Info: img/objets_simules.jpg used on input line 44.
 (pdftex.def)             Requested size: 341.43306pt x 331.49275pt.
  [4 <./img/objets_simules.jpg>]
-<img/planning.png, id=128, 1187.43625pt x 373.395pt>
+<img/planning.png, id=123, 1187.43625pt x 373.395pt>
 File: img/planning.png Graphic file (type png)
  <use img/planning.png>
 Package pdftex.def Info: img/planning.png used on input line 52.
@@ -737,7 +737,7 @@ LaTeX Font Info:    Try loading font information for T1+cmtt on input line 63.
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-<img/design_window.png, id=131, 930.47626pt x 620.3175pt>
+<img/design_window.png, id=126, 930.47626pt x 620.3175pt>
 File: img/design_window.png Graphic file (type png)
 
 <use img/design_window.png>
@@ -750,13 +750,13 @@ Package pdftex.def Info: img/design_window.png used on input line 67.
                                                   \fi \fi 
 l.73 
       <./img/planning.png (PNG copy)>]
-<img/midi.png, id=143, 785.334pt x 166.221pt>
+<img/midi.png, id=138, 785.334pt x 166.221pt>
 File: img/midi.png Graphic file (type png)
  <use img/midi.png>
 Package pdftex.def Info: img/midi.png used on input line 83.
 (pdftex.def)             Requested size: 341.43306pt x 72.26749pt.
 
-<img/midi2.png, id=145, 1282.391pt x 164.615pt>
+<img/midi2.png, id=140, 1282.391pt x 164.615pt>
 File: img/midi2.png Graphic file (type png)
  <use img/midi2.png>
 Package pdftex.def Info: img/midi2.png used on input line 89.
@@ -790,14 +790,14 @@ g>] [8pdfTeX warning (ext4): destination with the same identifier (name{table.1
                                                   \fi \fi 
 l.136 \item L
              a recherche des contours. La recherche des contours est réalis...
-] [9] <img/comm-swatch.pdf, id=180, 637.04602pt x 196.735pt>
+] [9] <img/comm-swatch.pdf, id=175, 637.04602pt x 196.735pt>
 File: img/comm-swatch.pdf Graphic file (type pdf)
 
 <use img/comm-swatch.pdf>
 Package pdftex.def Info: img/comm-swatch.pdf used on input line 174.
 (pdftex.def)             Requested size: 284.52756pt x 87.86949pt.
  [10]
-<img/comm-logos.pdf, id=185, 389.10368pt x 358.87276pt>
+<img/comm-logos.pdf, id=180, 389.10368pt x 358.87276pt>
 File: img/comm-logos.pdf Graphic file (type pdf)
 
 <use img/comm-logos.pdf>
@@ -818,13 +818,13 @@ s been already used, duplicate ignored
 l.193   \item u
                ne page personnelle pour chaque membre, avec la possibilité ...
  <./img/comm-swatch.pdf> <./img/comm-logos.pdf>]
-<img/comm-web2.pdf, id=222, 752.8125pt x 874.26625pt>
+<img/comm-web2.pdf, id=217, 752.8125pt x 874.26625pt>
 File: img/comm-web2.pdf Graphic file (type pdf)
  <use img/comm-web2.pdf>
 Package pdftex.def Info: img/comm-web2.pdf used on input line 198.
 (pdftex.def)             Requested size: 227.62204pt x 264.34962pt.
 
-<img/comm-web1.pdf, id=223, 1405.25pt x 725.71124pt>
+<img/comm-web1.pdf, id=218, 1405.25pt x 725.71124pt>
 File: img/comm-web1.pdf Graphic file (type pdf)
  <use img/comm-web1.pdf>
 Package pdftex.def Info: img/comm-web1.pdf used on input line 203.
@@ -842,23 +842,23 @@ l.206 \paragraph{Autre présence}
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.223 \section{Conclusion}
-                           <./img/comm-web1.pdf>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 228.
+l.222 
+       <./img/comm-web1.pdf>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 225.
  [14]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 228.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 225.
  (./L2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 228.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 228.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 225.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 225.
 Package rerunfilecheck Info: File `L2.out' has not changed.
-(rerunfilecheck)             Checksum: C0E84FDCD9EAE30B506A61D09915AE70;1225.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 228.
+(rerunfilecheck)             Checksum: A3856C7CE9A99579EDE793EE82F12BFD;1179.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 225.
  ) 
 Here is how much of TeX's memory you used:
- 7257 strings out of 493485
- 102973 string characters out of 3143525
+ 7255 strings out of 493485
+ 102953 string characters out of 3143525
  191797 words of memory out of 3000000
- 10411 multiletter control sequences out of 15000+200000
+ 10410 multiletter control sequences out of 15000+200000
  13665 words of font info for 34 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
  31i,10n,43p,1028b,438s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -876,10 +876,10 @@ m-super/sfrm0700.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb
 onts/type1/public/cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm
 -super/sfti1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt0800.pfb>
 </usr/share/texmf/fonts/type1/public/cm-super/sftt1000.pfb>
-Output written on L2.pdf (14 pages, 1295978 bytes).
+Output written on L2.pdf (14 pages, 1295353 bytes).
 PDF statistics:
- 628 PDF objects out of 1000 (max. 8388607)
- 443 compressed objects within 5 object streams
- 47 named destinations out of 1000 (max. 500000)
- 206 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 623 PDF objects out of 1000 (max. 8388607)
+ 438 compressed objects within 5 object streams
+ 46 named destinations out of 1000 (max. 500000)
+ 198 words of extra memory for PDF output out of 10000 (max. 10000000)
 

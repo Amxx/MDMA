@@ -23,18 +23,19 @@ namespace MDMA
 		EXIT,
 		OPEN,
 		CLOSE,
-		SHOCK
+		SHOCK,
+		IN,
+		OUT
 	};
 	enum active
 	{
 		NOTE_OFF,
 		NOTE_ON,
 		POLYFONIC_AFTERTOUCH,
-		CHANNEL_PRESSURE,
-		PROGRAM_CHANGE,
 		CONTROL_CHANGE,
+		PROGRAM_CHANGE,
+		CHANNEL_AFTERTOUCH,
 		PITCH_BENDING,
-		SYSTEM,
 		GOTO_TAB1,
 		GOTO_TAB2,
 		GOTO_TAB3,
@@ -54,11 +55,14 @@ namespace MDMA
 	const QColor text_color = Qt::white;
 
 	QString type_to_string(type t);
-	QColor type_to_color(type t);
-	bool is_midi(active s);
+	QColor type_to_border_color(type t, bool emph = false, bool alpha = true);
+	QColor type_to_fill_color(type t, bool emph = false, bool alpha = true);
+	int is_midi(active s);
 }
 
-bool usesGnome();
-const QFileDialog::Options QFILEDIALOGOPTION = (usesGnome())?QFileDialog::DontUseNativeDialog:QFileDialog::Options(0);
+//bool usesGnome();
+//const QFileDialog::Options QFILEDIALOGOPTION = (usesGnome())?QFileDialog::DontUseNativeDialog:QFileDialog::Options(0);
+const QFileDialog::Options QFILEDIALOGOPTION(0);
+
 
 #endif // CONSTANT_H

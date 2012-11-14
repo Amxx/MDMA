@@ -1,23 +1,36 @@
 #ifndef CONFIGWINDOW_H
 #define CONFIGWINDOW_H
 
-#include <QDebug>
+#include <string>
+
 #include <QDialog>
+#include <QInputDialog>
+#include <QString>
+
+#include "../objects/configuration.h"
+#include "../objects/midimanager.h"
 
 namespace Ui {
-	class configwindow;
+	class ConfigWindow;
 }
 
-class configwindow : public QDialog
+class ConfigWindow : public QDialog
 {
 		Q_OBJECT
 		
 	public:
-		explicit configwindow(QWidget *parent = 0);
-		~configwindow();
+		ConfigWindow(midiManager& _midi, configuration& _config, QWidget *parent = 0);
+		~ConfigWindow();
 		
+	private slots:
+		void on_pushButton_midi_clicked();
+
 	private:
-		Ui::configwindow *ui;
+		void refreshPorts();
+
+		Ui::ConfigWindow *ui;
+		midiManager& midi;
+		configuration& config;
 };
 
 #endif // CONFIGWINDOW_H
