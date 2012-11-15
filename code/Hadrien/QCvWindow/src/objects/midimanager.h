@@ -2,6 +2,7 @@
 #define MIDIMANAGER_H
 
 #include <QObject>
+#include <QDebug>
 
 #include "../classes/RtMidi.h"
 

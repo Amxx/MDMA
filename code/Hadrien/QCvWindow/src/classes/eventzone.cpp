@@ -126,11 +126,27 @@ void EventZone::display(QPainter& painter)
 
 MDMA::signal EventZone::getMidi(MDMA::event ev)
 {
-	MDMA::signal midi_signal = new unsigned char[3];
-	midi_signal[0] = active[ev] << 8 & signal[ev][0];
-	midi_signal[1] = 0x80 & signal[ev][1];
-	midi_signal[2] = 0x80 & signal[ev][2];
-	return midi_signal;
+	switch(active[ev])
+	{
+		case NOTE_OFF:
+		case NOTE_ON:
+		case POLYFONIC_AFTERTOUCH:
+		case CONTROL_CHANGE:
+		case PROGRAM_CHANGE:
+		case CHANNEL_AFTERTOUCH:
+		case PITCH_BENDING:
+			MDMA::signal midi_signal = new unsigned char[3];
+			midi_signal[0] = active[ev] << 8 & signal[ev][0];
+			midi_signal[1] = 0x80 & signal[ev][1];
+			midi_signal[2] = 0x80 & signal[ev][2];
+			return midi_signal;
+
+		case GOTO_TAB1:
+		case GOTO_TAB2:
+		case GOTO_TAB3:
+		case NOTHING:
+			return NULL;
+	}
 }
 
 QList<MDMA::event_signal> EventZone::update(HandDescriptor& main)

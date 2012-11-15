@@ -294,9 +294,9 @@ void MainWindow::on_pushButton_delete_clicked()
 {
 	if(ui->treeWidget_list->currentItem() != NULL)
 	{
+		config.changed = true;
 		config.zones.erase(config.zones.find(ui->treeWidget_list->currentItem()->text(0)));
 		delete ui->treeWidget_list->currentItem();
-		config.changed = true;
 	}
 }
 
@@ -305,16 +305,16 @@ void MainWindow::on_pushButton_deleteAll_clicked()
 {
 	if(QMessageBox::question(this, "Delete all", "Are you sure ?", QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
 	{
-		ui->treeWidget_list->clear();
-		config.zones.clear();
 		config.changed = true;
+		config.zones.clear();
+		ui->treeWidget_list->clear();
 	}
 }
 
 void MainWindow::on_comboBox_tab_currentIndexChanged(int index)
 {
-	config.current_tab = index;
 	config.changed = true;
+	config.current_tab = index;
 }
 
 /*
