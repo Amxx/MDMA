@@ -30,14 +30,14 @@ HandDescriptor::HandDescriptor(int x, int y) :
 {
 }
 
-void HandDescriptor::updatePoss(int x, int y)
+void HandDescriptor::updatePos(int x, int y)
 {
 	last_pos = curr_pos;
 	curr_pos = QPoint(x,y);
 	last_speed = curr_speed;
-	curr_speed = (curr_speed + (curr_pos - last_pos)) / 2;
+	curr_speed = (curr_pos - last_pos) / 2;
 	last_acc = curr_acc;
-	curr_acc = (curr_acc + (curr_speed - last_speed)) / 2;
+	curr_acc = (curr_speed - last_speed) / 2;
 
 	duration = time(NULL)-lastUpdate;
     lastUpdate = time(NULL);

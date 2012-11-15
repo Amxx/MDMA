@@ -9,7 +9,7 @@ public:
     HandDescriptor();
     HandDescriptor(int x, int y);
 
-	void updatePoss(int x, int y);
+	void updatePos(int x, int y);
 
 	QPoint last_pos;
 	QPoint curr_pos;
