@@ -5,12 +5,15 @@
 #include <QLabel>
 #include <QFileDialog>
 #include <QInputDialog>
+#include <QMessageBox>
+#include <QSettings>
 #include <QString>
 #include <QMap>
 
 #include <opencv2/opencv.hpp>
 
 #include "../classes/eventzone.h"
+#include "../classes/subconfig.h"
 #include "../config/constant.h"
 
 namespace Ui {
@@ -24,6 +27,10 @@ class Configuration : public QWidget
 		Configuration(Ui::MainWindow *_ui, QWidget *parent = 0);
 		~Configuration();
 
+		// ----------------------------------------------------------
+		// Methode
+		// ----------------------------------------------------------
+
 		void setCurrentTab(int i);
 		bool setCamera(bool check = true);
 		bool reset();
@@ -34,27 +41,27 @@ class Configuration : public QWidget
 
 		void displayMask(QPainter& painter);
 
-		// ========================================
+		// ----------------------------------------------------------
+		// Variables
+		// ----------------------------------------------------------
 
-		QString name;
-		QString path;
-		int current_tab;
+		SubConfig data;
+
+		// ----------------------------------------------------------
 
 		bool freeze;
+		bool running;
+		bool changed;
 		MDMA::calibration calibration_status;
 		QVector<QPoint> user_mask;
 
-		bool running;
-		bool changed;
-		QMap<QString, EventZone> zones;
-
-		// ========================================
+		// ----------------------------------------------------------
 
 		int cameraPort;
 		cv::VideoCapture camera;
 		cv::Mat current_frame;
 
-		// ========================================
+		// ----------------------------------------------------------
 
 		Ui::MainWindow *ui;
 };

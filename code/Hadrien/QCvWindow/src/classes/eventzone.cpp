@@ -52,6 +52,7 @@ EventZone::~EventZone()
 		delete[] signal[i];
 }
 
+// ============================================================================================
 
 void EventZone::display(QPainter& painter)
 {
@@ -150,6 +151,8 @@ MDMA::signal EventZone::getMidi(MDMA::event ev)
 	}
     return NULL;
 }
+
+// ============================================================================================
 
 QList<MDMA::event> EventZone::update(HandDescriptor& main)
 {
@@ -268,4 +271,49 @@ QList<MDMA::event> EventZone::update(HandDescriptor& main)
 	}
 
 	return msgs;
+}
+
+// ============================================================================================
+
+void EventZone::initEventZone ()
+{
+	qRegisterMetaTypeStreamOperators<EventZone>("EventZone");
+	qMetaTypeId<EventZone>();
+}
+
+QDataStream& operator << (QDataStream& out, const EventZone& evz)
+{
+	out << evz.name								// QString
+		<< evz.P1								// QPoint
+		<< evz.P2								// QPoint
+		<< evz.tab								// Int
+		<< evz.type;							// Int (MDMA::type)
+	for(int i = 0; i<9; i++)
+	{
+		out << evz.active[i]					// Int (MDMA::active)
+			<< evz.signal[i][0]					// Char
+			<< evz.signal[i][1]					// Char
+			<< evz.signal[i][2];				// Char
+	}
+	return out;
+}
+QDataStream& operator >> (QDataStream& in, EventZone& evz)
+{
+	int tmp;
+	in >> evz.name;								// QString
+	in >> evz.P1;								// QPoint
+	in >> evz.P2;								// QPoint
+	in >> evz.tab;								// Int
+	in >> tmp;
+		evz.type = (MDMA::type) tmp;			// Int (MDMA::type)
+
+	for(int i = 0; i<9; i++)
+	{
+		in >> tmp;
+			evz.active[i] = (MDMA::active) tmp;	// Int (MDMA::active)
+		in >> evz.signal[i][0];					// Char
+		in >> evz.signal[i][1];					// Char
+		in >> evz.signal[i][2];					// Char
+	}
+	return in;
 }

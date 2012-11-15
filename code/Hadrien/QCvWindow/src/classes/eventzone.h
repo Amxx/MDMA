@@ -20,13 +20,18 @@ class EventZone
 		EventZone(const EventZone &cpy);
 		~EventZone();
 
+		static void initEventZone();
+
+		// ----------------------------------------------------------
+		// Methode
 		// ----------------------------------------------------------
 
 		void display(QPainter& painter);
-
 		MDMA::signal getMidi(MDMA::event);
         QList<MDMA::event> update(HandDescriptor& main);
 
+		// ----------------------------------------------------------
+		// Variables
 		// ----------------------------------------------------------
 
 		QString name;
@@ -46,5 +51,11 @@ class EventZone
 		bool hand_in;
 		bool hand_open;
 };
+
+
+Q_DECLARE_METATYPE(EventZone)
+QDataStream & operator << (QDataStream & out, const EventZone& evz);
+QDataStream & operator >> (QDataStream & in, EventZone& evz);
+
 
 #endif // EVENTZONE_H

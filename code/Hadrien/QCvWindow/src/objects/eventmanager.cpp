@@ -9,9 +9,9 @@ EventManager::EventManager(Configuration &_config, QObject* parent) :
 
 void EventManager::detection(HandDescriptor& main)
 {
-	for(EventZone& evz : config.zones.values())
+	for(EventZone& evz : config.data.zones.values())
     {
-		if(evz.tab == config.current_tab)
+		if(evz.tab == config.data.current_tab)
         {
             QList<MDMA::event> msgs = evz.update(main);
             for(MDMA::event msg: msgs)

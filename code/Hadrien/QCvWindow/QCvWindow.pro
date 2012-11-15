@@ -14,7 +14,8 @@ SOURCES += \
     src/UI/handopenwindow.cpp \
     src/UI/maskwindow.cpp \
     src/UI/mainwindow.cpp \
-    src/UI/zoneeditor.cpp
+    src/UI/zoneeditor.cpp \
+    src/classes/subconfig.cpp
 
 HEADERS += \
     src/classes/eventzone.h \
@@ -32,7 +33,8 @@ HEADERS += \
     src/UI/handopenwindow.h \
     src/UI/mainwindow.h \
     src/UI/maskwindow.h \
-    src/UI/zoneeditor.h
+    src/UI/zoneeditor.h \
+    src/classes/subconfig.h
 
 FORMS += \
     src/UI/configwindow.ui \
@@ -59,7 +61,8 @@ LIBS += \
 QMAKE_CXXFLAGS += \
     -std=c++11
 
-
+CONFIG += \
+    console
 
 Release:DESTDIR = release
 Release:OBJECTS_DIR = release/.obj

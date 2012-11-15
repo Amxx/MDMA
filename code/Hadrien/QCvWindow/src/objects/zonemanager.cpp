@@ -38,17 +38,17 @@ void ZoneManager::set_zone(QPoint pointer)
 	{
 		P2 = pointer;
 
-		EventZone evz(P1, P2, config.current_tab);
+		EventZone evz(P1, P2, config.data.current_tab);
 		ZoneEditor popup(evz);
 		if(popup.exec())
 		{
-			if(config.zones.find(evz.name) != config.zones.end())
+			if(config.data.zones.find(evz.name) != config.data.zones.end())
 			{
 				int i = 0;
-				while(config.zones.find(evz.name+"_"+QString::number(i)) != config.zones.end()) i++;
+				while(config.data.zones.find(evz.name+"_"+QString::number(i)) != config.data.zones.end()) i++;
 				evz.name+=("_"+QString::number(i));
 			}
-			config.zones.insert(evz.name, evz);
+			config.data.zones.insert(evz.name, evz);
 			config.ui->treeWidget_list->addTopLevelItem(new QTreeWidgetItem(QStringList() << evz.name << MDMA::type_to_string(evz.type) << QString::number(evz.tab+1)));
 			config.changed = true;
 		}
@@ -94,8 +94,8 @@ void ZoneManager::display()
 		case MDMA::NOT_CALIBRATED:
 		case MDMA::CALIBRATED:
 		case MDMA::PORT:
-			for(EventZone& evz : config.zones.values())
-				if(evz.tab == config.current_tab) evz.display(*this);
+			for(EventZone& evz : config.data.zones.values())
+				if(evz.tab == config.data.current_tab) evz.display(*this);
 			break;
 
 		case MDMA::MASK_DRAW:

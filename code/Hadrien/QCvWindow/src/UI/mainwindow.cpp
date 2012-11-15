@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	midi_manager(),
 	zone_manager(config, this)
 {
+	config.setCamera();
 	ui->setupUi(this);
 	ui->statusbar->showMessage("Ready");
 }
@@ -75,7 +76,7 @@ void MainWindow::closeEvent(QCloseEvent* ev)
 {
 	if(config.changed)
 	{
-		switch(QMessageBox::question(this, "Changed have been made to the configuration", "Would you like to save changes made to \""+config.name+"\" before closing ?", QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel, QMessageBox::Save))
+		switch(QMessageBox::question(this, "Changed have been made to the configuration", "Would you like to save changes made to \""+config.data.name+"\" before closing ?", QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel, QMessageBox::Save))
 		{
 			case QMessageBox::Save:
 				if(config.save())
@@ -106,7 +107,7 @@ void MainWindow::on_actionNew_triggered()
 	if(!config.running)
 	{
 		config.reset();
-		setWindowTitle("MDMA - Motion Detection Midi Interface - "+config.name);
+		setWindowTitle("MDMA - Motion Detection Midi Interface - "+config.data.name);
 	}
 }
 
@@ -115,7 +116,7 @@ void MainWindow::on_actionOpen_triggered()
 	if(!config.running)
 	{
 		config.open();
-		setWindowTitle("MDMA - Motion Detection Midi Interface - "+config.name);
+		setWindowTitle("MDMA - Motion Detection Midi Interface - "+config.data.name);
 	}
 }
 
@@ -124,7 +125,7 @@ void MainWindow::on_actionSave_triggered()
 	if(!config.running)
 	{
 		config.save();
-		setWindowTitle("MDMA - Motion Detection Midi Interface - "+config.name);
+		setWindowTitle("MDMA - Motion Detection Midi Interface - "+config.data.name);
 	}
 }
 
@@ -133,7 +134,7 @@ void MainWindow::on_actionSave_As_triggered()
 	if(!config.running)
 	{
 		config.saveas();
-		setWindowTitle("MDMA - Motion Detection Midi Interface - "+config.name);
+		setWindowTitle("MDMA - Motion Detection Midi Interface - "+config.data.name);
 	}
 }
 
@@ -267,7 +268,7 @@ void MainWindow::on_pushButton_edit_clicked()
 	if(ui->treeWidget_list->currentItem() != NULL)
 	{
 		QString name = ui->treeWidget_list->currentItem()->text(0);
-		EventZone& evz = config.zones[name];
+		EventZone& evz = config.data.zones[name];
 		ZoneEditor popup(evz);
 
 		if(popup.exec())
@@ -275,14 +276,14 @@ void MainWindow::on_pushButton_edit_clicked()
 			if(name != evz.name)
 			{
 				EventZone evz_t(evz);
-				config.zones.insert(evz_t.name, evz_t);
+				config.data.zones.insert(evz_t.name, evz_t);
 			}
 
 			ui->treeWidget_list->currentItem()->setText(0, evz.name);
 			ui->treeWidget_list->currentItem()->setText(1, MDMA::type_to_string(evz.type));
 			ui->treeWidget_list->currentItem()->setText(2, QString::number(evz.tab + 1));
 
-			if(name != evz.name) config.zones.remove(name);
+			if(name != evz.name) config.data.zones.remove(name);
 
 			config.changed = true;
 		}
@@ -295,7 +296,7 @@ void MainWindow::on_pushButton_delete_clicked()
 	if(ui->treeWidget_list->currentItem() != NULL)
 	{
 		config.changed = true;
-		config.zones.erase(config.zones.find(ui->treeWidget_list->currentItem()->text(0)));
+		config.data.zones.erase(config.data.zones.find(ui->treeWidget_list->currentItem()->text(0)));
 		delete ui->treeWidget_list->currentItem();
 	}
 }
@@ -306,7 +307,7 @@ void MainWindow::on_pushButton_deleteAll_clicked()
 	if(QMessageBox::question(this, "Delete all", "Are you sure ?", QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
 	{
 		config.changed = true;
-		config.zones.clear();
+		config.data.zones.clear();
 		ui->treeWidget_list->clear();
 	}
 }
@@ -314,7 +315,7 @@ void MainWindow::on_pushButton_deleteAll_clicked()
 void MainWindow::on_comboBox_tab_currentIndexChanged(int index)
 {
 	config.changed = true;
-	config.current_tab = index;
+	config.data.current_tab = index;
 }
 
 /*
