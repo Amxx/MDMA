@@ -1,0 +1,21 @@
+=========== INPUTS ===========
+
+[ Segments ]
+- passage							>> declenchement
+
+[ Rectangle ]
+- passage a l'interieur						>> declenchement
+- fadder verticaux/horizontaux/xy				>> x / x.y
+- ouverture/fermeture de main a l'interrieur			>> declenchement
+- frappe (acceleration)						>> declenchement (valeur acceleration)
+
+Eventuellement configuration differentes main gauche/main droite
+
+=========== OUTPUT ===========
+
+		cannal		numero		valeur
+note		0-15		0-127		0-127		(numero = timbre, valeur et force)
+commande	0-15		0-127		0-127
+
+
+Tempo recuperé depuis le sequenceur pour synchroniser les signaux
