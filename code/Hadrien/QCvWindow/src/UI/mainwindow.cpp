@@ -274,11 +274,10 @@ void MainWindow::on_pushButton_edit_clicked()
 		{
 			if(name != evz.name)
 			{
-				EventZone evz_t(config.zones[name]);
+				EventZone evz_t = EventZone(evz);
 				config.zones.remove(name);
 				config.zones.insert(evz_t.name, evz_t);
 			}
-
 			ui->treeWidget_list->currentItem()->setText(0, evz.name);
 			ui->treeWidget_list->currentItem()->setText(1, MDMA::type_to_string(evz.type));
 			ui->treeWidget_list->currentItem()->setText(2, QString::number(evz.tab + 1));

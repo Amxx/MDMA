@@ -1,23 +1,9 @@
 #include "eventzone.h"
 
-EventZone::EventZone() :
-	name(""),
-	P1(),
-	P2(),
-	tab(0),
-	type(MDMA::FADER),
-	is_active(false),
-	hand_in(false),
-	hand_open(false)
+EventZone::EventZone()
 {
 	for(int i=0; i<9; i++)
-	{
-		active[i] = MDMA::NOTHING;
 		signal[i] = new unsigned char[3];
-		signal[i][0] = 0;
-		signal[i][1] = 0;
-		signal[i][2] = 0;
-	}
 }
 ::
 EventZone::EventZone(QPoint _P1, QPoint _P2, int _tab) :
