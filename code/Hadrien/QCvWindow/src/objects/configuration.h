@@ -24,7 +24,7 @@ class Configuration : public QWidget
 		Configuration(Ui::MainWindow *_ui, QWidget *parent = 0);
 		~Configuration();
 
-		bool setCurrentTab(int i);
+		void setCurrentTab(int i);
 		bool setCamera(bool check = true);
 		bool reset();
 
