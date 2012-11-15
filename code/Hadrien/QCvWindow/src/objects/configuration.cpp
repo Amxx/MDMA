@@ -91,6 +91,7 @@ bool Configuration::open()
 	ui->treeWidget_list->clear();
 	for(EventZone& evz : data.zones)
 		ui->treeWidget_list->addTopLevelItem(new QTreeWidgetItem(QStringList() << evz.name << MDMA::type_to_string(evz.type) << QString::number(evz.tab+1)));
+	ui->comboBox_tab->setCurrentIndex(data.current_tab);
 	changed = false;
 
 	return true;
