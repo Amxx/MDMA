@@ -74,19 +74,18 @@ bool Configuration::open()
 
 bool Configuration::save()
 {
-	if(changed)
+	if(path == "")
 	{
-		if(path == "") path = QFileDialog::getSaveFileName(this, "Save file", QDir::homePath()+"/new_config.mdma", "MDMA configuration (*.mdma);;All file (*)", 0, QFILEDIALOGOPTION);
+		path = QFileDialog::getSaveFileName(this, "Save file", QDir::homePath()+"/new_config.mdma", "MDMA configuration (*.mdma);;All file (*)", 0, QFILEDIALOGOPTION);
 		if(path == "") return false;
-
-		name = QFileInfo(path).fileName();
-
-		// save
-
-		changed = false;
-		return true;
 	}
-	return false;
+
+	name = QFileInfo(path).fileName();
+
+	// save
+
+	changed = false;
+	return true;
 }
 
 bool Configuration::saveas()
