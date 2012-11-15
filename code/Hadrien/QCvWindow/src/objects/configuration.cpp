@@ -22,6 +22,13 @@ Configuration::~Configuration()
 
 // =========================================================================================================
 
+void Configuration::setCurrentTab(int i)
+{
+	current_tab = i;
+	ui->comboBox_tab->setCurrentIndex(i);
+}
+
+
 bool Configuration::setCamera(bool check)
 {
 	camera.open(cameraPort);

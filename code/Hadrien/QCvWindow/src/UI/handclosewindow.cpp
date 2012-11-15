@@ -56,6 +56,7 @@ void HandCloseWindow::set_number()
 			ui->pushButton->setDisabled(false);
 			ui->pushButton_cancel->setDisabled(false);
 			ui->pushButton_next->setDisabled(false);
+			on_pushButton_next_clicked();
 			break;
 		default:
 			ui->lcdNumber->display(ui->lcdNumber->intValue() - 1);

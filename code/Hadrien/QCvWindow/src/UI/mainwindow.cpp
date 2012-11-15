@@ -73,7 +73,6 @@ void MainWindow::mousePressEvent(QMouseEvent* ev)
 
 void MainWindow::closeEvent(QCloseEvent* ev)
 {
-	qDebug() << "exit";
 	if(config.changed)
 	{
 		switch(QMessageBox::question(this, "Changed have been made to the configuration", "Would you like to save changes made to \""+config.name+"\" before closing ?", QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel, QMessageBox::Save))
@@ -260,6 +259,7 @@ void MainWindow::on_pushButton_configure_pressed()
 
 	config.calibration_status = MDMA::CALIBRATED;
 	ui_disable(false, true);
+	QMessageBox::information(this, "Calibration succesfull", "Calibration succesfull, run is now available	");
 }
 
 void MainWindow::on_pushButton_edit_clicked()

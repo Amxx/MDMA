@@ -80,6 +80,13 @@ void ZoneManager::display()
 		}
 	}
 
+	if(config.freeze)
+	{
+		setPen(MDMA::text_color);
+		fillRect(QRect(5, 5, 150, 30), MDMA::mask_color);
+		drawText(QRect(5, 5, 150, 30), Qt::AlignCenter, "Display Freezed");
+	}
+
 	config.displayMask(*this);
 
 	switch(config.calibration_status)

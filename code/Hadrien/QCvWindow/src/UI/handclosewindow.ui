@@ -68,23 +68,14 @@
     <number>5</number>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QTextBrowser" name="textBrowser">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>301</width>
-     <height>111</height>
+     <x>0</x>
+     <y>0</y>
+     <width>320</width>
+     <height>130</height>
     </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignJustify|Qt::AlignTop</set>
-   </property>
-   <property name="wordWrap">
-    <bool>true</bool>
    </property>
   </widget>
  </widget>

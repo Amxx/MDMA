@@ -87,6 +87,16 @@
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QTextBrowser" name="textBrowser">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>320</width>
+     <height>130</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
