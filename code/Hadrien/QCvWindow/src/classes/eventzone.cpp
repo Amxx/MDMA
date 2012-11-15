@@ -128,30 +128,32 @@ MDMA::signal EventZone::getMidi(MDMA::event ev)
 {
 	switch(active[ev])
 	{
-		case NOTE_OFF:
-		case NOTE_ON:
-		case POLYFONIC_AFTERTOUCH:
-		case CONTROL_CHANGE:
-		case PROGRAM_CHANGE:
-		case CHANNEL_AFTERTOUCH:
-		case PITCH_BENDING:
+        case MDMA::NOTE_OFF:
+        case MDMA::NOTE_ON:
+        case MDMA::POLYFONIC_AFTERTOUCH:
+        case MDMA::CONTROL_CHANGE:
+        case MDMA::PROGRAM_CHANGE:
+        case MDMA::CHANNEL_AFTERTOUCH:
+        case MDMA::PITCH_BENDING:
+        {
 			MDMA::signal midi_signal = new unsigned char[3];
 			midi_signal[0] = active[ev] << 8 & signal[ev][0];
 			midi_signal[1] = 0x80 & signal[ev][1];
 			midi_signal[2] = 0x80 & signal[ev][2];
 			return midi_signal;
-
-		case GOTO_TAB1:
-		case GOTO_TAB2:
-		case GOTO_TAB3:
-		case NOTHING:
-			return NULL;
+        }
+        case MDMA::GOTO_TAB1:
+        case MDMA::GOTO_TAB2:
+        case MDMA::GOTO_TAB3:
+        case MDMA::NOTHING:
+            break;
 	}
+    return NULL;
 }
 
-QList<MDMA::event_signal> EventZone::update(HandDescriptor& main)
+QList<MDMA::event> EventZone::update(HandDescriptor& main)
 {
-    QList<MDMA::event_signal> msgs;
+    QList<MDMA::event> msgs;
 
 
 	switch(type)
@@ -187,12 +189,12 @@ QList<MDMA::event_signal> EventZone::update(HandDescriptor& main)
             if(active[MDMA::EVENT_X] != MDMA::NOTHING)
 			{
                 signal[MDMA::EVENT_X][MDMA::is_midi(active[MDMA::EVENT_X])] = (main.curr_pos.x() - rect.x())*127/rect.width();
-                msgs << MDMA::event_signal(active[MDMA::EVENT_X],getMidi(MDMA::EVENT_X));
+                msgs << MDMA::EVENT_X;
 			}
 			if(active[MDMA::EVENT_Y] != MDMA::NOTHING)
 			{
                 signal[MDMA::EVENT_Y][MDMA::is_midi(active[MDMA::EVENT_Y])] = (rect.y() + rect.height() - main.curr_pos.y())*127/rect.height();
-                msgs << MDMA::event_signal(active[MDMA::EVENT_Y],getMidi(MDMA::EVENT_Y));
+                msgs << MDMA::EVENT_Y;
 			}
 			break;
 		}
@@ -203,7 +205,7 @@ QList<MDMA::event_signal> EventZone::update(HandDescriptor& main)
             if(!rect.contains(main.curr_pos))
             {
                 if(hand_in && active[MDMA::EXIT] != MDMA::NOTHING)
-                    msgs << MDMA::event_signal(active[MDMA::EXIT],getMidi(MDMA::EXIT));
+                    msgs << MDMA::EXIT;
                 hand_in = false;
             }
             else
@@ -211,7 +213,7 @@ QList<MDMA::event_signal> EventZone::update(HandDescriptor& main)
                 if(!hand_in)
                 {
                     if(active[MDMA::ENTER] != MDMA::NOTHING)
-                        msgs << MDMA::event_signal(active[MDMA::ENTER],getMidi(MDMA::ENTER));
+                        msgs << MDMA::ENTER;
                     hand_open = main.ouverture > main.seuil;
                     hand_in = true;
                 }
@@ -220,13 +222,13 @@ QList<MDMA::event_signal> EventZone::update(HandDescriptor& main)
                     if(!hand_open && main.ouverture > main.seuil)
                     {
                         if(active[MDMA::OPEN] != MDMA::NOTHING)
-                            msgs << MDMA::event_signal(active[MDMA::OPEN],getMidi(MDMA::OPEN));
+                            msgs << MDMA::OPEN;
                         hand_open = true;
                     }
                     if(hand_open && main.ouverture < main.seuil)
                     {
                         if(active[MDMA::CLOSE] != MDMA::NOTHING)
-                            msgs << MDMA::event_signal(active[MDMA::CLOSE],getMidi(MDMA::CLOSE));
+                            msgs << MDMA::CLOSE;
                             hand_open = false;
                     }
                 }
@@ -258,9 +260,9 @@ QList<MDMA::event_signal> EventZone::update(HandDescriptor& main)
 
 			if(d*t < 0 || abs(t) > abs(d)) break;
 				if(d > 0)
-                msgs << MDMA::event_signal(active[MDMA::IN],getMidi(MDMA::IN));
+                msgs << MDMA::IN;
             else
-                msgs << MDMA::event_signal(active[MDMA::OUT],getMidi(MDMA::OUT));
+                msgs << MDMA::OUT;
 			break;
 		}
 	}

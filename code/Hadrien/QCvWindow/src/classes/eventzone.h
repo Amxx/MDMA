@@ -25,7 +25,7 @@ class EventZone
 		void display(QPainter& painter);
 
 		MDMA::signal getMidi(MDMA::event);
-        QList<MDMA::event_signal> update(HandDescriptor& main);
+        QList<MDMA::event> update(HandDescriptor& main);
 
 		// ----------------------------------------------------------
 
