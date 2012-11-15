@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QPoint>
 
+#include "notenumberwindow.h"
 #include "../objects/configuration.h"
 
 namespace Ui {
@@ -39,6 +40,8 @@ class ZoneEditor : public QDialog
 		void on_comboBox_out_currentIndexChanged(int index);
 
 		void on_buttonBox_rejected();
+
+		void on_noteHelp_clicked();
 
 	private:
 		Ui::ZoneEditor *ui;

@@ -25,6 +25,10 @@
   <property name="windowTitle">
    <string>MDMA - Motion Detection Midi Interface - Unamed configuration</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../ressources.qrc">
+    <normaloff>:/icons/ressources/Logo-256.png</normaloff>:/icons/ressources/Logo-256.png</iconset>
+  </property>
   <property name="locale">
    <locale language="English" country="UnitedStates"/>
   </property>
@@ -272,7 +276,9 @@
   <tabstop>pushButton_delete</tabstop>
   <tabstop>pushButton_deleteAll</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../ressources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>actionQuit</sender>

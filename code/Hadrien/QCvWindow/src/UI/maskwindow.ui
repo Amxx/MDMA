@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Configuration - 2/4</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../ressources.qrc">
+    <normaloff>:/icons/ressources/Logo-256.png</normaloff>:/icons/ressources/Logo-256.png</iconset>
+  </property>
   <widget class="QPushButton" name="pushButton_cancel">
    <property name="geometry">
     <rect>
@@ -88,6 +92,8 @@ p, li { white-space: pre-wrap; }
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../ressources.qrc"/>
+ </resources>
  <connections/>
 </ui>

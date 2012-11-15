@@ -198,3 +198,9 @@ void ZoneEditor::on_comboBox_out_currentIndexChanged(int index)
 	ui->spinBox_out_3->setDisabled(MDMA::is_midi((MDMA::active) index) < 2);
 }
 
+
+void ZoneEditor::on_noteHelp_clicked()
+{
+	NoteNumberWindow* noteWindow = new NoteNumberWindow(this);
+	noteWindow->show();
+}

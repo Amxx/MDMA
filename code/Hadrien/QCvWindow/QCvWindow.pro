@@ -15,7 +15,8 @@ SOURCES += \
     src/UI/maskwindow.cpp \
     src/UI/mainwindow.cpp \
     src/UI/zoneeditor.cpp \
-    src/classes/subconfig.cpp
+    src/classes/subconfig.cpp \
+    src/UI/notenumberwindow.cpp
 
 HEADERS += \
     src/classes/eventzone.h \
@@ -34,7 +35,8 @@ HEADERS += \
     src/UI/mainwindow.h \
     src/UI/maskwindow.h \
     src/UI/zoneeditor.h \
-    src/classes/subconfig.h
+    src/classes/subconfig.h \
+    src/UI/notenumberwindow.h
 
 FORMS += \
     src/UI/configwindow.ui \
@@ -42,7 +44,8 @@ FORMS += \
     src/UI/handopenwindow.ui \
     src/UI/mainwindow.ui \
     src/UI/maskwindow.ui \
-    src/UI/zoneeditor.ui
+    src/UI/zoneeditor.ui \
+    src/UI/notenumberwindow.ui
 
 LIBS += \
     /usr/lib/libopencv_calib3d.so \
@@ -75,3 +78,6 @@ Debug:OBJECTS_DIR = debug/.obj
 Debug:MOC_DIR = debug/.moc
 Debug:RCC_DIR = debug/.rcc
 Debug:UI_DIR = debug/.ui
+
+RESOURCES += \
+    src/ressources.qrc

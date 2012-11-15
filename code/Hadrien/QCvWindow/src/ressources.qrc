@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>ressources/note.png</file>
+        <file>ressources/Logo-256.png</file>
+    </qresource>
+</RCC>
