@@ -13,10 +13,24 @@ void EventManager::detection(HandDescriptor& main)
     {
 		if(evz.tab == config.current_tab)
         {
-			QList<MDMA::signal> msgs = evz.update(main);
-			for(MDMA::signal msg: msgs)
+            QList<MDMA::event_signal> msgs = evz.update(main);
+            for(MDMA::event_signal msg: msgs)
 			{
-				emit sendMidi(msg);
+                switch(msg.first)
+                {
+                case MDMA::GOTO_TAB1:
+                    config.setCurrentTab(0);
+                    break;
+                case MDMA::GOTO_TAB2:
+                    config.setCurrentTab(1);
+                    break;
+                case MDMA::GOTO_TAB3:
+                    config.setCurrentTab(2);
+                    break;
+                default:
+                    if(msg.second)
+                        emit sendMidi(msg.second);
+                }
 			}
 		}
     }

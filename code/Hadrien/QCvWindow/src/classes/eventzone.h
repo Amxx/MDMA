@@ -10,7 +10,7 @@
 
 #include "../config/constant.h"
 
-class HandDescriptor;
+#include "../classes/handdescriptor.h"
 
 class EventZone
 {
@@ -25,7 +25,7 @@ class EventZone
 		void display(QPainter& painter);
 
 		MDMA::signal getMidi(MDMA::event);
-		QList<MDMA::signal> update(HandDescriptor& main);
+        QList<MDMA::event_signal> update(HandDescriptor& main);
 
 		// ----------------------------------------------------------
 

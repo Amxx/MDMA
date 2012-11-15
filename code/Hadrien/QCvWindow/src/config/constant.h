@@ -51,6 +51,7 @@ namespace MDMA
 		CALIBRATED
 	};
 	typedef unsigned char* signal;
+    typedef QPair<active, signal> event_signal;
 
 	const QColor calib_color = QColor(64, 64, 64, 128);
 	const QColor mask_color = QColor(196, 196, 196, 128);
