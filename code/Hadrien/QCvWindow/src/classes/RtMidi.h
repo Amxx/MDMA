@@ -50,11 +50,10 @@
    #define __WINDOWS_MM__
 #elif _WIN32
    #define __WINDOWS_MM__
-#elif __APPLE__
-   #define __MACOSX_CORE__
 #elif __linux
     #define __LINUX_ALSA__
-    //#define __UNIX_JACK__
+#elif __unix
+    #define __UNIX_JACK__
 #endif
 
 

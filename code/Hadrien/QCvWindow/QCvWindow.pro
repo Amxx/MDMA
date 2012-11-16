@@ -59,14 +59,21 @@ LIBS += \
     /usr/lib/libopencv_gpu.so \
     /usr/lib/libopencv_imgproc.so \
     /usr/lib/libopencv_ml.so \
-    /usr/lib/libopencv_video.so \
-    -lasound
+    /usr/lib/libopencv_video.so
+
+macx {
+    LIBS += -ljack
+}
+!macx {
+    LIBS += -lasound #ne marche pas pour windows, mais de toute façon les .so feront planter
+}
 
 QMAKE_CXXFLAGS += \
     -std=c++11
 
 CONFIG += \
-    console
+    console \
+#    Debug debug
 
 Release:DESTDIR = release
 Release:OBJECTS_DIR = release/.obj
