@@ -30,3 +30,8 @@ void NoteNumberWindow::update()
 	ui->display->setText((value > 127)?"Not a valid note":QString::number(value));
 
 }
+
+void NoteNumberWindow::on_pushButton_clicked()
+{
+	accept();
+}

@@ -6,21 +6,24 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>290</width>
+    <width>320</width>
     <height>65</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>290</width>
+    <width>320</width>
     <height>65</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>290</width>
+    <width>320</width>
     <height>65</height>
    </size>
+  </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::DefaultContextMenu</enum>
   </property>
   <property name="windowTitle">
    <string>MIDI note converter</string>
@@ -169,7 +172,7 @@
     <rect>
      <x>125</x>
      <y>25</y>
-     <width>160</width>
+     <width>140</width>
      <height>35</height>
     </rect>
    </property>
@@ -220,6 +223,19 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>265</x>
+     <y>25</y>
+     <width>50</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Quit</string>
    </property>
   </widget>
  </widget>

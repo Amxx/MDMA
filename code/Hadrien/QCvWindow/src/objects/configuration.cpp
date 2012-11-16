@@ -10,7 +10,7 @@ Configuration::Configuration(Ui::MainWindow *_ui, QWidget* parent) :
 	cameraPort(0),
 	ui(_ui)
 {
-	//setCamera();
+	setCamera();
 }
 
 Configuration::~Configuration()

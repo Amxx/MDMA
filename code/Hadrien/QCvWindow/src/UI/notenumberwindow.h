@@ -19,6 +19,8 @@ class NoteNumberWindow : public QDialog
 		void on_note_currentIndexChanged();
 		void on_octave_currentIndexChanged();
 
+		void on_pushButton_clicked();
+
 	private:
 		void update();
 

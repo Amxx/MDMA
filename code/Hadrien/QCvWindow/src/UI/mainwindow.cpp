@@ -15,7 +15,6 @@ MainWindow::MainWindow(QWidget *parent) :
 	midi_manager(),
 	zone_manager(config, this)
 {
-	config.setCamera();
 	ui->setupUi(this);
 	ui->statusbar->showMessage("Ready");
 }
