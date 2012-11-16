@@ -13,7 +13,7 @@ QString MDMA::type_to_string(MDMA::type t)
 }
 
 
-QColor MDMA::type_to_border_color(MDMA::type t, bool emph, bool alpha)
+QColor MDMA::type_to_border_color(MDMA::type t, bool /*emph*/, bool alpha)
 {
 	switch(t)
 	{
@@ -27,7 +27,7 @@ QColor MDMA::type_to_border_color(MDMA::type t, bool emph, bool alpha)
 	return QColor();
 }
 
-QColor MDMA::type_to_fill_color(MDMA::type t, bool emph, bool alpha)
+QColor MDMA::type_to_fill_color(MDMA::type t, bool /*emph*/, bool alpha)
 {
 	switch(t)
 	{
