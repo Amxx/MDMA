@@ -64,11 +64,11 @@ void EventZone::display(QPainter& painter)
 	{
 		case MDMA::FADER :
 		{
-			//painter.setPen(QPen(QBrush(MDMA::type_to_border_color(type)), 0, Qt::SolidLine, Qt::SquareCap));
+			//painter.setPen(QPen(QBrush(MDMA::type_to_border_color(type, active)), 0, Qt::SolidLine, Qt::SquareCap));
 			//painter.drawRect(QRect(P1,P2));
-			painter.fillRect(QRect(P1, P2), MDMA::type_to_fill_color(type));
+			painter.fillRect(QRect(P1, P2), MDMA::type_to_fill_color(type, active));
 
-			painter.setPen(QPen(QBrush(MDMA::type_to_border_color(type)), 3, Qt::SolidLine, Qt::SquareCap));
+			painter.setPen(QPen(QBrush(MDMA::type_to_border_color(type, active)), 3, Qt::SolidLine, Qt::SquareCap));
 			if(MDMA::is_midi(active[MDMA::EVENT_X]))
 			{
 				int x_min = std::min(P1.x(), P2.x());
@@ -91,9 +91,9 @@ void EventZone::display(QPainter& painter)
 
 		case MDMA::PAD :
 		{
-			//painter.setPen(QPen(QBrush(MDMA::type_to_border_color(type)), 0, Qt::SolidLine, Qt::SquareCap));
+			//painter.setPen(QPen(QBrush(MDMA::type_to_border_color(type, active)), 0, Qt::SolidLine, Qt::SquareCap));
 			//painter.drawRect(QRect(P1,P2));
-			painter.fillRect(QRect(P1, P2), MDMA::type_to_fill_color(type));
+			painter.fillRect(QRect(P1, P2), MDMA::type_to_fill_color(type, active));
 
 			painter.setPen(MDMA::text_color);
 			painter.drawText(std::min(P1.x(), P2.x())+2, std::min(P1.y(), P2.y())+10, name);
@@ -105,11 +105,11 @@ void EventZone::display(QPainter& painter)
 			QPolygon poly;
 			QPoint center, director;
 
-			painter.setPen(QPen(QBrush(MDMA::type_to_fill_color(type)), 3, Qt::SolidLine, Qt::RoundCap));
+			painter.setPen(QPen(QBrush(MDMA::type_to_fill_color(type, active)), 3, Qt::SolidLine, Qt::RoundCap));
 			painter.drawLine(P1, P2);
 
-			painter.setPen(QPen(QBrush(MDMA::type_to_fill_color(type)), 1, Qt::SolidLine, Qt::RoundCap));
-			painter.setBrush(QBrush(MDMA::type_to_fill_color(type)));
+			painter.setPen(QPen(QBrush(MDMA::type_to_fill_color(type, active)), 1, Qt::SolidLine, Qt::RoundCap));
+			painter.setBrush(QBrush(MDMA::type_to_fill_color(type, active)));
 			center = (P1+P2)/2;
 			director = P1-P2;
 			director *= 20/sqrt(director.x()*director.x()+director.y()*director.y());
