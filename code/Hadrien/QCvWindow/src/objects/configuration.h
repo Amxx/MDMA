@@ -54,6 +54,8 @@ class Configuration : public QWidget
 		bool changed;
 		MDMA::calibration calibration_status;
 		QVector<QPoint> user_mask;
+		cv::Mat close_calib;
+		cv::Mat open_calib;
 
 		// ----------------------------------------------------------
 

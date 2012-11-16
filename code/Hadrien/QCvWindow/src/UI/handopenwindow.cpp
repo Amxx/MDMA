@@ -24,12 +24,11 @@ void HandOpenWindow::closeEvent()
 
 void HandOpenWindow::on_pushButton_next_clicked()
 {
-	/*
-	if(config.user_mask.empty())
-		QMessageBox::critical(this, "Mask isn't set", "The mask must be set in order to go to the next step");
+
+	if(config.open_calib.empty())
+		QMessageBox::critical(this, "", "");
 	else
-	*/
-	accept();
+		accept();
 }
 
 void HandOpenWindow::on_pushButton_cancel_clicked()
@@ -52,6 +51,8 @@ void HandOpenWindow::set_number()
 	switch(ui->lcdNumber->intValue())
 	{
 		case 0:
+			config.open_calib = config.current_frame;
+
 			timer.stop();
 			ui->pushButton->setDisabled(false);
 			ui->pushButton_cancel->setDisabled(false);
