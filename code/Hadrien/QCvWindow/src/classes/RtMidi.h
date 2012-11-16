@@ -45,6 +45,20 @@
 #ifndef RTMIDI_H
 #define RTMIDI_H
 
+//detect OS and do define to compile the appropriate API
+#ifdef _WIN64
+   #define __WINDOWS_MM__
+#elif _WIN32
+   #define __WINDOWS_MM__
+#elif __APPLE__
+   #define __MACOSX_CORE__
+#elif __linux
+    #define __LINUX_ALSA__
+    //#define __UNIX_JACK__
+#endif
+
+
+
 #include "RtError.h"
 #include <string>
 #include <vector>

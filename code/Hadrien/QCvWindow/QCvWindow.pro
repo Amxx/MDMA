@@ -59,7 +59,8 @@ LIBS += \
     /usr/lib/libopencv_gpu.so \
     /usr/lib/libopencv_imgproc.so \
     /usr/lib/libopencv_ml.so \
-    /usr/lib/libopencv_video.so
+    /usr/lib/libopencv_video.so \
+    -lasound
 
 QMAKE_CXXFLAGS += \
     -std=c++11
