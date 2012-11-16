@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MDMA - Motion Detection Midi Interface - Unamed configuration</string>
+   <string>MDMA - Motion Detection Midi Interface - New Configuration</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../ressources.qrc">

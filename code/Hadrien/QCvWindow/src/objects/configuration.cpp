@@ -48,8 +48,9 @@ bool Configuration::reset()
 			case QMessageBox::Save:
 				if(!save()) return false;
 				break;
-
-			default:
+			case QMessageBox::Discard:
+				break;
+			case QMessageBox::Cancel:
 				return false;
 				break;
 		}

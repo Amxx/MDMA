@@ -1,8 +1,7 @@
 #ifndef EVENTZONE_H
 #define EVENTZONE_H
 
-#include <algorithm>
-
+#include <cmath>
 #include <QMap>
 #include <QPainter>
 #include <QPoint>
