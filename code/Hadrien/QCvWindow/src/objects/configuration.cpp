@@ -53,6 +53,8 @@ bool Configuration::reset()
 			case QMessageBox::Cancel:
 				return false;
 				break;
+			default:
+				break;
 		}
 
 	data.name = "New configuration";

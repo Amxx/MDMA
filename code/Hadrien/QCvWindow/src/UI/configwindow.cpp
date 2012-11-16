@@ -49,6 +49,8 @@ void ConfigWindow::on_pushButton_midi_clicked()
 void ConfigWindow::refreshPorts()
 {
 	qDebug() << midi.getPortCount() << "midi port available";
+
+	ui->comboBox_midi->clear();
 	for(unsigned int i=0; i<midi.getPortCount(); i++)
 	{
 		ui->comboBox_midi->addItem(QString(midi.getPortName(i).c_str()));
