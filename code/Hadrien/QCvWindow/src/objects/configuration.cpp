@@ -79,6 +79,9 @@ bool Configuration::open()
 				if(!save()) return false;
 				break;
 
+			case QMessageBox::Discard:
+				break;
+
 			default:
 				return false;
 				break;
