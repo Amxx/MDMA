@@ -8,8 +8,8 @@ ALSAFL = -D__LINUX_ALSA__
 LALSAFL = -lasound
 
 #comment out to not compile JACK
-JACKFL = -D__UNIX_JACK__
-LJACKFL = -ljack
+#JACKFL = -D__UNIX_JACK__
+#LJACKFL = -ljack
 
 FLAGS = -g -Wall -Wextra -fexceptions -D_DEBUG -D_CONSOLE $(ALSAFL) $(JACKFL)
 
