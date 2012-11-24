@@ -49,9 +49,10 @@ void MainWindow::mousePressEvent(QMouseEvent* ev)
 			break;
 
 		case MDMA::MASK_DRAW:
-			if(!config.running && x>=0 && x<=640 && y>=0)
+			if(!config.running)
 			{
-				y = std::min(y,480);
+				x = std::max(0, std::min(x,640));
+				y = std::max(0, std::min(y,480));
 				switch(ev->button())
 				{
 					case Qt::LeftButton:
