@@ -52,15 +52,17 @@ namespace MDMA
 	typedef unsigned char* signal;
     typedef QPair<active, signal> event_signal;
 
-	const QColor calib_color = QColor(64, 64, 64, 128);
-	const QColor mask_color = QColor(196, 196, 196, 128);
-	const QColor temp_color = QColor(255, 255, 78, 128);
-	const QColor text_color = Qt::white;
 
-	const QList<QPoint> zone_leftopen = QList<QPoint>() << QPoint(40, 50) << QPoint(140, 50) << QPoint(140, 150) << QPoint(40, 150);
-	const QList<QPoint> zone_rightopen = QList<QPoint>() << QPoint(500, 50) << QPoint(600, 50) << QPoint(600, 150) << QPoint(500, 150);
-	const QList<QPoint> zone_leftclose = QList<QPoint>() << QPoint(40, 150) << QPoint(140, 150) << QPoint(140, 250) << QPoint(40, 250);
-	const QList<QPoint> zone_rightclose = QList<QPoint>() << QPoint(500, 150) << QPoint(600, 150) << QPoint(600, 250) << QPoint(500, 250);
+	const QColor calib_color =				QColor(64, 64, 64, 128);
+	const QColor mask_color =				QColor(64, 64, 64, 128);
+	const QColor temp_color =				QColor(255, 255, 78, 128);
+	const QColor text_color =				Qt::white;
+
+	const QList<QPoint> zone_leftopen =		QList<QPoint>() << QPoint(040, 050) << QPoint(240, 050) << QPoint(240, 250) << QPoint(040, 250);
+	const QList<QPoint> zone_rightopen =	QList<QPoint>() << QPoint(400, 050) << QPoint(600, 050) << QPoint(600, 250) << QPoint(400, 250);
+	const QList<QPoint> zone_leftclose =	QList<QPoint>() << QPoint(040, 050) << QPoint(240, 050) << QPoint(240, 250) << QPoint(040, 250);
+	const QList<QPoint> zone_rightclose =	QList<QPoint>() << QPoint(400, 050) << QPoint(600, 050) << QPoint(600, 250) << QPoint(400, 250);
+
 
 	QString type_to_string(type t);
 	QColor type_to_border_color(type t, bool emph = false, bool alpha = true);

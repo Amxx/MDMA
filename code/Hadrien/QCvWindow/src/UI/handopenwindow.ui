@@ -40,7 +40,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Next Step</string>
+    <string>Finish</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton">
