@@ -8,6 +8,7 @@ ConfigWindow::ConfigWindow(MidiManager &_midi, Configuration &_config, QWidget *
 	ui(new Ui::ConfigWindow)
 {
 	ui->setupUi(this);
+	ui->checkBox_flip->setChecked(config.flip);
 	refreshPorts();
 }
 
@@ -18,17 +19,12 @@ ConfigWindow::~ConfigWindow()
 
 void ConfigWindow::closeEvent()
 {
-	reject();
+	accept();
 }
 
 // ===============================================================================================================================
 
-void ConfigWindow::on_pushButton_cancel_clicked()
-{
-	reject();
-}
-
-void ConfigWindow::on_pushButton_next_clicked()
+void ConfigWindow::on_pushButton_ok_clicked()
 {
 	accept();
 }
@@ -52,4 +48,11 @@ void ConfigWindow::refreshPorts()
 	for(unsigned int i=0; i<midi.getPortCount(); i++)
 		ui->comboBox_midi->addItem(QString(midi.getPortName(i).c_str()));
 }
+
+
+void ConfigWindow::on_checkBox_flip_clicked()
+{
+	config.flip = ui->checkBox_flip->isChecked();
+}
+
 

@@ -1,9 +1,10 @@
 #include "cameramanager.h"
 #include "ui_mainwindow.h"
 
-CameraManager::CameraManager(Configuration& _config, QObject *parent) :
+CameraManager::CameraManager(Configuration& _config, HandTracking& _handtracking, QObject *parent) :
 	QObject(parent),
-	config(_config)
+	config(_config),
+	handtracking(_handtracking)
 {
 	startTimer(40);
 }
@@ -17,9 +18,15 @@ void CameraManager::timerEvent(QTimerEvent*)
 	if(config.camera.isOpened() && !config.freeze)
 	{
 		config.camera >> config.current_frame;
-		cv::flip(config.current_frame, config.current_frame, 1);
+		if(config.flip) cv::flip(config.current_frame, config.current_frame, 1);
 
 		display();
+
+		if(config.running)
+		{
+			//handtracking.Track(config.current_frame);
+			//emit track_updated();
+		}
 	}
 }
 

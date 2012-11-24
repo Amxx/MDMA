@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QFileDialog>
 #include <QInputDialog>
+#include <QList>
 #include <QMessageBox>
 #include <QSettings>
 #include <QString>
@@ -13,6 +14,7 @@
 #include <opencv2/opencv.hpp>
 
 #include "../classes/eventzone.h"
+#include "../classes/handdescriptor.h"
 #include "../classes/subconfig.h"
 #include "../config/constant.h"
 
@@ -49,13 +51,17 @@ class Configuration : public QWidget
 
 		// ----------------------------------------------------------
 
+		bool flip;
 		bool freeze;
 		bool running;
 		bool changed;
 		MDMA::calibration calibration_status;
-		QVector<QPoint> user_mask;
+		QList<QPoint> user_mask;
 		cv::Mat close_calib;
 		cv::Mat open_calib;
+
+		HandDescriptor left_hand;
+		HandDescriptor right_hand;
 
 		// ----------------------------------------------------------
 

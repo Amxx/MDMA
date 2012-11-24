@@ -174,12 +174,12 @@ QList<MDMA::event> EventZone::update(HandDescriptor& main)
             }
             else
             {
-                if(main.ouverture > main.seuil)
+				if(main.open)
                 {
                     hand_open = true;
                     is_active = false;
                 }
-                else if(hand_in && hand_open && main.ouverture < main.seuil)
+				else if(hand_in && hand_open && !main.open)
                 {
                     hand_open = false;
                     is_active = true;
@@ -217,18 +217,18 @@ QList<MDMA::event> EventZone::update(HandDescriptor& main)
                 {
                     if(active[MDMA::ENTER] != MDMA::NOTHING)
                         msgs << MDMA::ENTER;
-                    hand_open = main.ouverture > main.seuil;
+					hand_open = main.open;
                     hand_in = true;
                 }
                 else
                 {
-                    if(!hand_open && main.ouverture > main.seuil)
+					if(!hand_open && main.open)
                     {
                         if(active[MDMA::OPEN] != MDMA::NOTHING)
                             msgs << MDMA::OPEN;
                         hand_open = true;
                     }
-                    if(hand_open && main.ouverture < main.seuil)
+					if(hand_open && !main.open)
                     {
                         if(active[MDMA::CLOSE] != MDMA::NOTHING)
                             msgs << MDMA::CLOSE;

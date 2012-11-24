@@ -44,7 +44,6 @@ namespace MDMA
 	enum calibration
 	{
 		NOT_CALIBRATED,
-		PORT,
 		MASK_DRAW,
 		HANDS_CLOSED,
 		HANDS_OPEN,
@@ -58,9 +57,15 @@ namespace MDMA
 	const QColor temp_color = QColor(255, 255, 78, 128);
 	const QColor text_color = Qt::white;
 
+	const QList<QPoint> zone_leftopen = QList<QPoint>() << QPoint(40, 50) << QPoint(140, 50) << QPoint(140, 150) << QPoint(40, 150);
+	const QList<QPoint> zone_rightopen = QList<QPoint>() << QPoint(500, 50) << QPoint(600, 50) << QPoint(600, 150) << QPoint(500, 150);
+	const QList<QPoint> zone_leftclose = QList<QPoint>() << QPoint(40, 150) << QPoint(140, 150) << QPoint(140, 250) << QPoint(40, 250);
+	const QList<QPoint> zone_rightclose = QList<QPoint>() << QPoint(500, 150) << QPoint(600, 150) << QPoint(600, 250) << QPoint(500, 250);
+
 	QString type_to_string(type t);
 	QColor type_to_border_color(type t, bool emph = false, bool alpha = true);
 	QColor type_to_fill_color(type t, bool emph = false, bool alpha = true);
+
 	int is_midi(active s);
 }
 

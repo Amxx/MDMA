@@ -3,10 +3,13 @@
 
 Configuration::Configuration(Ui::MainWindow *_ui, QWidget* parent) :
 	QWidget(parent),
+	flip(true),
 	freeze(false),
 	running(false),
 	changed(false),
 	calibration_status(MDMA::NOT_CALIBRATED),
+	left_hand(0, 0, true),
+	right_hand(0, 0, false),
 	cameraPort(0),
 	ui(_ui)
 {
@@ -147,7 +150,7 @@ void Configuration::displayMask(QPainter& painter)
 	painter.setPen(QPen(QBrush(MDMA::mask_color), 1, Qt::SolidLine, Qt::RoundCap));
 	painter.setBrush(QBrush(MDMA::mask_color));
 	QPolygon poly;
-	for(QPoint& p : user_mask.toList()) poly << p;
+	for(QPoint& p : user_mask) poly << p;
 	painter.drawPolygon(poly);
 }
 

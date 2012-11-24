@@ -13,6 +13,7 @@
 #include "handclosewindow.h"
 #include "handopenwindow.h"
 #include "maskwindow.h"
+#include "../classes/handtracking.h"
 #include "../objects/configuration.h"
 #include "../objects/cameramanager.h"
 #include "../objects/midimanager.h"
@@ -40,13 +41,15 @@ class MainWindow : public QMainWindow
 		void on_actionAbout_Qt_triggered();
 
 		void on_pushButton_run_clicked();
-		void on_pushButton_configure_pressed();
+		void on_pushButton_calibrate_clicked();
+		void on_pushButton_configure_clicked();
 		void on_pushButton_delete_clicked();
 		void on_pushButton_deleteAll_clicked();
 		void on_pushButton_edit_clicked();
 		void on_comboBox_tab_currentIndexChanged(int index);
 
 		void on_actionAbout_MDMA_triggered();
+
 
 	private:
 		void ui_disable(bool b = true, bool all = false);
@@ -55,6 +58,7 @@ class MainWindow : public QMainWindow
 
 		Configuration config;
 		CameraManager camera_manager;
+		HandTracking handtracking;
 		MidiManager midi_manager;
 		ZoneManager zone_manager;
 

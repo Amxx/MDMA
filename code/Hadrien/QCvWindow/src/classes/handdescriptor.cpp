@@ -8,29 +8,27 @@ HandDescriptor::HandDescriptor() :
 	last_acc(),
 	curr_acc(),
 	left(false),
-	ouverture(0),
-	seuil(0),
+	open(false),
 	duration(0),
 	lastUpdate(time(NULL))
 {
 }
 
-HandDescriptor::HandDescriptor(int x, int y) :
+HandDescriptor::HandDescriptor(int x, int y, bool isleft) :
 	last_pos(x, y),
 	curr_pos(x, y),
 	last_speed(),
 	curr_speed(),
 	last_acc(),
 	curr_acc(),
-	left(false),
-	ouverture(0),
-	seuil(0),
+	left(isleft),
+	open(false),
 	duration(0),
 	lastUpdate(time(NULL))
 {
 }
 
-void HandDescriptor::updatePos(int x, int y)
+void HandDescriptor::updatePos(int x, int y, bool isopen)
 {
 	last_pos = curr_pos;
 	curr_pos = QPoint(x,y);
@@ -38,6 +36,8 @@ void HandDescriptor::updatePos(int x, int y)
 	curr_speed = (curr_pos - last_pos) / 2;
 	last_acc = curr_acc;
 	curr_acc = (curr_speed - last_speed) / 2;
+
+	open = isopen;
 
 	duration = time(NULL)-lastUpdate;
     lastUpdate = time(NULL);

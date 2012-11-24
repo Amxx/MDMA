@@ -11,7 +11,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow),
 	config(ui, this),
-	camera_manager(config, this),
+	camera_manager(config, handtracking, this),
+	handtracking(config.left_hand, config.right_hand),
 	midi_manager(),
 	zone_manager(config, this)
 {
@@ -63,7 +64,6 @@ void MainWindow::mousePressEvent(QMouseEvent* ev)
 						break;
 				}
 			}
-		case MDMA::PORT:
 		case MDMA::HANDS_CLOSED:
 		case MDMA::HANDS_OPEN:
 			break;
@@ -174,30 +174,11 @@ void MainWindow::on_pushButton_run_clicked()
 	}
 }
 
-void MainWindow::on_pushButton_configure_pressed()
+void MainWindow::on_pushButton_calibrate_clicked()
 {
-	MDMA::calibration old_calib = config.calibration_status;
 	QEventLoop loop;
 	zone_manager.reset_clic();
 	ui_disable(true, true);
-
-	// -------------------------------------------------------
-
-	config.calibration_status = MDMA::PORT;
-
-	ConfigWindow config_window(midi_manager, config, 0);
-	config_window.show();
-	connect(&config_window, SIGNAL(finished(int)), &loop, SLOT(quit()));
-	loop.exec();
-
-	// -------------------------------------------------------
-
-	if(config_window.result() == QDialog::Rejected)
-	{
-		config.calibration_status = old_calib;
-		ui_disable(false, true);
-		return;
-	}
 
 	// -------------------------------------------------------
 
@@ -214,8 +195,9 @@ void MainWindow::on_pushButton_configure_pressed()
 
 	if(mask_window.result() == QDialog::Rejected)
 	{
-		config.calibration_status = (config.user_mask.empty())?MDMA::NOT_CALIBRATED:old_calib;
+		config.calibration_status = MDMA::NOT_CALIBRATED;
 		ui_disable(false, true);
+		ui->pushButton_calibrate->setText("Calibrate");
 		return;
 	}
 
@@ -234,6 +216,7 @@ void MainWindow::on_pushButton_configure_pressed()
 	{
 		config.calibration_status = MDMA::NOT_CALIBRATED;
 		ui_disable(false, true);
+		ui->pushButton_calibrate->setText("Calibrate");
 		return;
 	}
 
@@ -252,15 +235,37 @@ void MainWindow::on_pushButton_configure_pressed()
 	{
 		config.calibration_status = MDMA::NOT_CALIBRATED;
 		ui_disable(false, true);
+		ui->pushButton_calibrate->setText("Calibrate");
 		return;
 	}
 
-	// -------------------------------------------------------
 
-	config.calibration_status = MDMA::CALIBRATED;
+	// -------------------------------------------------------
+	try
+	{
+		handtracking.Calibrate(config.close_calib, MDMA::zone_leftclose, MDMA::zone_rightclose, config.open_calib, MDMA::zone_leftopen, MDMA::zone_rightopen, config.user_mask);
+		config.calibration_status = MDMA::CALIBRATED;
+		ui->pushButton_calibrate->setText("Recalibrate");
+		QMessageBox::information(this, "Calibration succesfull", "Calibration succesfull, run is now available");
+	}
+	catch(std::exception& e)
+	{
+		config.calibration_status = MDMA::NOT_CALIBRATED;
+		ui->pushButton_calibrate->setText("Calibrate");
+		QMessageBox::critical(this, "Calibration unsuccesfull", "Calibration failled due to lack of contrast");
+	}
+	// -------------------------------------------------------
 	ui_disable(false, true);
-	QMessageBox::information(this, "Calibration succesfull", "Calibration succesfull, run is now available	");
 }
+
+
+void MainWindow::on_pushButton_configure_clicked()
+{
+	ConfigWindow config_window(midi_manager, config, 0);
+	config_window.exec();
+	ui_disable(false, true);
+}
+
 
 void MainWindow::on_pushButton_edit_clicked()
 {
@@ -327,6 +332,7 @@ void MainWindow::ui_disable(bool b, bool all)
 {
 	ui->menubar->setDisabled(b);
 	ui->comboBox_tab->setDisabled(b);
+	ui->pushButton_calibrate->setDisabled(b);
 	ui->pushButton_configure->setDisabled(b);
 	ui->pushButton_delete->setDisabled(b);
 	ui->pushButton_deleteAll->setDisabled(b);

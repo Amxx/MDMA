@@ -93,7 +93,6 @@ void ZoneManager::display()
 	{
 		case MDMA::NOT_CALIBRATED:
 		case MDMA::CALIBRATED:
-		case MDMA::PORT:
 			for(EventZone& evz : config.data.zones.values())
 				if(evz.tab == config.data.current_tab) evz.display(*this);
 			break;
@@ -102,14 +101,27 @@ void ZoneManager::display()
 			break;
 
 		case MDMA::HANDS_CLOSED:
-			fillRect(40, 200, 100, 100, MDMA::calib_color);
-			fillRect(500, 200, 100, 100, MDMA::calib_color);
+		{	QPolygon poly_left;
+			QPolygon poly_right;
+			for(QPoint p : MDMA::zone_leftclose) poly_left << p;
+			for(QPoint p : MDMA::zone_rightclose) poly_right << p;
+			drawPolygon(poly_left);
+			drawPolygon(poly_right);
+//			fillRect(40, 200, 100, 100, MDMA::calib_color);
+//			fillRect(500, 200, 100, 100, MDMA::calib_color);
 			break;
-
+		}
 		case MDMA::HANDS_OPEN:
-			fillRect(40, 50, 100, 100, MDMA::calib_color);
-			fillRect(500, 50, 100, 100, MDMA::calib_color);
+		{	QPolygon poly_left;
+			QPolygon poly_right;
+			for(QPoint p : MDMA::zone_leftopen) poly_left << p;
+			for(QPoint p : MDMA::zone_rightopen) poly_right << p;
+			drawPolygon(poly_left);
+			drawPolygon(poly_right);
+//			fillRect(40, 200, 100, 100, MDMA::calib_color);
+//			fillRect(500, 200, 100, 100, MDMA::calib_color);
 			break;
+		}
 	}
 
 	config.ui->label_zone->setPixmap(pixmax);

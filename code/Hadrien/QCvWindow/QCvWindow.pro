@@ -2,7 +2,9 @@ SOURCES += \
     src/main.cpp \
     src/classes/eventzone.cpp \
     src/classes/handdescriptor.cpp \
+    src/classes/handtracking.cpp \
     src/classes/RtMidi.cpp \
+    src/classes/subconfig.cpp \
     src/config/constant.cpp \
     src/objects/cameramanager.cpp \
     src/objects/configuration.cpp \
@@ -15,12 +17,13 @@ SOURCES += \
     src/UI/maskwindow.cpp \
     src/UI/mainwindow.cpp \
     src/UI/zoneeditor.cpp \
-    src/classes/subconfig.cpp \
     src/UI/notenumberwindow.cpp
 
 HEADERS += \
     src/classes/eventzone.h \
     src/classes/handdescriptor.h \
+    src/classes/handtracking.h \
+    src/classes/subconfig.h \
     src/classes/RtMidi.h \
     src/classes/RtError.h \
     src/config/constant.h \
@@ -35,7 +38,6 @@ HEADERS += \
     src/UI/mainwindow.h \
     src/UI/maskwindow.h \
     src/UI/zoneeditor.h \
-    src/classes/subconfig.h \
     src/UI/notenumberwindow.h
 
 FORMS += \

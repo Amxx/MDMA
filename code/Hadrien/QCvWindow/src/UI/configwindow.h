@@ -24,10 +24,9 @@ class ConfigWindow : public QDialog
 		void closeEvent();
 		
 	private slots:
-		void on_pushButton_cancel_clicked();
-		void on_pushButton_next_clicked();
-
 		void on_pushButton_midi_clicked();
+		void on_checkBox_flip_clicked();
+		void on_pushButton_ok_clicked();
 
 	private:
 		void refreshPorts();

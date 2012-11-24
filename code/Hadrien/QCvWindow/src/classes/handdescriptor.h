@@ -7,9 +7,9 @@
 class HandDescriptor {
 public:
     HandDescriptor();
-    HandDescriptor(int x, int y);
+	HandDescriptor(int x, int y, bool isleft);
 
-	void updatePos(int x, int y);
+	void updatePos(int x, int y, bool isopen);
 
 	QPoint last_pos;
 	QPoint curr_pos;
@@ -19,8 +19,7 @@ public:
 	QPoint curr_acc;
 
 	bool left;
-    int ouverture;
-    int seuil;
+	bool open;
 
 	time_t duration;
 	time_t lastUpdate;
