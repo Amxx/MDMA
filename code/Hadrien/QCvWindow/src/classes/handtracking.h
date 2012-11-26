@@ -43,7 +43,7 @@ class HandTracking
 		cv::Point* bodyZoneArr;
 		int bodyZoneLength;
 		//int historyLength;
-		int brThreshold; //brightness threshold
+		uchar brThreshold; //brightness threshold
 		double brThresholdAlpha; //multiplier for the brightness threshold
 		double areaThreshold;
 };

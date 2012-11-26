@@ -36,8 +36,6 @@ void HandTracking::PosAreaCalcMasked(cv::Mat img_bin, double& area, QPoint& pos)
 	cv::findContours(img_bin, contours, CV_RETR_LIST, CV_CHAIN_APPROX_TC89_L1, cv::Point(0,0));
 
 	std::vector<cv::Point> hull;
-	//qDebug() << "contour.size:" << contours.size();
-
 	cv::convexHull(cv::Mat(contours), hull);
 
 	area = cv::contourArea(hull);
@@ -88,60 +86,31 @@ void HandTracking::Calibrate(cv::Mat img1, QList<QPoint> img1hand1, QList<QPoint
     gray8b1.copyTo(gray8b1_masked);
     gray8b2.copyTo(gray8b2_masked);
 
-    //Mask img1
-	/*
-	cv::Point* m1i[] = {p11, p12, bodyZoneArr};
-	const cv::Point** mask1 = (const cv::Point **)m1i;
-    int m1li[] = {len11, len12, bodyZoneLength};
-    const int* mask1len = (const int *)m1li;
-	cv::fillPoly(gray8b1_masked, mask1, mask1len, 3, 255);
-	*/
+	//Mask img1
 	cv::fillPoly(gray8b1_masked, (const cv::Point**) &p11, (const int*) &len11, 1, 255);
 	cv::fillPoly(gray8b1_masked, (const cv::Point**) &p12, (const int*) &len12, 1, 255);
 	cv::fillPoly(gray8b1_masked, (const cv::Point**) &bodyZoneArr, (const int*) &bodyZoneLength, 1, 255);
 
-    //Mask img2
-	/*
-	cv::Point* m2i[] = {p21,p22,bodyZoneArr};
-	const cv::Point** mask2 = (const cv::Point **)m2i;
-	int m2li[] = {len21, len22, bodyZoneLength};
-    const int* mask2len = (const int *)m2li;
-	cv::fillPoly(gray8b2_masked, mask2, mask2len, 3, 255);
-	*/
+	//Mask img2
 	cv::fillPoly(gray8b2_masked, (const cv::Point**) &p21, (const int*) &len21, 1, 255);
 	cv::fillPoly(gray8b2_masked, (const cv::Point**) &p22, (const int*) &len22, 1, 255);
 	cv::fillPoly(gray8b2_masked, (const cv::Point**) &bodyZoneArr, (const int*) &bodyZoneLength, 1, 255);
 
     //Find darkest pixels
-	int min1 = *(std::min_element(gray8b1_masked.begin<int>(), gray8b1_masked.end<int>()));
-	int min2 = *(std::min_element(gray8b2_masked.begin<int>(), gray8b2_masked.end<int>()));
+	uchar min1 = *(std::min_element(gray8b1_masked.begin<uchar>(), gray8b1_masked.end<uchar>()));
+	uchar min2 = *(std::min_element(gray8b2_masked.begin<uchar>(), gray8b2_masked.end<uchar>()));
 
-
-		qDebug() << min1;
-		qDebug() << min2;
-
-
-	brThreshold = (int) (brThresholdAlpha * (double)std::min(min1,min2));
-
-
-		qDebug() << brThreshold;
-
-		cv::namedWindow("gray8b1_masked", 1);
-		cv::imshow("gray8b1_masked", gray8b2_masked);
-
+	brThreshold = (uchar) (brThresholdAlpha * (double)std::min(min1,min2));
 
     //Create images for area calculation
 	cv::Mat gray8b1_binarized, gray8b2_binarized;
     gray8b1_binarized = gray8b1 < brThreshold;
     gray8b2_binarized = gray8b2 < brThreshold;
 
-
-		cv::namedWindow("gray8b2", 1);
-		cv::imshow("gray8b2", gray8b2);
-
-		cv::namedWindow("gray8b2_binarized", 1);
-		cv::imshow("gray8b2_binarized", gray8b2_binarized);
-
+	cv::namedWindow("gray8b1_binarized",1);
+	cv::imshow("gray8b1_binarized", gray8b1_binarized);
+	cv::namedWindow("gray8b2_binarized",1);
+	cv::imshow("gray8b2_binarized", gray8b2_binarized);
 
 	QPoint c11, c12, c21, c22;
     double a11, a12, a21, a22;
@@ -168,9 +137,7 @@ void HandTracking::Track(cv::Mat img)
 	gray.convertTo(gray8b, CV_8U);
 
     //Mask img1
-	const cv::Point** mask = (const cv::Point **) &bodyZoneArr;
-	const int* masklen = (const int *) &bodyZoneLength;
-	cv::fillPoly(gray8b, mask, masklen, 1, 255);
+	cv::fillPoly(gray8b, (const cv::Point**) &bodyZoneArr, (const int*) &bodyZoneLength, 1, 255);
 
 //	cv::Mat gray8b_left(gray8b, true);
 //	cv::Mat gray8b_right(gray8b, true);
