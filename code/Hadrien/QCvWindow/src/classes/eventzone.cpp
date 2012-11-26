@@ -11,12 +11,12 @@ EventZone::EventZone(QPoint _P1, QPoint _P2, int _tab) :
 	P1(_P1),
 	P2(_P2),
 	tab(_tab),
-	type(MDMA::FADER),
-	is_active(false),
-	hand_in(false),
-	hand_open(false)
+    type(MDMA::FADER)
 {
-	for(int i=0; i<9; i++)
+    is_active[0] = is_active[1] = false;
+    hand_in[0] = hand_in[1] = false;
+    hand_open[0] = hand_open[1] = false;
+    for(int i=0; i<9; i++)
 	{
 		active[i] = MDMA::NOTHING;
 		signal[i] = new unsigned char[3];
@@ -31,11 +31,11 @@ EventZone::EventZone(const EventZone &cpy) :
 	P1(cpy.P1),
 	P2(cpy.P2),
 	tab(cpy.tab),
-	type(cpy.type),
-	is_active(false),
-	hand_in(false),
-	hand_open(false)
+    type(cpy.type)
 {
+    is_active[0] = is_active[1] = false;
+    hand_in[0] = hand_in[1] = false;
+    hand_open[0] = hand_open[1] = false;
 	for(int i=0; i<9; i++)
 	{
 		active[i] = cpy.active[i];
@@ -157,7 +157,7 @@ MDMA::signal EventZone::getMidi(MDMA::event ev)
 QList<MDMA::event> EventZone::update(HandDescriptor& main)
 {
     QList<MDMA::event> msgs;
-
+    const int m = (main.left) ? 0 : 1;
 
 	switch(type)
 	{
@@ -168,26 +168,26 @@ QList<MDMA::event> EventZone::update(HandDescriptor& main)
 
             if(!rect.contains(main.curr_pos))
             {
-                is_active = false;
-                hand_in = false;
-                hand_open = false;
+                is_active[m] = false;
+                hand_in[m] = false;
+                hand_open[m] = false;
             }
             else
             {
 				if(main.open)
                 {
-                    hand_open = true;
-                    is_active = false;
+                    hand_open[m] = true;
+                    is_active[m] = false;
                 }
-				else if(hand_in && hand_open && !main.open)
+                else if(hand_in[m] && hand_open[m] && !main.open)
                 {
-                    hand_open = false;
-                    is_active = true;
+                    hand_open[m] = false;
+                    is_active[m] = true;
                 }
-                hand_in = true;
+                hand_in[m] = true;
             }
 
-			if(!is_active) break;
+            if(!is_active[m]) break;
 
             if(active[MDMA::EVENT_X] != MDMA::NOTHING)
 			{
@@ -207,32 +207,32 @@ QList<MDMA::event> EventZone::update(HandDescriptor& main)
 
             if(!rect.contains(main.curr_pos))
             {
-                if(hand_in && active[MDMA::EXIT] != MDMA::NOTHING)
+                if(hand_in[m] && active[MDMA::EXIT] != MDMA::NOTHING)
                     msgs << MDMA::EXIT;
-                hand_in = false;
+                hand_in[m] = false;
             }
             else
             {
-                if(!hand_in)
+                if(!hand_in[m])
                 {
                     if(active[MDMA::ENTER] != MDMA::NOTHING)
                         msgs << MDMA::ENTER;
-					hand_open = main.open;
-                    hand_in = true;
+                    hand_open[m] = main.open;
+                    hand_in[m] = true;
                 }
                 else
                 {
-					if(!hand_open && main.open)
+                    if(!hand_open[m] && main.open)
                     {
                         if(active[MDMA::OPEN] != MDMA::NOTHING)
                             msgs << MDMA::OPEN;
-                        hand_open = true;
+                        hand_open[m] = true;
                     }
-					if(hand_open && !main.open)
+                    if(hand_open[m] && !main.open)
                     {
                         if(active[MDMA::CLOSE] != MDMA::NOTHING)
                             msgs << MDMA::CLOSE;
-                            hand_open = false;
+                            hand_open[m] = false;
                     }
                 }
             }
@@ -240,6 +240,7 @@ QList<MDMA::event> EventZone::update(HandDescriptor& main)
 		}
 		case MDMA::SEGMENT:
 		{
+            is_active[m] = false;
 			//Intersection des deux segments, celui de la zone et celui de la main
             QPoint vect_hand = main.curr_pos - main.last_pos;
 			QPoint vect_segm = P1 - P2;
@@ -262,7 +263,8 @@ QList<MDMA::event> EventZone::update(HandDescriptor& main)
 			t = vect_segm.x() * x.y() - vect_segm.y() * x.x();
 
 			if(d*t < 0 || abs(t) > abs(d)) break;
-				if(d > 0)
+            is_active[m] = true;
+            if(d > 0)
                 msgs << MDMA::IN;
             else
                 msgs << MDMA::OUT;

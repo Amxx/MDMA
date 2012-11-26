@@ -13,7 +13,7 @@ class EventManager : public QObject
 		EventManager(Configuration& _config, QObject* parent = 0);
 
 	public slots:
-		void detection(HandDescriptor& main);
+        void detection();
 
 	signals:
 		void sendMidi(MDMA::signal);
