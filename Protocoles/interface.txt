@@ -1,0 +1,34 @@
+============================ Workpackage Interface ============================
+
+\___ A été codé _______________________________________________________________
+
+> Fenetre de vue generale
+> Acquisition de la webcam
+> Interface d'ajout/edition de zone
+	- Activation/desactivation des champs en fonction du type de signal
+	- Aide de selection de note
+> Affichage interactive des zones
+> Chargement/sauvegarde de zones
+	- Nouvelle configuraion
+	- Chargement
+	- Enregistrement
+	- Enregistrement sous
+> Interface de calibration
+	- Selection de port midi
+	- Freeze de l'image pour le dessin
+	
+	
+\___ A tester _________________________________________________________________
+
+> Dependance a l'environnement (en particulier l'interface de sauvegarde)
+	- a tester sous gnome/kde/windows/mac (deja testé sous gnome shell et xfce)
+> Modification de zones (renomage)
+> Enregistrement/chargement des configurations entre differents
+  environnement/OS
+	
+	
+\___ A completer ______________________________________________________________
+
+> Aide MDMA
+> Texte Calibration
+> Traduction
