@@ -50,18 +50,17 @@ FORMS += \
     src/UI/notenumberwindow.ui
 
 LIBS += \
-    /usr/lib/libopencv_calib3d.so \
-    /usr/lib/libopencv_core.so \
-    /usr/lib/libopencv_flann.so \
-    /usr/lib/libopencv_highgui.so \
-    /usr/lib/libopencv_legacy.so \
-    /usr/lib/libopencv_objdetect.so \
-    /usr/lib/libopencv_contrib.so \
-    /usr/lib/libopencv_features2d.so \
-    /usr/lib/libopencv_gpu.so \
-    /usr/lib/libopencv_imgproc.so \
-    /usr/lib/libopencv_ml.so \
-    /usr/lib/libopencv_video.so
+#    /usr/lib/libopencv_calib3d.so.2.3.1 \
+    /usr/lib/libopencv_core.so.2.3.1 \
+#    /usr/lib/libopencv_flann.so.2.3.1 \
+    /usr/lib/libopencv_highgui.so.2.3.1 \
+#    /usr/lib/libopencv_legacy.so.2.3.1 \
+#    /usr/lib/libopencv_objdetect.so.2.3.1 \
+#    /usr/lib/libopencv_contrib.so.2.3.1 \
+#    /usr/lib/libopencv_features2d.so.2.3.1 \
+    /usr/lib/libopencv_imgproc.so.2.3.1
+#    /usr/lib/libopencv_ml.so.2.3.1 \
+#    /usr/lib/libopencv_video.so.2.3.1
 
 macx {
     LIBS += -ljack
@@ -71,7 +70,7 @@ macx {
 }
 
 QMAKE_CXXFLAGS += \
-    -std=c++11
+    -std=c++0x
 
 CONFIG += \
     console \
