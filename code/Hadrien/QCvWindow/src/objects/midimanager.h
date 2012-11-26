@@ -6,13 +6,21 @@
 
 #include "../classes/RtMidi.h"
 
+#ifdef WIN32
+#include "../include/teVirtualMIDI.h"
+#endif //WIN32
+
 class MidiManager : public QObject, public RtMidiOut
 {
 	Q_OBJECT
 
-	private LPVM_MIDI_PORT port; // L'initialiser à NULL dans le constructeur
+#ifdef WIN32
+	private:
+		LPVM_MIDI_PORT port; // L'initialiser  NULL dans le constructeur
+#endif //WIN32
 
 	public:
+		MidiManager();
 		~MidiManager() throw();
 
 	public slots:
@@ -23,4 +31,3 @@ class MidiManager : public QObject, public RtMidiOut
 };
 
 #endif //MIDIMANAGER_H
-

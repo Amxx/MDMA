@@ -2,9 +2,18 @@
 
 #include <vector>
 
+MidiManager::MidiManager()
+{
+#ifdef WIN32
+	port = NULL;
+#endif //WIN32
+}
+
 MidiManager::~MidiManager() throw()
 {
-
+#ifdef WIN32
+	if(port != NULL) virtualMIDIClosePort( port );
+#endif //WIN32
 }
 
 void MidiManager::createPort(QString name)
@@ -15,24 +24,22 @@ void MidiManager::createPort(QString name)
 
 #ifdef WIN32
 	// Go VirtuamMIDISDK
-	// Pour ça il faut ajouter le teVirtualMIDI.h, ainsi que compiler avec teVirtualMIDI32.lib
+	// Pour a il faut ajouter le teVirtualMIDI.h, ainsi que compiler avec teVirtualMIDI32.lib
 
-	// On a besoin du nom de port en LPCWSTR, d'où le code un peu dégueu qui va suivre
-    int len;
-    int slength = (int)name.length() + 1;
-    len = MultiByteToWideChar(CP_ACP, 0, name.c_str(), slength, 0, 0);
-    wchar_t* buf = new wchar_t[len];
-    MultiByteToWideChar(CP_ACP, 0, name.c_str(), slength, buf, len);
-    std::wstring r(buf);
-    delete[] buf;
+	// On a besoin du nom de port en LPCWSTR, d'o le code un peu dgueu qui va suivre
+	int len;
+	int slength = (int)name.length() + 1;
+	len = MultiByteToWideChar(CP_ACP, 0, name.c_str(), slength, 0, 0);
+	wchar_t* buf = new wchar_t[len];
+	MultiByteToWideChar(CP_ACP, 0, name.c_str(), slength, buf, len);
+	std::wstring r(buf);
+	delete[] buf;
 
-    port = virtualMIDICreatePortEx2(r.c_str, teVMCallback, 0, MAX_SYSEX_BUFFER, TE_VM_FLAGS_PARSE_RX );
+	port = virtualMIDICreatePortEx2(r.c_str, teVMCallback, 0, MAX_SYSEX_BUFFER, TE_VM_FLAGS_PARSE_RX );
 	if ( !port ) {
 		printf( "could not create port: %d\n", GetLastError() );
 	}
-    // A ce moment là, le port est créé et il est possible de s'y connecter
-
-	// Il faut ajouter "if(port != NULL) virtualMIDIClosePort( port );" dans le destructeur
+	// A ce moment l, le port est cr et il est possible de s'y connecter
 #endif
 }
 

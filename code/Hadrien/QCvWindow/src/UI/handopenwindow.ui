@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Configuration - 4/4</string>
+   <string>Calibration - 3/3</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../ressources.qrc">

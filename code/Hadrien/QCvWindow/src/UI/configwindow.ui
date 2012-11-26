@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Configuration - 1/4</string>
+   <string>Configuration</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../ressources.qrc">
@@ -42,7 +42,7 @@
   </widget>
   <widget class="QPushButton" name="pushButton_midi">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="geometry">
     <rect>
