@@ -51,14 +51,14 @@ FORMS += \
 
 LIBS += \
 #    /usr/lib/libopencv_calib3d.so.2.3.1 \
-    /usr/lib/libopencv_core.so.2.3.1 \
+    -lopencv_core \
 #    /usr/lib/libopencv_flann.so.2.3.1 \
-    /usr/lib/libopencv_highgui.so.2.3.1 \
+    -lopencv_highgui \
 #    /usr/lib/libopencv_legacy.so.2.3.1 \
 #    /usr/lib/libopencv_objdetect.so.2.3.1 \
 #    /usr/lib/libopencv_contrib.so.2.3.1 \
 #    /usr/lib/libopencv_features2d.so.2.3.1 \
-    /usr/lib/libopencv_imgproc.so.2.3.1
+    -lopencv_imgproc
 #    /usr/lib/libopencv_ml.so.2.3.1 \
 #    /usr/lib/libopencv_video.so.2.3.1
 
