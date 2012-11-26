@@ -16,7 +16,7 @@ class MaskWindow : public QDialog
 		Q_OBJECT
 		
 	public:
-		MaskWindow(Configuration& _config, QWidget *parent = 0);
+		MaskWindow(QWidget *parent = 0);
 		~MaskWindow();
 		void closeEvent();
 		
@@ -28,7 +28,6 @@ class MaskWindow : public QDialog
 
 	private:
 		QTimer timer;
-		Configuration& config;
 		Ui::MaskWindow *ui;
 };
 

@@ -19,7 +19,7 @@ class ConfigWindow : public QDialog
 		Q_OBJECT
 		
 	public:
-		ConfigWindow(MidiManager& _midi, Configuration& _config, QWidget *parent = 0);
+		ConfigWindow(MidiManager& _midi, QWidget *parent = 0);
 		~ConfigWindow();
 		void closeEvent();
 		
@@ -32,7 +32,6 @@ class ConfigWindow : public QDialog
 		void refreshPorts();
 
 		MidiManager& midi;
-		Configuration& config;
 		Ui::ConfigWindow *ui;
 };
 

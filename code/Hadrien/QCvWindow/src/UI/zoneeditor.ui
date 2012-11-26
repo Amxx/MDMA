@@ -120,7 +120,7 @@
     <enum>QTabWidget::Rounded</enum>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab_Fader">
     <attribute name="title">
@@ -160,7 +160,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_axex_2">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -179,7 +179,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_axex_1">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -301,7 +301,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_axey_1">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -317,7 +317,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_axey_2">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -411,7 +411,7 @@
       <number>127</number>
      </property>
      <property name="value">
-      <number>0</number>
+      <number>64</number>
      </property>
     </widget>
     <widget class="QSpinBox" name="spinBox_axey_3">
@@ -429,8 +429,11 @@
      <property name="maximum">
       <number>127</number>
      </property>
+     <property name="singleStep">
+      <number>1</number>
+     </property>
      <property name="value">
-      <number>0</number>
+      <number>64</number>
      </property>
     </widget>
    </widget>
@@ -520,7 +523,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_enter_1">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -604,7 +607,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_exit_1">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -620,7 +623,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_open_1">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -636,7 +639,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_close_1">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -652,7 +655,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_shock_1">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -668,7 +671,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_enter_2">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -687,7 +690,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_exit_2">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -703,7 +706,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_open_2">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -719,7 +722,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_close_2">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -735,7 +738,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_shock_2">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -751,7 +754,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_enter_3">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -767,7 +770,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_exit_3">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -783,7 +786,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_open_3">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -799,7 +802,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_close_3">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -815,7 +818,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_shock_3">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -1225,7 +1228,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_in_1">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -1244,7 +1247,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_in_3">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -1260,7 +1263,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_in_2">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -1405,7 +1408,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_out_1">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -1424,7 +1427,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_out_2">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -1440,7 +1443,7 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_out_3">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>

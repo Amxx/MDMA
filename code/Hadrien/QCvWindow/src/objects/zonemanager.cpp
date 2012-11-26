@@ -1,10 +1,9 @@
 #include "zonemanager.h"
 #include "ui_mainwindow.h"
 
-ZoneManager::ZoneManager(Configuration& _config, QObject *parent) :
+ZoneManager::ZoneManager(QObject *parent) :
 	QObject(parent),
 	QPainter(),
-	config(_config),
 	pixmax(640,480),
 	P1(-1, -1),
 	P2(-1, -1)
@@ -38,19 +37,19 @@ void ZoneManager::set_zone(QPoint pointer)
 	{
 		P2 = pointer;
 
-		EventZone evz(P1, P2, config.data.current_tab);
+		EventZone evz(P1, P2, Configuration::config().data.current_tab);
 		ZoneEditor popup(evz);
 		if(popup.exec())
 		{
-			if(config.data.zones.find(evz.name) != config.data.zones.end())
+			if(Configuration::config().data.zones.find(evz.name) != Configuration::config().data.zones.end())
 			{
 				int i = 0;
-				while(config.data.zones.find(evz.name+"_"+QString::number(i)) != config.data.zones.end()) i++;
+				while(Configuration::config().data.zones.find(evz.name+"_"+QString::number(i)) != Configuration::config().data.zones.end()) i++;
 				evz.name+=("_"+QString::number(i));
 			}
-			config.data.zones.insert(evz.name, evz);
-			config.ui->treeWidget_list->addTopLevelItem(new QTreeWidgetItem(QStringList() << evz.name << MDMA::type_to_string(evz.type) << QString::number(evz.tab+1)));
-			config.changed = true;
+			Configuration::config().data.zones.insert(evz.name, evz);
+			Configuration::config().ui->treeWidget_list->addTopLevelItem(new QTreeWidgetItem(QStringList() << evz.name << MDMA::type_to_string(evz.type) << QString::number(evz.tab+1)));
+			Configuration::config().changed = true;
 		}
 		reset_clic();
 	}
@@ -80,21 +79,21 @@ void ZoneManager::display()
 		}
 	}
 
-	if(config.freeze)
+	if(Configuration::config().freeze)
 	{
 		setPen(MDMA::text_color);
 		fillRect(QRect(5, 5, 150, 30), MDMA::mask_color);
 		drawText(QRect(5, 5, 150, 30), Qt::AlignCenter, "Display Freezed");
 	}
 
-	config.displayMask(*this);
+	Configuration::config().displayMask(*this);
 
-	switch(config.calibration_status)
+	switch(Configuration::config().calibration_status)
 	{
 		case MDMA::NOT_CALIBRATED:
 		case MDMA::CALIBRATED:
-			for(EventZone& evz : config.data.zones.values())
-				if(evz.tab == config.data.current_tab) evz.display(*this);
+			for(EventZone& evz : Configuration::config().data.zones.values())
+				if(evz.tab == Configuration::config().data.current_tab) evz.display(*this);
 			break;
 
 		case MDMA::MASK_DRAW:
@@ -124,5 +123,5 @@ void ZoneManager::display()
 		}
 	}
 
-	config.ui->label_zone->setPixmap(pixmax);
+	Configuration::config().ui->label_zone->setPixmap(pixmax);
 }

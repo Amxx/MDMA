@@ -1,14 +1,13 @@
 #include "configwindow.h"
 #include "ui_configwindow.h"
 
-ConfigWindow::ConfigWindow(MidiManager &_midi, Configuration &_config, QWidget *parent) :
+ConfigWindow::ConfigWindow(MidiManager &_midi, QWidget *parent) :
 	QDialog(parent),
 	midi(_midi),
-	config(_config),
 	ui(new Ui::ConfigWindow)
 {
 	ui->setupUi(this);
-	ui->checkBox_flip->setChecked(config.flip);
+	ui->checkBox_flip->setChecked(Configuration::config().flip);
 	refreshPorts();
 }
 
@@ -52,7 +51,7 @@ void ConfigWindow::refreshPorts()
 
 void ConfigWindow::on_checkBox_flip_clicked()
 {
-	config.flip = ui->checkBox_flip->isChecked();
+	Configuration::config().flip = ui->checkBox_flip->isChecked();
 }
 
 

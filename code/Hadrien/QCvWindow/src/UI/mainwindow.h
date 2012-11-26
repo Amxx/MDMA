@@ -47,7 +47,6 @@ class MainWindow : public QMainWindow
 		void on_pushButton_deleteAll_clicked();
 		void on_pushButton_edit_clicked();
 		void on_comboBox_tab_currentIndexChanged(int index);
-
 		void on_actionAbout_MDMA_triggered();
 
 
@@ -56,7 +55,6 @@ class MainWindow : public QMainWindow
 
 		Ui::MainWindow *ui;
 
-		Configuration config;
 		CameraManager camera_manager;
 		HandTracking handtracking;
 		MidiManager midi_manager;

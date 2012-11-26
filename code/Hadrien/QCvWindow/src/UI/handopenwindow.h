@@ -16,7 +16,7 @@ class HandOpenWindow : public QDialog
 		Q_OBJECT
 		
 	public:
-		HandOpenWindow(Configuration& _config, QWidget *parent = 0);
+		HandOpenWindow(QWidget *parent = 0);
 		~HandOpenWindow();
 		void closeEvent();
 		
@@ -28,7 +28,6 @@ class HandOpenWindow : public QDialog
 
 	private:
 		QTimer timer;
-		Configuration& config;
 		Ui::HandOpenWindow *ui;
 };
 

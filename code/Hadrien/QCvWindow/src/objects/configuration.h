@@ -25,9 +25,17 @@ namespace Ui {
 class Configuration : public QWidget
 {
 		Q_OBJECT
-	public:
-		Configuration(Ui::MainWindow *_ui, QWidget *parent = 0);
+
+		Configuration();
 		~Configuration();
+
+	public:
+		static Configuration& config() {
+			static Configuration myconfig;   // Instantiated when this function is called
+			return myconfig;
+		}
+
+		void initialize(Ui::MainWindow *_ui);
 
 		// ----------------------------------------------------------
 		// Methode

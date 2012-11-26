@@ -1,32 +1,31 @@
 #include "eventmanager.h"
 
-EventManager::EventManager(Configuration &_config, QObject* parent) :
-	QObject(parent),
-	config(_config)
+EventManager::EventManager(QObject* parent) :
+	QObject(parent)
 {
 }
 
 
 void EventManager::detection()
 {
-	for(EventZone& evz : config.data.zones.values())
+	for(EventZone& evz : Configuration::config().data.zones.values())
     {
-		if(evz.tab == config.data.current_tab)
+		if(evz.tab == Configuration::config().data.current_tab)
         {
-            QList<MDMA::event> msgs = evz.update(config.left_hand);
+			QList<MDMA::event> msgs = evz.update(Configuration::config().left_hand);
             for(MDMA::event msg: msgs)
             {
                 MDMA::signal midi;
                 switch(evz.active[msg])
                 {
                 case MDMA::GOTO_TAB1:
-                    config.setCurrentTab(0);
+					Configuration::config().setCurrentTab(0);
                     break;
                 case MDMA::GOTO_TAB2:
-                    config.setCurrentTab(1);
+					Configuration::config().setCurrentTab(1);
                     break;
                 case MDMA::GOTO_TAB3:
-                    config.setCurrentTab(2);
+					Configuration::config().setCurrentTab(2);
                     break;
                 default:
                     midi = evz.getMidi(msg);
@@ -34,20 +33,20 @@ void EventManager::detection()
                         emit sendMidi(midi);
                 }
             }
-            msgs = evz.update(config.right_hand);
+			msgs = evz.update(Configuration::config().right_hand);
             for(MDMA::event msg: msgs)
             {
                 MDMA::signal midi;
                 switch(evz.active[msg])
                 {
                 case MDMA::GOTO_TAB1:
-                    config.setCurrentTab(0);
+					Configuration::config().setCurrentTab(0);
                     break;
                 case MDMA::GOTO_TAB2:
-                    config.setCurrentTab(1);
-                    break;
+					Configuration::config().setCurrentTab(1);
+					break;
                 case MDMA::GOTO_TAB3:
-                    config.setCurrentTab(2);
+					Configuration::config().setCurrentTab(2);
                     break;
                 default:
                     midi = evz.getMidi(msg);

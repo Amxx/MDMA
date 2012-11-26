@@ -1,8 +1,7 @@
 #include "configuration.h"
 #include "ui_mainwindow.h"
 
-Configuration::Configuration(Ui::MainWindow *_ui, QWidget* parent) :
-	QWidget(parent),
+Configuration::Configuration() :
 	flip(true),
 	freeze(false),
 	running(false),
@@ -10,14 +9,18 @@ Configuration::Configuration(Ui::MainWindow *_ui, QWidget* parent) :
 	calibration_status(MDMA::NOT_CALIBRATED),
 	left_hand(0, 0, true),
 	right_hand(0, 0, false),
-	cameraPort(0),
-	ui(_ui)
+	cameraPort(0)
 {
 	setCamera();
 }
 
 Configuration::~Configuration()
 {
+}
+
+void Configuration::initialize(Ui::MainWindow *_ui)
+{
+	ui = _ui;
 }
 
 // =========================================================================================================

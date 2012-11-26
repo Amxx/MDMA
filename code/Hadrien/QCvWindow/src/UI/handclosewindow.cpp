@@ -1,9 +1,8 @@
 #include "handclosewindow.h"
 #include "ui_handclosewindow.h"
 
-HandCloseWindow::HandCloseWindow(Configuration& _config, QWidget *parent) :
+HandCloseWindow::HandCloseWindow(QWidget *parent) :
 	QDialog(parent),
-	config(_config),
 	ui(new Ui::HandCloseWindow)
 {
 	ui->setupUi(this);
@@ -24,7 +23,7 @@ void HandCloseWindow::closeEvent()
 
 void HandCloseWindow::on_pushButton_next_clicked()
 {
-	if(config.close_calib.empty())
+	if(Configuration::config().close_calib.empty())
 		QMessageBox::critical(this, "", "");
 	else
 		accept();
@@ -38,7 +37,7 @@ void HandCloseWindow::on_pushButton_cancel_clicked()
 void HandCloseWindow::on_pushButton_clicked()
 {
 	timer.start(1000);
-	config.freeze = false;
+	Configuration::config().freeze = false;
 	ui->pushButton->setDisabled(true);
 	ui->pushButton_cancel->setDisabled(true);
 	ui->pushButton_next->setDisabled(true);
@@ -50,7 +49,7 @@ void HandCloseWindow::set_number()
 	switch(ui->lcdNumber->intValue())
 	{
 		case 0:
-			config.close_calib = config.current_frame;
+			Configuration::config().close_calib = Configuration::config().current_frame;
 
 			timer.stop();
 			ui->pushButton->setDisabled(false);

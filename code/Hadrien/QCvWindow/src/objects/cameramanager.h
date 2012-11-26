@@ -14,7 +14,7 @@ class CameraManager : public QObject
 {
 		Q_OBJECT
 	public:
-		CameraManager(Configuration& _config, HandTracking & _handtracking, QObject *parent = 0);
+		CameraManager(HandTracking & _handtracking, QObject *parent = 0);
 		~CameraManager();
 
 	protected:
@@ -24,7 +24,6 @@ class CameraManager : public QObject
 		void track_updated();
 
 	private:
-		Configuration& config;
 		HandTracking& handtracking;
 		void display();
 };
