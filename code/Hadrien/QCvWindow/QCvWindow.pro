@@ -73,8 +73,7 @@ QMAKE_CXXFLAGS += \
     -std=c++0x
 
 CONFIG += \
-    console \
-#    Debug debug
+    console
 
 Release:DESTDIR = release
 Release:OBJECTS_DIR = release/.obj
