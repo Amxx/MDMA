@@ -12,26 +12,30 @@ MidiManager::MidiManager()
 MidiManager::~MidiManager() throw()
 {
 #ifdef WIN32
-	if(port != NULL) virtualMIDIClosePort( port );
+	if(port != NULL) virtualMIDIClosePort( port ); // This closes the port opened by virtualMIDISDK (if it exists)
 #endif //WIN32
+
+	closePort(); // This closes an open MIDI connection initiated by RtMidiOut (if one exists)
 }
 
 void MidiManager::createPort(QString name)
 {
+	closePort();
+
 #ifndef WIN32
 	openVirtualPort(name.toStdString());
 #endif
 
 #ifdef WIN32
 	// Go VirtuamMIDISDK
-	// Pour a il faut ajouter le teVirtualMIDI.h, ainsi que compiler avec teVirtualMIDI32.lib
+	// Pour ca il faut ajouter le teVirtualMIDI.h, ainsi que compiler avec teVirtualMIDI32.lib
 
 	if(port != NULL) {
 		virtualMIDIClosePort(port);
 		port = NULL;
 	}
 
-	// On a besoin du nom de port en LPCWSTR, d'o le code un peu dgueu qui va suivre
+	// We need the name of the MIDI port in LPCWSTR, this this awfull part of code
 	int len;
 	int slength = (int)name.length() + 1;
 	len = MultiByteToWideChar(CP_ACP, 0, name.c_str(), slength, 0, 0);
@@ -49,6 +53,8 @@ void MidiManager::createPort(QString name)
 
 void MidiManager::changePort(int n)
 {
+	closePort();
+
 #ifdef WIN32
 	if(port != NULL) {
 		virtualMIDIClosePort( port );
