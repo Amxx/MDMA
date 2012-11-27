@@ -107,6 +107,7 @@ void HandTracking::Calibrate(cv::Mat img1, QList<QPoint> img1hand1, QList<QPoint
     gray8b1_binarized = gray8b1 < brThreshold;
     gray8b2_binarized = gray8b2 < brThreshold;
 
+
 	cv::namedWindow("gray8b1_binarized",1);
 	cv::imshow("gray8b1_binarized", gray8b1_binarized);
 	cv::namedWindow("gray8b2_binarized",1);

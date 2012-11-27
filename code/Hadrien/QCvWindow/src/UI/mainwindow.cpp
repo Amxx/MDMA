@@ -241,8 +241,8 @@ void MainWindow::on_pushButton_calibrate_clicked()
 		return;
 	}
 
-
 	// -------------------------------------------------------
+
 	try
 	{
 		handtracking.Calibrate(Configuration::config().close_calib, MDMA::zone_leftclose, MDMA::zone_rightclose,

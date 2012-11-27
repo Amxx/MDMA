@@ -50,7 +50,7 @@ void HandOpenWindow::set_number()
 	switch(ui->lcdNumber->intValue())
 	{
 		case 0:
-			Configuration::config().open_calib = Configuration::config().current_frame;
+			Configuration::config().current_frame.copyTo(Configuration::config().open_calib);
 
 			timer.stop();
 			ui->pushButton->setDisabled(false);
