@@ -173,19 +173,13 @@ int main()
 	note = 12 * (2 + position) + ((rand() % 2) * 12 + gamme[rand() % 4]);
 	duree = a*(rand() % b);
 
-	// Note On: 144, 64, 90
-	message[0] = 144;
-	message[1] = note;
-	message[2] = 90;
+	// Note On
 	send3(midiout, 144, note, 90);
 
 	Sleep(duree);
 
-	// Note Off: 128, 64, 40
-	message[0] = 128;
-	message[1] = note;
-	message[2] = 40;
-	send3(midiout, 128, 64, 40);
+	// Note Off
+	send3(midiout, 128, note, 40);
 	}
 	cout << "End of music." << endl;
 
