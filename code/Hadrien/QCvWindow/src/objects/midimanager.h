@@ -16,7 +16,7 @@ class MidiManager : public QObject, public RtMidiOut
 
 #ifdef WIN32
 	private:
-		LPVM_MIDI_PORT port; // L'initialiser  NULL dans le constructeur
+		LPVM_MIDI_PORT port;
 #endif //WIN32
 
 	public:

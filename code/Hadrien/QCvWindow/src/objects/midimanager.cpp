@@ -26,6 +26,11 @@ void MidiManager::createPort(QString name)
 	// Go VirtuamMIDISDK
 	// Pour a il faut ajouter le teVirtualMIDI.h, ainsi que compiler avec teVirtualMIDI32.lib
 
+	if(port != NULL) {
+		virtualMIDIClosePort(port);
+		port = NULL;
+	}
+
 	// On a besoin du nom de port en LPCWSTR, d'o le code un peu dgueu qui va suivre
 	int len;
 	int slength = (int)name.length() + 1;
@@ -39,22 +44,63 @@ void MidiManager::createPort(QString name)
 	if ( !port ) {
 		printf( "could not create port: %d\n", GetLastError() );
 	}
-	// A ce moment l, le port est cr et il est possible de s'y connecter
 #endif
 }
 
 void MidiManager::changePort(int n)
 {
+#ifdef WIN32
+	if(port != NULL) {
+		virtualMIDIClosePort( port );
+		port = NULL;
+	}
+#endif //WIN32
+
 	openPort(n);
 }
 
 void MidiManager::sendMessage(const unsigned char* msg)
 {
+#ifdef WIN32
+    if(port) { // Utilisation d'un port cree par VirtualMIDISDK
+        if(((msg[0] & 0xf0) == 0xc0) || ((msg[0] & 0xf0) == 0xd0)) // program change or channel aftertouch
+        {
+            qDebug() << "size 2: program change or channel aftertouch";
+            char midiDataBytes[2] = {msg[0], msg[1]};
+            virtualMIDISendData(port, (LPBYTE)midiDataBytes, (DWORD)16);
+        }
+        else {
+            qDebug() << "size 3";
+            char midiDataBytes[3] = {msg[0], msg[1], msg[2]};
+            virtualMIDISendData(port, (LPBYTE)midiDataBytes, (DWORD)24);
+        }
+    }
+    else { // Utilisation d'un port déjà existant
+        std::vector <unsigned char> v;
+
+        if(((msg[0] & 0xf0) == 0xc0) || ((msg[0] & 0xf0) == 0xd0)) // program change or channel aftertouch
+        {
+            qDebug() << "size 2: program change or channel aftertouch";
+            v.assign(msg, msg+2);
+        }
+        else
+        {
+            qDebug() << "size 3";
+            v.assign(msg, msg+3);
+        }
+
+        RtMidiOut::sendMessage(&v);
+
+        delete msg;
+    }
+#endif //WIN32
+
+#ifndef WIN32
 	std::vector <unsigned char> v;
 
 	if(((msg[0] & 0xf0) == 0xc0) || ((msg[0] & 0xf0) == 0xd0))//program change or channel aftertouch
 	{
-		qDebug() << "size 2 : program change or channel aftertouch";
+		qDebug() << "size 2: program change or channel aftertouch";
 		v.assign(msg, msg+2);
 	}
 	else
@@ -66,6 +112,5 @@ void MidiManager::sendMessage(const unsigned char* msg)
 	RtMidiOut::sendMessage(&v);
 
 	delete msg;
+#endif //NOT WIN32
 }
-
-
