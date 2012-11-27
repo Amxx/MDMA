@@ -1,0 +1,91 @@
+# depslib dependency file v1.0
+1350151493 source:d:\mdma\code\mdma.cpp
+	<iostream>
+	<cstdlib>
+	<map>
+	"RtMidi.h"
+	<conio.h>
+	<cstdio>
+	<windows.h>
+	<time.h>
+
+1341587105 d:\mdma\code\rtmidi.h
+	"RtError.h"
+	<string>
+	<vector>
+
+1338824525 d:\mdma\code\rterror.h
+	<exception>
+	<iostream>
+	<string>
+
+1343323887 source:d:\mdma\code\rtmidi.cpp
+	"RtMidi.h"
+	<sstream>
+	<CoreMIDI/CoreMIDI.h>
+	<CoreAudio/HostTime.h>
+	<CoreServices/CoreServices.h>
+	<pthread.h>
+	<sys/time.h>
+	<alsa/asoundlib.h>
+	<windows.h>
+	<mmsystem.h>
+	<string>
+	<vector>
+	<memory>
+	<stdexcept>
+	<sstream>
+	<windows.h>
+	<setupapi.h>
+	<mmsystem.h>
+	"ks.h"
+	"ksmedia.h"
+	<jack/jack.h>
+	<jack/midiport.h>
+	<jack/ringbuffer.h>
+
+1350147893 source:d:\mdma\creation_port_envoie_msg\mdma.cpp
+	<iostream>
+	<cstdlib>
+	<map>
+	"RtMidi.h"
+	<conio.h>
+	<cstdio>
+	<windows.h>
+	<time.h>
+
+1341583505 d:\mdma\creation_port_envoie_msg\rtmidi.h
+	"RtError.h"
+	<string>
+	<vector>
+
+1338820925 d:\mdma\creation_port_envoie_msg\rterror.h
+	<exception>
+	<iostream>
+	<string>
+
+1343320287 source:d:\mdma\creation_port_envoie_msg\rtmidi.cpp
+	"RtMidi.h"
+	<sstream>
+	<CoreMIDI/CoreMIDI.h>
+	<CoreAudio/HostTime.h>
+	<CoreServices/CoreServices.h>
+	<pthread.h>
+	<sys/time.h>
+	<alsa/asoundlib.h>
+	<windows.h>
+	<mmsystem.h>
+	<string>
+	<vector>
+	<memory>
+	<stdexcept>
+	<sstream>
+	<windows.h>
+	<setupapi.h>
+	<mmsystem.h>
+	"ks.h"
+	"ksmedia.h"
+	<jack/jack.h>
+	<jack/midiport.h>
+	<jack/ringbuffer.h>
+
