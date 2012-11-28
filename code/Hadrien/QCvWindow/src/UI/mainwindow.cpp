@@ -143,6 +143,9 @@ void MainWindow::on_actionAbout_MDMA_triggered()
 {
 	if(!Configuration::config().running)
 	{
+
+		//handtracking.hadriencalib(Configuration::config().current_frame.clone());
+
 	}
 }
 

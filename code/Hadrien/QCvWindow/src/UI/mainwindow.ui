@@ -265,6 +265,9 @@
    <property name="text">
     <string>About MDMA</string>
    </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
   </action>
   <action name="actionSave_As">
    <property name="text">
