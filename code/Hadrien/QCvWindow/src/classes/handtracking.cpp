@@ -5,7 +5,6 @@ HandTracking::HandTracking(HandDescriptor &_left, HandDescriptor &_right) :
 	h_right(_right),
 	bodyZoneArr(NULL),
 	bodyZoneLength(0),
-//	historyLength(2),
 	brThresholdAlpha(0.9)
 {
 }
@@ -32,19 +31,29 @@ void HandTracking::PosAreaCalcMasked(cv::Mat img_bin, double& area, QPoint& pos)
 	cv::erode(img_bin, img_bin, myKernel, cv::Point(-1,-1), 2);
 	cv::dilate(img_bin, img_bin, myKernel, cv::Point(-1,-1), 1);
 
+
 	std::vector<std::vector<cv::Point>> contours;
 	cv::findContours(img_bin, contours, CV_RETR_LIST, CV_CHAIN_APPROX_TC89_L1, cv::Point(0,0));
 
+		qDebug() << "nb of contours (should be >0):" << contours.size();
+
+	area = 0;
 	std::vector<cv::Point> hull;
-	cv::convexHull(cv::Mat(contours), hull);
-
-	area = cv::contourArea(hull);
-
-	pos = QPoint(0,0);
-	for(cv::Point p : hull)
-		pos += QPoint(p.x, p.y);
-
-	pos /= hull.size();
+	for(std::vector<cv::Point> contour : contours)
+	{
+		hull.clear();
+		cv::convexHull(cv::Mat(contour), hull, false);
+		double area_t = cv::contourArea(hull);
+		if(area_t > area)
+		{
+			area = area_t;
+			pos = QPoint(0, 0);
+			for(cv::Point p : hull)
+				pos += QPoint(p.x, p.y);
+			pos /= hull.size();
+		}
+	}
+	qDebug() << "largest contour : area" << area << "pos" << pos;
 }
 
 void HandTracking::PosAreaCalc(cv::Mat img_bin, cv::Point* pts, int& len, double& area, QPoint& pos)
@@ -52,11 +61,8 @@ void HandTracking::PosAreaCalc(cv::Mat img_bin, cv::Point* pts, int& len, double
 	cv::Mat mask = cv::Mat::zeros(img_bin.size(), img_bin.type());
 	cv::fillPoly(mask, (const cv::Point**) &pts, &len, 1, 255);
 	mask = img_bin & mask;
-
-
 	PosAreaCalcMasked(mask, area, pos);
 }
-
 
 void HandTracking::Calibrate(cv::Mat img1, QList<QPoint> img1hand1, QList<QPoint> img1hand2, cv::Mat img2, QList<QPoint> img2hand1, QList<QPoint> img2hand2, QList<QPoint> bodyZone)
 {
@@ -82,9 +88,8 @@ void HandTracking::Calibrate(cv::Mat img1, QList<QPoint> img1hand1, QList<QPoint
 	p22 = list2arr(img2hand2, len22);
 
     //Copy imgs to mask them
-	cv::Mat gray8b1_masked, gray8b2_masked;
-    gray8b1.copyTo(gray8b1_masked);
-    gray8b2.copyTo(gray8b2_masked);
+	cv::Mat gray8b1_masked = gray8b1.clone();
+	cv::Mat gray8b2_masked = gray8b1.clone();
 
 	//Mask img1
 	cv::fillPoly(gray8b1_masked, (const cv::Point**) &p11, (const int*) &len11, 1, 255);
@@ -104,20 +109,24 @@ void HandTracking::Calibrate(cv::Mat img1, QList<QPoint> img1hand1, QList<QPoint
 
     //Create images for area calculation
 	cv::Mat gray8b1_binarized, gray8b2_binarized;
-    gray8b1_binarized = gray8b1 < brThreshold;
-    gray8b2_binarized = gray8b2 < brThreshold;
+	gray8b1_binarized = gray8b1 < brThreshold;
+	gray8b2_binarized = gray8b2 < brThreshold;
 
-
-	cv::namedWindow("gray8b1_binarized",1);
-	cv::imshow("gray8b1_binarized", gray8b1_binarized);
-	cv::namedWindow("gray8b2_binarized",1);
-	cv::imshow("gray8b2_binarized", gray8b2_binarized);
+		qDebug() << "brThreshold :" << brThreshold;
+		cv::namedWindow("gray8b1_binarized", CV_WINDOW_AUTOSIZE);
+		cv::imshow("gray8b1_binarized", gray8b1_binarized);
+		cv::namedWindow("gray8b2_binarized", CV_WINDOW_AUTOSIZE);
+		cv::imshow("gray8b2_binarized", gray8b2_binarized);
 
 	QPoint c11, c12, c21, c22;
     double a11, a12, a21, a22;
+		qDebug()<< "__________11__________";
 	PosAreaCalc(gray8b1_binarized, p11, len11, a11, c11);
+		qDebug()<< "__________12__________";
 	PosAreaCalc(gray8b1_binarized, p12, len12, a12, c12);
+		qDebug()<< "__________21__________";
 	PosAreaCalc(gray8b2_binarized, p21, len21, a21, c21);
+		qDebug()<< "__________22__________";
 	PosAreaCalc(gray8b2_binarized, p22, len22, a22, c22);
 
     areaThreshold=(a11+a12+a21+a22)/4;
@@ -140,21 +149,16 @@ void HandTracking::Track(cv::Mat img)
     //Mask img1
 	cv::fillPoly(gray8b, (const cv::Point**) &bodyZoneArr, (const int*) &bodyZoneLength, 1, 255);
 
-//	cv::Mat gray8b_left(gray8b, true);
-//	cv::Mat gray8b_right(gray8b, true);
-	cv::Mat gray8b_left;
-	cv::Mat gray8b_right;
-	gray8b.copyTo(gray8b_left);
-	gray8b.copyTo(gray8b_right);
+	cv::Mat gray8b_left = gray8b.clone();
+	cv::Mat gray8b_right = gray8b.clone();
 
-
-	cv::Mat left_mask = cv::Mat(gray8b_left, cv::Rect(gray8b.size().width/2, 0, gray8b.size().width, gray8b.size().height));
+	cv::Mat left_mask = cv::Mat(gray8b_left, cv::Rect(0, 0, gray8b.size().width/2, gray8b.size().height));
     left_mask = 255;
-    gray8b_left=gray8b_left<brThreshold;
+	gray8b_left = gray8b_left < brThreshold;
 
-	cv::Mat right_mask = cv::Mat(gray8b_right, cv::Rect(0, 0, gray8b.size().width/2, gray8b.size().height));
+	cv::Mat right_mask = cv::Mat(gray8b_right, cv::Rect(gray8b.size().width/2, 0, gray8b.size().width, gray8b.size().height));
     right_mask = 255;
-    gray8b_right=gray8b_right<brThreshold;
+	gray8b_right = gray8b_right < brThreshold;
 
     double area_left;
 	QPoint pos_left;
@@ -167,4 +171,86 @@ void HandTracking::Track(cv::Mat img)
 	h_left.updatePos(pos_left.x(), pos_left.y(), area_left>areaThreshold);
 	h_right.updatePos(pos_right.x(), pos_right.y(), area_right>areaThreshold);
 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+using namespace std;
+using namespace cv;
+
+Mat src; Mat src_gray;
+ int thresh = 100;
+ int max_thresh = 255;
+ RNG rng(12345);
+
+void thresh_callback(int, void* )
+ {
+   Mat src_copy = src.clone();
+   Mat threshold_output;
+   vector<vector<Point> > contours;
+   vector<Vec4i> hierarchy;
+
+   /// Detect edges using Threshold
+   threshold( src_gray, threshold_output, thresh, 255, THRESH_BINARY );
+
+   /// Find contours
+   findContours( threshold_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0) );
+
+   /// Find the convex hull object for each contour
+   vector<vector<Point> >hull( contours.size() );
+   for( int i = 0; i < contours.size(); i++ )
+	  {  convexHull( Mat(contours[i]), hull[i], false ); }
+
+   /// Draw contours + hull results
+   Mat drawing = Mat::zeros( threshold_output.size(), CV_8UC3 );
+   for( int i = 0; i< contours.size(); i++ )
+	  {
+		Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+		drawContours( drawing, contours, i, color, 1, 8, vector<Vec4i>(), 0, Point() );
+		drawContours( drawing, hull, i, color, 1, 8, vector<Vec4i>(), 0, Point() );
+	  }
+
+   /// Show in a window
+   namedWindow( "Hull demo", CV_WINDOW_AUTOSIZE );
+   imshow( "Hull demo", drawing );
+ }
+void HandTracking::hadriencalib(cv::Mat img)
+{
+	src = img.clone();
+	/// Convert image to gray and blur it
+	cvtColor( src, src_gray, CV_BGR2GRAY );
+	blur( src_gray, src_gray, Size(3,3) );
+
+	/// Create Window
+	char* source_window = "Source";
+	namedWindow( source_window, CV_WINDOW_AUTOSIZE );
+	imshow( source_window, src );
+
+	createTrackbar( " Threshold:", "Source", &thresh, max_thresh, thresh_callback );
+	thresh_callback( 0, 0 );
 }

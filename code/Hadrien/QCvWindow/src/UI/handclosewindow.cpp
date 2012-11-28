@@ -49,8 +49,7 @@ void HandCloseWindow::set_number()
 	switch(ui->lcdNumber->intValue())
 	{
 		case 0:
-			Configuration::config().current_frame.copyTo(Configuration::config().close_calib);
-
+			Configuration::config().close_calib = Configuration::config().current_frame.clone();
 			timer.stop();
 			ui->pushButton->setDisabled(false);
 			ui->pushButton_cancel->setDisabled(false);

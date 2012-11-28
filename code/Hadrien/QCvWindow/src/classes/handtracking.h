@@ -30,6 +30,10 @@ class HandTracking
 		void Calibrate(cv::Mat img1, QList<QPoint> img1hand1, QList<QPoint> img1hand2, cv::Mat img2, QList<QPoint> img2hand1, QList<QPoint> img2hand2, QList<QPoint> bodyZone);
 		void Track(cv::Mat img);
 
+
+		void hadriencalib(cv::Mat img);
+
+
 		HandDescriptor& h_left;
 		HandDescriptor& h_right;
 
