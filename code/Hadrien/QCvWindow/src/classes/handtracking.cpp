@@ -27,22 +27,20 @@ cv::Point* HandTracking::list2arr(QList<QPoint> lst, int& n)
 void HandTracking::PosAreaCalcMasked(cv::Mat img_bin, double& area, QPoint& pos)
 {
 	cv::Mat myKernel = getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(3,3), cv::Point(1,1));
-
 	cv::erode(img_bin, img_bin, myKernel, cv::Point(-1,-1), 2);
 	cv::dilate(img_bin, img_bin, myKernel, cv::Point(-1,-1), 1);
-
 
 	std::vector<std::vector<cv::Point>> contours;
 	cv::findContours(img_bin, contours, CV_RETR_LIST, CV_CHAIN_APPROX_TC89_L1, cv::Point(0,0));
 
-		qDebug() << "nb of contours (should be >0):" << contours.size();
+	if(!contours.size()) throw std::exception();
 
 	area = 0;
 	std::vector<cv::Point> hull;
-	for(std::vector<cv::Point> contour : contours)
+	for(std::vector<cv::Point>& contour : contours)
 	{
 		hull.clear();
-		cv::convexHull(cv::Mat(contour), hull, false);
+		cv::convexHull(cv::Mat(contour), hull);
 		double area_t = cv::contourArea(hull);
 		if(area_t > area)
 		{
@@ -53,7 +51,7 @@ void HandTracking::PosAreaCalcMasked(cv::Mat img_bin, double& area, QPoint& pos)
 			pos /= hull.size();
 		}
 	}
-	qDebug() << "largest contour : area" << area << "pos" << pos;
+				qDebug() << "largest contour : area" << area << "pos" << pos;
 }
 
 void HandTracking::PosAreaCalc(cv::Mat img_bin, cv::Point* pts, int& len, double& area, QPoint& pos)
@@ -112,21 +110,21 @@ void HandTracking::Calibrate(cv::Mat img1, QList<QPoint> img1hand1, QList<QPoint
 	gray8b1_binarized = gray8b1 < brThreshold;
 	gray8b2_binarized = gray8b2 < brThreshold;
 
-		qDebug() << "brThreshold :" << brThreshold;
-		cv::namedWindow("gray8b1_binarized", CV_WINDOW_AUTOSIZE);
-		cv::imshow("gray8b1_binarized", gray8b1_binarized);
-		cv::namedWindow("gray8b2_binarized", CV_WINDOW_AUTOSIZE);
-		cv::imshow("gray8b2_binarized", gray8b2_binarized);
+//		qDebug() << "brThreshold :" << brThreshold;
+//		cv::namedWindow("gray8b1_binarized", CV_WINDOW_AUTOSIZE);
+//		cv::imshow("gray8b1_binarized", gray8b1_binarized);
+//		cv::namedWindow("gray8b2_binarized", CV_WINDOW_AUTOSIZE);
+//		cv::imshow("gray8b2_binarized", gray8b2_binarized);
 
 	QPoint c11, c12, c21, c22;
-    double a11, a12, a21, a22;
-		qDebug()<< "__________11__________";
+	double a11, a12, a21, a22;
+//		qDebug()<< "__________11__________";
 	PosAreaCalc(gray8b1_binarized, p11, len11, a11, c11);
-		qDebug()<< "__________12__________";
+//		qDebug()<< "__________12__________";
 	PosAreaCalc(gray8b1_binarized, p12, len12, a12, c12);
-		qDebug()<< "__________21__________";
+//		qDebug()<< "__________21__________";
 	PosAreaCalc(gray8b2_binarized, p21, len21, a21, c21);
-		qDebug()<< "__________22__________";
+//		qDebug()<< "__________22__________";
 	PosAreaCalc(gray8b2_binarized, p22, len22, a22, c22);
 
     areaThreshold=(a11+a12+a21+a22)/4;
@@ -199,7 +197,7 @@ void HandTracking::Track(cv::Mat img)
 
 
 
-
+/*
 using namespace std;
 using namespace cv;
 
@@ -254,3 +252,4 @@ void HandTracking::hadriencalib(cv::Mat img)
 	createTrackbar( " Threshold:", "Source", &thresh, max_thresh, thresh_callback );
 	thresh_callback( 0, 0 );
 }
+*/
