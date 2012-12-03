@@ -33,9 +33,9 @@
   <widget class="QComboBox" name="comboBox_midi">
    <property name="geometry">
     <rect>
-     <x>85</x>
+     <x>80</x>
      <y>5</y>
-     <width>150</width>
+     <width>140</width>
      <height>35</height>
     </rect>
    </property>
@@ -46,9 +46,9 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>235</x>
+     <x>220</x>
      <y>5</y>
-     <width>80</width>
+     <width>95</width>
      <height>35</height>
     </rect>
    </property>
@@ -85,20 +85,33 @@
   <widget class="QCheckBox" name="checkBox_flip">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>220</x>
      <y>40</y>
-     <width>51</width>
+     <width>95</width>
      <height>35</height>
     </rect>
    </property>
    <property name="text">
-    <string>Flip</string>
+    <string>Flip Image</string>
    </property>
    <property name="checked">
     <bool>true</bool>
    </property>
    <property name="tristate">
     <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_device">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>40</y>
+     <width>140</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Change device</string>
    </property>
   </widget>
  </widget>

@@ -1,6 +1,5 @@
 #include "configuration.h"
 #include "ui_mainwindow.h"
-
 Configuration::Configuration() :
 	flip(true),
 	freeze(false),
@@ -20,6 +19,7 @@ Configuration::~Configuration()
 void Configuration::initialize(Ui::MainWindow *_ui)
 {
 	ui = _ui;
+	camera.open(cameraPort);
 	setCamera();
 }
 
@@ -32,14 +32,14 @@ void Configuration::setCurrentTab(int i)
 }
 
 
-bool Configuration::setCamera()
+bool Configuration::setCamera(bool force)
 {
-	camera.open(cameraPort);
+	bool run = !force;
 	bool ok = true;
-
-	while(ok && !camera.isOpened())
+	while(ok && !(run && camera.isOpened()))
 	{
-		cameraPort = QInputDialog::getInt(this, "Couldn't open camera", "Please select camera port", cameraPort, -2147483647, 2147483647, 1, &ok);
+		run = true;
+		cameraPort = QInputDialog::getInt(this, "Camera selection", "Please select camera device number", cameraPort, 0, 2147483647, 1, &ok);
 		camera.open(cameraPort);
 	}
 	return ok;
@@ -94,13 +94,13 @@ bool Configuration::open()
 				break;
 		}
 
-	QString open_path = QFileDialog::getOpenFileName(this, "Open file", QDir::homePath(), "MDMA configuration (*.mdma);;All file (*)", 0, QFILEDIALOGOPTION);
-
+	QString open_path = QFileDialog::getOpenFileName(0, "Open file", QDir::homePath(), "MDMA configuration (*.mdma);;All file (*)", 0, QFILEDIALOGOPTION);
 	if(open_path == "") return false;
 
 	SubConfig::initSubConfig();
 	QSettings file(open_path, QSettings::IniFormat);
 	data = file.value("SubConfig", qVariantFromValue(SubConfig())).value<SubConfig>();
+
 	ui->treeWidget_list->clear();
 	for(EventZone& evz : data.zones)
 		ui->treeWidget_list->addTopLevelItem(new QTreeWidgetItem(QStringList() << evz.name << MDMA::type_to_string(evz.type) << QString::number(evz.tab+1)));
@@ -114,7 +114,7 @@ bool Configuration::save()
 {
 	if(data.path == "")
 	{
-		data.path = QFileDialog::getSaveFileName(this, "Save file", QDir::homePath()+"/new_config.mdma", "MDMA configuration (*.mdma);;All file (*)", 0, QFILEDIALOGOPTION);
+		data.path = QFileDialog::getSaveFileName(0, "Save file", QDir::homePath()+"/new_config.mdma", "MDMA configuration (*.mdma);;All file (*)", 0, QFILEDIALOGOPTION);
 		if(data.path == "") return false;
 	}
 
@@ -131,7 +131,7 @@ bool Configuration::save()
 
 bool Configuration::saveas()
 {
-	QString new_path = QFileDialog::getSaveFileName(this, "Save file as", (data.path == "")?(QDir::homePath()+"/new_config.mdma"):data.path, "MDMA configuration (*.mdma);;All file (*)", 0, QFILEDIALOGOPTION);
+	QString new_path = QFileDialog::getSaveFileName(0, "Save file as", (data.path == "")?(QDir::homePath()+"/new_config.mdma"):data.path, "MDMA configuration (*.mdma);;All file (*)", 0, QFILEDIALOGOPTION);
 	if(new_path == "") return false;
 
 	data.path = new_path;

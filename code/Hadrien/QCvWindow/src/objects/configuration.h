@@ -30,7 +30,6 @@ class Configuration : public QWidget
 		~Configuration();
 
 	public:
-
 		static Configuration& config()
 		{
 			static Configuration myconfig;   // Instantiated when this function is called
@@ -43,7 +42,7 @@ class Configuration : public QWidget
 		// ----------------------------------------------------------
 
 		void setCurrentTab(int i);
-		bool setCamera();
+		bool setCamera(bool force = false);
 		bool reset();
 
 		bool open();

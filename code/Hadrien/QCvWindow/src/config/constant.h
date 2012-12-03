@@ -72,8 +72,8 @@ namespace MDMA
 }
 
 bool usesGnome();
-const QFileDialog::Options QFILEDIALOGOPTION = (usesGnome())?QFileDialog::DontUseNativeDialog:QFileDialog::Options(0);
-//const QFileDialog::Options QFILEDIALOGOPTION(0);
+//const QFileDialog::Options QFILEDIALOGOPTION = (usesGnome())?QFileDialog::DontUseNativeDialog:QFileDialog::Options(0);
+const QFileDialog::Options QFILEDIALOGOPTION(0);
 
 
 #endif // CONSTANT_H

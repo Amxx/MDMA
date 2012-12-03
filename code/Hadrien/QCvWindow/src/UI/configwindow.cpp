@@ -55,3 +55,8 @@ void ConfigWindow::on_checkBox_flip_clicked()
 }
 
 
+
+void ConfigWindow::on_pushButton_device_clicked()
+{
+	Configuration::config().setCamera(true);
+}

@@ -28,6 +28,8 @@ class ConfigWindow : public QDialog
 		void on_checkBox_flip_clicked();
 		void on_pushButton_ok_clicked();
 
+		void on_pushButton_device_clicked();
+
 	private:
 		void refreshPorts();
 
