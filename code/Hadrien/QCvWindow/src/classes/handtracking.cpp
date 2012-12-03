@@ -24,6 +24,8 @@ cv::Point* HandTracking::list2arr(QList<QPoint> lst, int& n)
     return result;
 }
 
+
+
 void HandTracking::PosAreaCalcMasked(cv::Mat img_bin, double& area, QPoint& pos)
 {
 	cv::Mat myKernel = getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(3,3), cv::Point(1,1));
@@ -35,23 +37,28 @@ void HandTracking::PosAreaCalcMasked(cv::Mat img_bin, double& area, QPoint& pos)
 
 	if(!contours.size()) throw std::exception();
 
-	area = 0;
+	std::vector<cv::Point> contour_merged;
 	std::vector<cv::Point> hull;
+
 	for(std::vector<cv::Point>& contour : contours)
-	{
-		hull.clear();
-		cv::convexHull(cv::Mat(contour), hull);
-		double area_t = cv::contourArea(hull);
-		if(area_t > area)
-		{
-			area = area_t;
-			pos = QPoint(0, 0);
-			for(cv::Point p : hull)
-				pos += QPoint(p.x, p.y);
-			pos /= hull.size();
-		}
-	}
-				qDebug() << "largest contour : area" << area << "pos" << pos;
+		contour_merged.insert(contour_merged.end(), contour.begin(), contour.end());
+
+	cv::convexHull(cv::Mat(contour_merged), hull);
+	area = cv::contourArea(hull);
+	pos = QPoint(0, 0);
+	for(cv::Point p : hull)
+		pos += QPoint(p.x, p.y);
+	pos /= hull.size();
+
+	static int i = 0;
+	QString winname = QString("test")+QString::number(i++);
+
+	cv::namedWindow(winname.toStdString().c_str(), 1);
+	contours.push_back(hull);
+	cv::drawContours(img_bin, contours, -1, 128);
+	cv::imshow(winname.toStdString().c_str(), img_bin);
+
+		qDebug() << "merged contour : area" << area << "pos" << pos;
 }
 
 void HandTracking::PosAreaCalc(cv::Mat img_bin, cv::Point* pts, int& len, double& area, QPoint& pos)
