@@ -30,11 +30,12 @@ class Configuration : public QWidget
 		~Configuration();
 
 	public:
-		static Configuration& config() {
+
+		static Configuration& config()
+		{
 			static Configuration myconfig;   // Instantiated when this function is called
 			return myconfig;
 		}
-
 		void initialize(Ui::MainWindow *_ui);
 
 		// ----------------------------------------------------------
@@ -42,7 +43,7 @@ class Configuration : public QWidget
 		// ----------------------------------------------------------
 
 		void setCurrentTab(int i);
-		bool setCamera(bool check = true);
+		bool setCamera();
 		bool reset();
 
 		bool open();

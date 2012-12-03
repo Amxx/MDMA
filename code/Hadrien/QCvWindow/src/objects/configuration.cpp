@@ -11,7 +11,6 @@ Configuration::Configuration() :
 	right_hand(0, 0, false),
 	cameraPort(0)
 {
-	setCamera();
 }
 
 Configuration::~Configuration()
@@ -21,6 +20,7 @@ Configuration::~Configuration()
 void Configuration::initialize(Ui::MainWindow *_ui)
 {
 	ui = _ui;
+	setCamera();
 }
 
 // =========================================================================================================
@@ -32,16 +32,17 @@ void Configuration::setCurrentTab(int i)
 }
 
 
-bool Configuration::setCamera(bool check)
+bool Configuration::setCamera()
 {
 	camera.open(cameraPort);
-	bool ok = check;
+	bool ok = true;
+
 	while(ok && !camera.isOpened())
 	{
 		cameraPort = QInputDialog::getInt(this, "Couldn't open camera", "Please select camera port", cameraPort, -2147483647, 2147483647, 1, &ok);
 		camera.open(cameraPort);
 	}
-	return !check || ok;
+	return ok;
 }
 
 // =========================================================================================================

@@ -15,10 +15,10 @@ MainWindow::MainWindow(QWidget *parent) :
 	midi_manager(),
 	zone_manager(this)
 {
-	Configuration::config().initialize(ui);
-
 	ui->setupUi(this);
 	ui->statusbar->showMessage("Ready");
+
+	Configuration::config().initialize(ui);
 }
 
 MainWindow::~MainWindow()
