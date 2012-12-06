@@ -23,8 +23,15 @@ void CameraManager::timerEvent(QTimerEvent*)
 
 		if(Configuration::config().running)
 		{
+			if(Configuration::config().track_mouse)
+			{
+				QPoint cursor  = Configuration::config().main->mapFromGlobal(QCursor::pos()) - Configuration::config().ui->label_camera->pos();
+				int x = std::min(std::max(cursor.x(), 0), 640);
+				int y = std::min(std::max(cursor.y() - Configuration::config().ui->menubar->size().height(), 0), 480);
+				Configuration::config().mouse_hand.updatePos(x, y, QApplication::mouseButtons() == Qt::NoButton);
+			}
 			//handtracking.Track(config.current_frame);
-			//emit track_updated();
+			emit track_updated();
 		}
 	}
 }

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDebug>
 
+#include "../config/constant.h"
 #include "../classes/RtMidi.h"
 
 #ifdef WIN32
@@ -26,7 +27,8 @@ class MidiManager : public QObject, public RtMidiOut
 	public slots:
 		void createPort(QString name);
 		void changePort(int n);
-		void sendMessage(const unsigned char* msg);
+		//void sendMessage(const unsigned char* msg);
+		void sendMessage(MDMA::signal msg);
 
 };
 

@@ -65,7 +65,8 @@ void MidiManager::changePort(int n)
 	openPort(n);
 }
 
-void MidiManager::sendMessage(const unsigned char* msg)
+//void MidiManager::sendMessage(const unsigned char* msg)
+void MidiManager::sendMessage(MDMA::signal msg)
 {
 #ifdef WIN32
     if(port) { // Utilisation d'un port cree par VirtualMIDISDK

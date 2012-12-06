@@ -49,6 +49,13 @@ namespace MDMA
 		HANDS_OPEN,
 		CALIBRATED
 	};
+	enum tracking
+	{
+		LEFT,
+		RIGHT,
+		MOUSE
+	};
+
 	typedef unsigned char* signal;
     typedef QPair<active, signal> event_signal;
 

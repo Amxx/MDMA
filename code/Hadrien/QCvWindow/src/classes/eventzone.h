@@ -46,9 +46,10 @@ class EventZone
 
 		// ----------------------------------------------------------
 
-        bool is_active[2];
-        bool hand_in[2];
-        bool hand_open[2];
+		bool emph_display;
+		bool is_active[3];
+		bool hand_in[3];
+		bool hand_open[3];
 };
 
 

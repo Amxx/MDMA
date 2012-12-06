@@ -13,22 +13,24 @@ QString MDMA::type_to_string(MDMA::type t)
 }
 
 
-QColor MDMA::type_to_border_color(MDMA::type t, bool /*emph*/, bool alpha)
+QColor MDMA::type_to_border_color(MDMA::type t, bool /*active*/, bool alpha)
 {
 	switch(t)
 	{
 		case FADER:
-			return QColor(255, 0, 0, (alpha)?128:255);
+			return QColor(255, 0, 0, alpha?128:255);
 		case PAD:
-			return QColor(78, 98, 255, (alpha)?128:255);
+			return QColor(78, 98, 255, alpha?128:255);
 		case SEGMENT:
-			return QColor(78, 167, 255, (alpha)?128:255);
+			return QColor(78, 167, 255, alpha?128:255);
 	}
 	return QColor();
 }
 
-QColor MDMA::type_to_fill_color(MDMA::type t, bool /*emph*/, bool alpha)
+QColor MDMA::type_to_fill_color(MDMA::type t, bool isactive, bool alpha)
 {
+	if(isactive) return QColor(255, 128, 128, alpha?128:255);
+
 	switch(t)
 	{
 		case FADER:

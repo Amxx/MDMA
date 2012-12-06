@@ -1,6 +1,8 @@
 #ifndef EVENTMANAGER_H
 #define EVENTMANAGER_H
 
+#include <QDebug>
+
 #include "configuration.h"
 
 class HandDescriptor;

@@ -8,6 +8,7 @@ ConfigWindow::ConfigWindow(MidiManager &_midi, QWidget *parent) :
 {
 	ui->setupUi(this);
 	ui->checkBox_flip->setChecked(Configuration::config().flip);
+	ui->checkBox_mousetrack->setChecked(Configuration::config().track_mouse);
 	refreshPorts();
 }
 
@@ -53,10 +54,13 @@ void ConfigWindow::on_checkBox_flip_clicked()
 {
 	Configuration::config().flip = ui->checkBox_flip->isChecked();
 }
-
-
+void ConfigWindow::on_checkBox_mousetrack_clicked()
+{
+	Configuration::config().track_mouse = ui->checkBox_mousetrack->isChecked();
+}
 
 void ConfigWindow::on_pushButton_device_clicked()
 {
 	Configuration::config().setCamera(true);
 }
+

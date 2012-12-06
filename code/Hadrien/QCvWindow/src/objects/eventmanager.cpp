@@ -54,6 +54,30 @@ void EventManager::detection()
                         emit sendMidi(midi);
                 }
             }
+			if(Configuration::config().track_mouse)
+			{
+				msgs = evz.update(Configuration::config().mouse_hand);
+				for(MDMA::event msg: msgs)
+				{
+					MDMA::signal midi;
+					switch(evz.active[msg])
+					{
+					case MDMA::GOTO_TAB1:
+						Configuration::config().setCurrentTab(0);
+						break;
+					case MDMA::GOTO_TAB2:
+						Configuration::config().setCurrentTab(1);
+						break;
+					case MDMA::GOTO_TAB3:
+						Configuration::config().setCurrentTab(2);
+						break;
+					default:
+						midi = evz.getMidi(msg);
+						if(midi)
+							emit sendMidi(midi);
+					}
+				}
+			}
 		}
     }
 }

@@ -16,6 +16,7 @@
 #include "../classes/handtracking.h"
 #include "../objects/configuration.h"
 #include "../objects/cameramanager.h"
+#include "../objects/eventmanager.h"
 #include "../objects/midimanager.h"
 #include "../objects/zonemanager.h"
 
@@ -56,6 +57,7 @@ class MainWindow : public QMainWindow
 		Ui::MainWindow *ui;
 
 		CameraManager camera_manager;
+		EventManager event_manager;
 		HandTracking handtracking;
 		MidiManager midi_manager;
 		ZoneManager zone_manager;

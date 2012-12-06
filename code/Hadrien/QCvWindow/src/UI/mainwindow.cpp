@@ -11,14 +11,18 @@ MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow),
 	camera_manager(handtracking, this),
+	event_manager(this),
 	handtracking(Configuration::config().left_hand, Configuration::config().right_hand),
 	midi_manager(),
 	zone_manager(this)
 {
+
 	ui->setupUi(this);
 	ui->statusbar->showMessage("Ready");
 
-	Configuration::config().initialize(ui);
+	Configuration::config().initialize(this, ui);
+	QObject::connect(&camera_manager, SIGNAL(track_updated()), &event_manager, SLOT(detection()));
+	QObject::connect(&event_manager, SIGNAL(sendMidi(MDMA::signal)), &midi_manager, SLOT(sendMessage(MDMA::signal)));
 }
 
 MainWindow::~MainWindow()
@@ -156,11 +160,13 @@ void MainWindow::on_actionAbout_Qt_triggered()
 
 void MainWindow::on_pushButton_run_clicked()
 {
+	/*
 	if(Configuration::config().calibration_status != MDMA::CALIBRATED)
 	{
 		QMessageBox::information(this, "Setup isn't configured", "This setup hasn't been configured yet, please run the configuration window before running");
 		return;
 	}
+	*/
 
 	if(Configuration::config().running)
 	{

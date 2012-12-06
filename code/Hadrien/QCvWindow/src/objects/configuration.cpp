@@ -4,10 +4,12 @@ Configuration::Configuration() :
 	flip(true),
 	freeze(false),
 	running(false),
+	track_mouse(false),
 	changed(false),
 	calibration_status(MDMA::NOT_CALIBRATED),
-	left_hand(0, 0, true),
-	right_hand(0, 0, false),
+	left_hand(0, 0, MDMA::LEFT),
+	right_hand(0, 0, MDMA::RIGHT),
+	mouse_hand(0, 0, MDMA::MOUSE),
 	cameraPort(0)
 {
 }
@@ -16,8 +18,9 @@ Configuration::~Configuration()
 {
 }
 
-void Configuration::initialize(Ui::MainWindow *_ui)
+void Configuration::initialize(QWidget *_main, Ui::MainWindow *_ui)
 {
+	main = _main;
 	ui = _ui;
 	camera.open(cameraPort);
 	setCamera();

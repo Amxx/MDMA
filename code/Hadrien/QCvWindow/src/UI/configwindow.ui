@@ -20,9 +20,9 @@
   <widget class="QLabel" name="label_midi">
    <property name="geometry">
     <rect>
-     <x>5</x>
+     <x>10</x>
      <y>5</y>
-     <width>80</width>
+     <width>70</width>
      <height>35</height>
     </rect>
    </property>
@@ -72,9 +72,9 @@
   <widget class="QLabel" name="label_flip">
    <property name="geometry">
     <rect>
-     <x>5</x>
+     <x>10</x>
      <y>40</y>
-     <width>80</width>
+     <width>70</width>
      <height>35</height>
     </rect>
    </property>
@@ -112,6 +112,41 @@
    </property>
    <property name="text">
     <string>Change device</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_flip_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>75</y>
+     <width>70</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Tracking</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBox_mousetrack">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>75</y>
+     <width>141</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Track mouse</string>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="tristate">
+    <bool>false</bool>
    </property>
   </widget>
  </widget>

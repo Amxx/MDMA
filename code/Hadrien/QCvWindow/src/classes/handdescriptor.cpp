@@ -1,27 +1,13 @@
 #include "handdescriptor.h"
 
-HandDescriptor::HandDescriptor() :
-	last_pos(),
-	curr_pos(),
-	last_speed(),
-	curr_speed(),
-	last_acc(),
-	curr_acc(),
-	left(false),
-	open(false),
-	duration(0),
-	lastUpdate(time(NULL))
-{
-}
-
-HandDescriptor::HandDescriptor(int x, int y, bool isleft) :
+HandDescriptor::HandDescriptor(int x, int y, MDMA::tracking hand) :
 	last_pos(x, y),
 	curr_pos(x, y),
 	last_speed(),
 	curr_speed(),
 	last_acc(),
 	curr_acc(),
-	left(isleft),
+	hand(hand),
 	open(false),
 	duration(0),
 	lastUpdate(time(NULL))

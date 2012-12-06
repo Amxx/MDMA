@@ -35,7 +35,7 @@ class Configuration : public QWidget
 			static Configuration myconfig;   // Instantiated when this function is called
 			return myconfig;
 		}
-		void initialize(Ui::MainWindow *_ui);
+		void initialize(QWidget *_main, Ui::MainWindow *_ui);
 
 		// ----------------------------------------------------------
 		// Methode
@@ -62,6 +62,7 @@ class Configuration : public QWidget
 		bool flip;
 		bool freeze;
 		bool running;
+		bool track_mouse;
 		bool changed;
 		MDMA::calibration calibration_status;
 		QList<QPoint> user_mask;
@@ -70,6 +71,7 @@ class Configuration : public QWidget
 
 		HandDescriptor left_hand;
 		HandDescriptor right_hand;
+		HandDescriptor mouse_hand;
 
 		// ----------------------------------------------------------
 
@@ -79,6 +81,7 @@ class Configuration : public QWidget
 
 		// ----------------------------------------------------------
 
+		QWidget *main;
 		Ui::MainWindow *ui;
 };
 
