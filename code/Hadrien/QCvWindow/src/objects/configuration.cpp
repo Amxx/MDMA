@@ -4,7 +4,7 @@ Configuration::Configuration() :
 	flip(true),
 	freeze(false),
 	running(false),
-	track_image(true),
+	track_hand(true),
 	track_mouse(false),
 	changed(false),
 	calibration_status(MDMA::NOT_CALIBRATED),
@@ -74,6 +74,8 @@ bool Configuration::reset()
 	data.zones.clear();
 	freeze = false;
 	running = false;
+	track_hand = true;
+	track_mouse = false;
 	changed = false;
 	cameraPort = 0;
 	ui->comboBox_tab->setCurrentIndex(0);

@@ -13,7 +13,7 @@ void EventManager::detection()
 		if(evz.tab == Configuration::config().data.current_tab)
         {
 			QList<MDMA::event> msgs;
-			if(Configuration::config().track_image)
+			if(Configuration::config().track_hand)
 			{
 				msgs = evz.update(Configuration::config().left_hand);
 				for(MDMA::event msg: msgs)
@@ -77,8 +77,10 @@ void EventManager::detection()
 						break;
 					default:
 						midi = evz.getMidi(msg);
+						/*
 						if(midi)
 							emit sendMidi(midi);
+							*/
 					}
 				}
 			}

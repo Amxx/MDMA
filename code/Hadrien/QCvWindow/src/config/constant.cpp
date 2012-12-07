@@ -27,9 +27,9 @@ QColor MDMA::type_to_border_color(MDMA::type t, bool /*active*/, bool alpha)
 	return QColor();
 }
 
-QColor MDMA::type_to_fill_color(MDMA::type t, bool isactive, bool alpha)
+QColor MDMA::type_to_fill_color(MDMA::type t, bool emph, bool alpha)
 {
-	if(isactive) return QColor(255, 128, 128, alpha?128:255);
+	if(emph) return QColor(255, 128, 128, alpha?128:255);
 
 	switch(t)
 	{

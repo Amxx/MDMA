@@ -161,12 +161,12 @@ void MainWindow::on_actionAbout_Qt_triggered()
 void MainWindow::on_pushButton_run_clicked()
 {
 
-	if(Configuration::config().calibration_status != MDMA::CALIBRATED && Configuration::config().track_image)
+	if(Configuration::config().calibration_status != MDMA::CALIBRATED && Configuration::config().track_hand)
 	{
 		QMessageBox::information(this, "Calibration requested", "Calibration is needed to run image tracking, please run the calibration window before running");
 		return;
 	}
-	if(!Configuration::config().track_image && !Configuration::config().track_mouse)
+	if(!Configuration::config().track_hand && !Configuration::config().track_mouse)
 	{
 		QMessageBox::information(this, "Tracking disabled", "No tracking is enable at this time, please enable some tracking in the configuration window");
 		return;
@@ -349,7 +349,7 @@ void MainWindow::ui_disable(bool b, bool all)
 {
 	ui->menubar->setDisabled(b);
 	ui->comboBox_tab->setDisabled(b);
-	ui->pushButton_calibrate->setDisabled(b || !Configuration::config().track_image);
+	ui->pushButton_calibrate->setDisabled(b || !Configuration::config().track_hand);
 	ui->pushButton_configure->setDisabled(b);
 	ui->pushButton_delete->setDisabled(b);
 	ui->pushButton_deleteAll->setDisabled(b);

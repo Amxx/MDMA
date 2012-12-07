@@ -9,9 +9,7 @@ ConfigWindow::ConfigWindow(MidiManager &_midi, QWidget *parent) :
 {
 	ui->setupUi(this);
 	ui->checkBox_flip->setChecked(Configuration::config().flip);
-//	ui->checkBox_mousetrack->setChecked(Configuration::config().track_mouse);
-
-	ui->pushButton_hand_track->setText(Configuration::config().track_image?"Disable hand tracking":"Enable hand tracking");
+	ui->pushButton_hand_track->setText(Configuration::config().track_hand?"Disable hand tracking":"Enable hand tracking");
 	ui->pushButton_mouse_track->setText(Configuration::config().track_mouse?"Disable mouse tracking":"Enable mouse tracking");
 
 	refreshPorts();
@@ -67,15 +65,15 @@ void ConfigWindow::on_pushButton_device_clicked()
 
 void ConfigWindow::on_pushButton_hand_track_clicked()
 {
-	if(Configuration::config().track_image)
+	if(Configuration::config().track_hand)
 	{
-		Configuration::config().track_image = false;
+		Configuration::config().track_hand = false;
 		ui->pushButton_hand_track->setText("Enable hand tracking");
 		Configuration::config().ui->pushButton_calibrate->setDisabled(true);
 	}
 	else
 	{
-		Configuration::config().track_image = true;
+		Configuration::config().track_hand = true;
 		ui->pushButton_hand_track->setText("Disable hand tracking");
 		Configuration::config().ui->pushButton_calibrate->setDisabled(false);
 	}

@@ -8,7 +8,7 @@
 
 class HandDescriptor {
 	public:
-		HandDescriptor(int x, int y, MDMA::tracking hand);
+		HandDescriptor(int x, int y, MDMA::tracking id);
 
 		void updatePos(int x, int y, bool isopen);
 
@@ -18,9 +18,10 @@ class HandDescriptor {
 		QPoint curr_speed;
 		QPoint last_acc;
 		QPoint curr_acc;
+		bool last_open;
+		bool curr_open;
 
-		MDMA::tracking hand;
-		bool open;
+		MDMA::tracking id;
 
 		time_t duration;
 		time_t lastUpdate;

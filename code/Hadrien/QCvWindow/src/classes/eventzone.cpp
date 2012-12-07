@@ -74,8 +74,8 @@ void EventZone::display(QPainter& painter)
 		{
 			//painter.setPen(QPen(QBrush(MDMA::type_to_border_color(type, active)), 0, Qt::SolidLine, Qt::SquareCap));
 			//painter.drawRect(QRect(P1,P2));
-			painter.fillRect(QRect(P1, P2), MDMA::type_to_fill_color(type, emph_display));
 
+			painter.fillRect(QRect(P1, P2), MDMA::type_to_fill_color(type, emph_display));
 			painter.setPen(QPen(QBrush(MDMA::type_to_border_color(type, emph_display)), 3, Qt::SolidLine, Qt::SquareCap));
 			if(MDMA::is_midi(active[MDMA::EVENT_X]))
 			{
@@ -166,115 +166,145 @@ MDMA::signal EventZone::getMidi(MDMA::event ev)
 QList<MDMA::event> EventZone::update(HandDescriptor& main)
 {
     QList<MDMA::event> msgs;
+	is_active[main.id] = false;
 	switch(type)
 	{
 		case MDMA::FADER:
 		{
 			QRect rect(P1,P2);
 
-			if(rect.contains(main.curr_pos) && !main.open)
+			if(rect.contains(main.curr_pos) && !main.curr_open)
 			{
-				qDebug() << (main.curr_pos.x() - rect.x())*127/rect.width() << (rect.y() + rect.height() - main.curr_pos.y())*127/rect.height();
-
-
+				is_active[main.id] = true;
 				if(active[MDMA::EVENT_X] != MDMA::NOTHING)
 				{
 					signal[MDMA::EVENT_X][MDMA::is_midi(active[MDMA::EVENT_X])] = (main.curr_pos.x() - rect.x())*127/rect.width();
-					//msgs << MDMA::EVENT_X;
+					msgs << MDMA::EVENT_X;
 				}
 				if(active[MDMA::EVENT_Y] != MDMA::NOTHING)
 				{
 					signal[MDMA::EVENT_Y][MDMA::is_midi(active[MDMA::EVENT_Y])] = (rect.y() + rect.height() - main.curr_pos.y())*127/rect.height();
-					//msgs << MDMA::EVENT_Y;
+					msgs << MDMA::EVENT_Y;
 				}
 			}
-			break;
-/*
+			/*
             if(!rect.contains(main.curr_pos))
             {
-				is_active[main.hand] = false;
-				hand_in[main.hand] = false;
-				hand_open[main.hand] = false;
+				is_active[main.id] = false;
+				hand_in[main.id] = false;
+				hand_open[main.id] = false;
             }
             else
             {
-				if(main.open)
+				if(main.curr_open)
                 {
-					hand_open[main.hand] = true;
-					is_active[main.hand] = false;
+					hand_open[main.id] = true;
+					is_active[main.id] = false;
                 }
-				else if(hand_in[main.hand] && hand_open[main.hand] && !main.open)
+				else if(hand_in[main.id] && hand_open[main.id] && !main.curr_open)
                 {
-					hand_open[main.hand] = false;
-					is_active[main.hand] = true;
+					hand_open[main.id] = false;
+					is_active[main.id] = true;
                 }
-				hand_in[main.hand] = true;
+				hand_in[main.id] = true;
             }
 
-			if(!is_active[main.hand]) break;
+			if(!is_active[main.id]) break;
 
             if(active[MDMA::EVENT_X] != MDMA::NOTHING)
 			{
                 signal[MDMA::EVENT_X][MDMA::is_midi(active[MDMA::EVENT_X])] = (main.curr_pos.x() - rect.x())*127/rect.width();
-                msgs << MDMA::EVENT_X;
+				msgs << MDMA::EVENT_X;
 			}
 			if(active[MDMA::EVENT_Y] != MDMA::NOTHING)
 			{
                 signal[MDMA::EVENT_Y][MDMA::is_midi(active[MDMA::EVENT_Y])] = (rect.y() + rect.height() - main.curr_pos.y())*127/rect.height();
 				msgs << MDMA::EVENT_Y;
 			}
-*/
+			*/
+			break;
 		}
 		case MDMA::PAD:
 		{
             QRect rect(P1,P2);
-
-            if(!rect.contains(main.curr_pos))
-            {
-				if(hand_in[main.hand] && active[MDMA::EXIT] != MDMA::NOTHING)
-                    msgs << MDMA::EXIT;
-				hand_in[main.hand] = false;
-            }
-            else
-            {
-				if(!hand_in[main.hand])
-                {
-                    if(active[MDMA::ENTER] != MDMA::NOTHING)
-                        msgs << MDMA::ENTER;
-					hand_open[main.hand] = main.open;
-					hand_in[main.hand] = true;
-                }
-                else
-                {
-					if(!hand_open[main.hand] && main.open)
-                    {
-                        if(active[MDMA::OPEN] != MDMA::NOTHING)
-                            msgs << MDMA::OPEN;
-						hand_open[main.hand] = true;
-                    }
-					if(hand_open[main.hand] && !main.open)
-                    {
-                        if(active[MDMA::CLOSE] != MDMA::NOTHING)
-                            msgs << MDMA::CLOSE;
-							hand_open[main.hand] = false;
-                    }
-                }
-            }
+			if(rect.contains(main.curr_pos) && !rect.contains(main.last_pos) && active[MDMA::ENTER] != MDMA::NOTHING)
+			{
+				is_active[main.id] = true;
+				msgs << MDMA::ENTER;
+			}
+			if(!rect.contains(main.curr_pos) && rect.contains(main.last_pos) && active[MDMA::EXIT] != MDMA::NOTHING)
+			{
+				is_active[main.id] = true;
+				msgs << MDMA::EXIT;
+			}
+			if(rect.contains(main.curr_pos) && main.curr_open && !main.last_open && active[MDMA::OPEN] != MDMA::NOTHING)
+			{
+				is_active[main.id] = true;
+				msgs << MDMA::OPEN;
+			}
+			if(rect.contains(main.curr_pos) && !main.curr_open && main.last_open && active[MDMA::OPEN] != MDMA::NOTHING)
+			{
+				is_active[main.id] = true;
+				msgs << MDMA::CLOSE;
+			}
+/*
+			if(!rect.contains(main.curr_pos))
+			{
+				if(hand_in[main.id] && active[MDMA::EXIT] != MDMA::NOTHING)
+					msgs << MDMA::EXIT;
+				hand_in[main.id] = false;
+			}
+			else
+			{
+				if(!hand_in[main.id])
+				{
+					if(active[MDMA::ENTER] != MDMA::NOTHING)
+						msgs << MDMA::ENTER;
+					hand_open[main.id] = main.open;
+					hand_in[main.id] = true;
+				}
+				else
+				{
+					if(!hand_open[main.id] && main.open)
+					{
+						if(active[MDMA::OPEN] != MDMA::NOTHING)
+							msgs << MDMA::OPEN;
+						hand_open[main.id] = true;
+					}
+					if(hand_open[main.id] && !main.open)
+					{
+						if(active[MDMA::CLOSE] != MDMA::NOTHING)
+							msgs << MDMA::CLOSE;
+							hand_open[main.id] = false;
+					}
+				}
+			}
+			*/
 			break;
 		}
 		case MDMA::SEGMENT:
 		{
-			is_active[main.hand] = false;
 			QLineF vect_hand = QLineF(QPointF(main.curr_pos),QPointF(main.last_pos));
 			QLineF vect_segm = QLineF(QPointF(P1), QPointF(P2));
 			QPointF intersect_point;
 			if(vect_segm.intersect(vect_hand, &intersect_point) == QLineF::BoundedIntersection)
 			{
-				is_active[main.hand] = true;
 				if(vect_segm.dx() * vect_hand.dy() - vect_segm.dy() * vect_hand.dx() > 0)
-					msgs << MDMA::IN;
+				{
+					if(active[MDMA::IN] != MDMA::NOTHING)
+					{
+						is_active[main.id] = true;
+						msgs << MDMA::IN;
+					}
+				}
 				else
-					msgs << MDMA::OUT;
+				{
+					if(active[MDMA::OUT] != MDMA::NOTHING)
+					{
+						is_active[main.id] = true;
+						msgs << MDMA::OUT;
+					}
+				}
 			}
 		}
 	}

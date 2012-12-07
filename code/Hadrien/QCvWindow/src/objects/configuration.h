@@ -68,7 +68,7 @@ class Configuration : public QWidget
 		cv::Mat close_calib;
 		cv::Mat open_calib;
 
-		bool track_image;
+		bool track_hand;
 		bool track_mouse;
 
 		HandDescriptor left_hand;

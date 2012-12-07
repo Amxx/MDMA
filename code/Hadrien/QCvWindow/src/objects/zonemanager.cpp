@@ -92,7 +92,7 @@ void ZoneManager::display()
 	{
 		case MDMA::NOT_CALIBRATED:
 		case MDMA::CALIBRATED:
-			for(EventZone& evz : Configuration::config().data.zones.values())
+			for(EventZone& evz : Configuration::config().data.zones)
 				if(evz.tab == Configuration::config().data.current_tab) evz.display(*this);
 			break;
 

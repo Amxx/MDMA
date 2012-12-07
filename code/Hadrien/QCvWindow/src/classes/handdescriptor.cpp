@@ -1,14 +1,15 @@
 #include "handdescriptor.h"
 
-HandDescriptor::HandDescriptor(int x, int y, MDMA::tracking hand) :
+HandDescriptor::HandDescriptor(int x, int y, MDMA::tracking id) :
 	last_pos(x, y),
 	curr_pos(x, y),
 	last_speed(),
 	curr_speed(),
 	last_acc(),
 	curr_acc(),
-	hand(hand),
-	open(false),
+	last_open(false),
+	curr_open(false),
+	id(id),
 	duration(0),
 	lastUpdate(time(NULL))
 {
@@ -23,7 +24,8 @@ void HandDescriptor::updatePos(int x, int y, bool isopen)
 	last_acc = curr_acc;
 	curr_acc = (curr_speed - last_speed) / 2;
 
-	open = isopen;
+	last_open = curr_open;
+	curr_open = isopen;
 
 	duration = time(NULL)-lastUpdate;
     lastUpdate = time(NULL);
