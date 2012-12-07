@@ -171,6 +171,7 @@ QList<MDMA::event> EventZone::update(HandDescriptor& main)
 		case MDMA::FADER:
 		{
 			QRect rect(P1,P2);
+            rect = rect.normalized();
 
 			if(rect.contains(main.curr_pos) && !main.open)
 			{
