@@ -8,21 +8,19 @@ EventManager::EventManager(QObject* parent) :
 
 void EventManager::detection()
 {
-	for(EventZone& evz : Configuration::config().data.zones.values())
-    {
-
-		qDebug() << evz.signal[MDMA::EVENT_Y][0] << evz.signal[MDMA::EVENT_Y][1] << evz.signal[MDMA::EVENT_Y][2];
-
-		if(evz.tab == Configuration::config().data.current_tab)
+	QMap<QString, EventZone>::Iterator evz;
+	for(evz = Configuration::config().data.zones.begin(); evz != Configuration::config().data.zones.end(); ++evz)
+	{
+		if(evz.value().tab == Configuration::config().data.current_tab)
         {
 			QList<MDMA::event> msgs;
 			if(Configuration::config().track_image)
 			{
-				msgs = evz.update(Configuration::config().left_hand);
+				msgs = evz.value().update(Configuration::config().left_hand);
 				for(MDMA::event msg: msgs)
 				{
 					MDMA::signal midi;
-					switch(evz.active[msg])
+					switch(evz.value().active[msg])
 					{
 					case MDMA::GOTO_TAB1:
 						Configuration::config().setCurrentTab(0);
@@ -34,16 +32,16 @@ void EventManager::detection()
 						Configuration::config().setCurrentTab(2);
 						break;
 					default:
-						midi = evz.getMidi(msg);
+						midi = evz.value().getMidi(msg);
 						if(midi)
 							emit sendMidi(midi);
 					}
 				}
-				msgs = evz.update(Configuration::config().right_hand);
+				msgs = evz.value().update(Configuration::config().right_hand);
 				for(MDMA::event msg: msgs)
 				{
 					MDMA::signal midi;
-					switch(evz.active[msg])
+					switch(evz.value().active[msg])
 					{
 					case MDMA::GOTO_TAB1:
 						Configuration::config().setCurrentTab(0);
@@ -55,7 +53,7 @@ void EventManager::detection()
 						Configuration::config().setCurrentTab(2);
 						break;
 					default:
-						midi = evz.getMidi(msg);
+						midi = evz.value().getMidi(msg);
 						if(midi)
 							emit sendMidi(midi);
 					}
@@ -63,11 +61,11 @@ void EventManager::detection()
 			}
 			if(Configuration::config().track_mouse)
 			{
-				msgs = evz.update(Configuration::config().mouse_hand);
+				msgs = evz.value().update(Configuration::config().mouse_hand);
 				for(MDMA::event msg: msgs)
 				{
 					MDMA::signal midi;
-					switch(evz.active[msg])
+					switch(evz.value().active[msg])
 					{
 					case MDMA::GOTO_TAB1:
 						Configuration::config().setCurrentTab(0);
@@ -79,7 +77,7 @@ void EventManager::detection()
 						Configuration::config().setCurrentTab(2);
 						break;
 					default:
-						midi = evz.getMidi(msg);
+						midi = evz.value().getMidi(msg);
 						if(midi)
 							emit sendMidi(midi);
 					}

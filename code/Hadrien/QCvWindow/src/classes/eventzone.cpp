@@ -177,15 +177,16 @@ QList<MDMA::event> EventZone::update(HandDescriptor& main)
 				qDebug() << (main.curr_pos.x() - rect.x())*127/rect.width() << (rect.y() + rect.height() - main.curr_pos.y())*127/rect.height();
 
 
-				//qDebug() << signal[MDMA::EVENT_Y][0] << signal[MDMA::EVENT_Y][1] << signal[MDMA::EVENT_Y][2];
-
-				is_active[main.hand] = true;
-				signal[MDMA::EVENT_Y][0] = 0;
-				signal[MDMA::EVENT_Y][1] = 16;
-				signal[MDMA::EVENT_Y][2] = 32;
-
-				qDebug() << signal[MDMA::EVENT_Y][0] << signal[MDMA::EVENT_Y][1] << signal[MDMA::EVENT_Y][2];
-
+				if(active[MDMA::EVENT_X] != MDMA::NOTHING)
+				{
+					signal[MDMA::EVENT_X][MDMA::is_midi(active[MDMA::EVENT_X])] = (main.curr_pos.x() - rect.x())*127/rect.width();
+					//msgs << MDMA::EVENT_X;
+				}
+				if(active[MDMA::EVENT_Y] != MDMA::NOTHING)
+				{
+					signal[MDMA::EVENT_Y][MDMA::is_midi(active[MDMA::EVENT_Y])] = (rect.y() + rect.height() - main.curr_pos.y())*127/rect.height();
+					//msgs << MDMA::EVENT_Y;
+				}
 			}
 			break;
 /*
