@@ -135,6 +135,7 @@ void EventZone::display(QPainter& painter)
 
 MDMA::signal EventZone::getMidi(MDMA::event ev)
 {
+	MDMA::signal midi_signal = NULL;
 	switch(active[ev])
 	{
         case MDMA::NOTE_OFF:
@@ -145,11 +146,11 @@ MDMA::signal EventZone::getMidi(MDMA::event ev)
         case MDMA::CHANNEL_AFTERTOUCH:
         case MDMA::PITCH_BENDING:
         {
-			MDMA::signal midi_signal = new unsigned char[3];
+			midi_signal = new unsigned char[3];
 			midi_signal[0] = active[ev] << 8 & signal[ev][0];
 			midi_signal[1] = 0x80 & signal[ev][1];
 			midi_signal[2] = 0x80 & signal[ev][2];
-			return midi_signal;
+			break;
         }
         case MDMA::GOTO_TAB1:
         case MDMA::GOTO_TAB2:
@@ -157,7 +158,7 @@ MDMA::signal EventZone::getMidi(MDMA::event ev)
         case MDMA::NOTHING:
             break;
 	}
-    return NULL;
+	return midi_signal;
 }
 
 // ============================================================================================
@@ -171,6 +172,23 @@ QList<MDMA::event> EventZone::update(HandDescriptor& main)
 		{
 			QRect rect(P1,P2);
 
+			if(rect.contains(main.curr_pos) && !main.open)
+			{
+				qDebug() << (main.curr_pos.x() - rect.x())*127/rect.width() << (rect.y() + rect.height() - main.curr_pos.y())*127/rect.height();
+
+
+				//qDebug() << signal[MDMA::EVENT_Y][0] << signal[MDMA::EVENT_Y][1] << signal[MDMA::EVENT_Y][2];
+
+				is_active[main.hand] = true;
+				signal[MDMA::EVENT_Y][0] = 0;
+				signal[MDMA::EVENT_Y][1] = 16;
+				signal[MDMA::EVENT_Y][2] = 32;
+
+				qDebug() << signal[MDMA::EVENT_Y][0] << signal[MDMA::EVENT_Y][1] << signal[MDMA::EVENT_Y][2];
+
+			}
+			break;
+/*
             if(!rect.contains(main.curr_pos))
             {
 				is_active[main.hand] = false;
@@ -202,9 +220,9 @@ QList<MDMA::event> EventZone::update(HandDescriptor& main)
 			if(active[MDMA::EVENT_Y] != MDMA::NOTHING)
 			{
                 signal[MDMA::EVENT_Y][MDMA::is_midi(active[MDMA::EVENT_Y])] = (rect.y() + rect.height() - main.curr_pos.y())*127/rect.height();
-                msgs << MDMA::EVENT_Y;
+				msgs << MDMA::EVENT_Y;
 			}
-			break;
+*/
 		}
 		case MDMA::PAD:
 		{
