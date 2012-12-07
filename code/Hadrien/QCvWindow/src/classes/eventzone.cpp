@@ -251,12 +251,15 @@ QList<MDMA::event> EventZone::update(HandDescriptor& main)
 
 			if(rect.contains(main.curr_pos) && rect.contains(main.last_pos) && active[MDMA::SHOCK] != MDMA::NOTHING)
 			{
-				int spe_chang = main.curr_speed.x() * main.last_speed.y() - main.curr_speed.y() * main.last_speed.x();
+				/*
+				int spe_chang = main.curr_speed.x() * main.last_speed.x() - main.curr_speed.y() * main.last_speed.y();
 				int acc_value = main.curr_acc.x() * main.curr_acc.x() + main.curr_acc.y() * main.curr_acc.y();
+				*/
+				int shock = main.curr_acc.x() * main.last_speed.x() + main.curr_acc.y() * main.last_speed.y();
 
-				qDebug() << spe_chang << acc_value;
+				//qDebug() << spe_chang << acc_value << shock;
 
-				if(acc_value > 80 && spe_chang < 0)
+				if(/*acc_value > 80 && spe_chang < 0*/ shock < -1200)
 				{
 					is_active[main.id] = true;
 					msgs << MDMA::SHOCK;

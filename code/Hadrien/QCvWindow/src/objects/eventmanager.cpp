@@ -33,8 +33,10 @@ void EventManager::detection()
 						break;
 					default:
 						midi = evz.getMidi(msg);
+						/*
 						if(midi)
 							emit sendMidi(midi);
+							*/
 					}
 				}
 				msgs = evz.update(Configuration::config().right_hand);
@@ -54,8 +56,10 @@ void EventManager::detection()
 						break;
 					default:
 						midi = evz.getMidi(msg);
+						/*
 						if(midi)
 							emit sendMidi(midi);
+							*/
 					}
 				}
 			}

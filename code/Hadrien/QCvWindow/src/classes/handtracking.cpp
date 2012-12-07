@@ -50,15 +50,15 @@ void HandTracking::PosAreaCalcMasked(cv::Mat img_bin, double& area, QPoint& pos)
 		pos += QPoint(p.x, p.y);
 	pos /= hull.size();
 
+	/*
 	static int i = 0;
 	QString winname = QString("test")+QString::number(i++);
-
 	cv::namedWindow(winname.toStdString().c_str(), 1);
 	contours.push_back(hull);
 	cv::drawContours(img_bin, contours, -1, 128);
 	cv::imshow(winname.toStdString().c_str(), img_bin);
-
-		qDebug() << "merged contour : area" << area << "pos" << pos;
+	*/
+	//	qDebug() << "merged contour : area" << area << "pos" << pos;
 }
 
 void HandTracking::PosAreaCalc(cv::Mat img_bin, cv::Point* pts, int& len, double& area, QPoint& pos)
@@ -117,21 +117,11 @@ void HandTracking::Calibrate(cv::Mat img1, QList<QPoint> img1hand1, QList<QPoint
 	gray8b1_binarized = gray8b1 < brThreshold;
 	gray8b2_binarized = gray8b2 < brThreshold;
 
-//		qDebug() << "brThreshold :" << brThreshold;
-//		cv::namedWindow("gray8b1_binarized", CV_WINDOW_AUTOSIZE);
-//		cv::imshow("gray8b1_binarized", gray8b1_binarized);
-//		cv::namedWindow("gray8b2_binarized", CV_WINDOW_AUTOSIZE);
-//		cv::imshow("gray8b2_binarized", gray8b2_binarized);
-
 	QPoint c11, c12, c21, c22;
 	double a11, a12, a21, a22;
-//		qDebug()<< "__________11__________";
 	PosAreaCalc(gray8b1_binarized, p11, len11, a11, c11);
-//		qDebug()<< "__________12__________";
 	PosAreaCalc(gray8b1_binarized, p12, len12, a12, c12);
-//		qDebug()<< "__________21__________";
 	PosAreaCalc(gray8b2_binarized, p21, len21, a21, c21);
-//		qDebug()<< "__________22__________";
 	PosAreaCalc(gray8b2_binarized, p22, len22, a22, c22);
 
     areaThreshold=(a11+a12+a21+a22)/4;
@@ -157,25 +147,35 @@ void HandTracking::Track(cv::Mat img)
 	cv::Mat gray8b_left = gray8b.clone();
 	cv::Mat gray8b_right = gray8b.clone();
 
-	cv::Mat left_mask = cv::Mat(gray8b_left, cv::Rect(0, 0, gray8b.size().width/2, gray8b.size().height));
-    left_mask = 255;
+	cv::Mat left_mask = cv::Mat(gray8b_left, cv::Rect(img.size().width/2, 0, img.size().width/2, img.size().height));
+	left_mask = 255;
 	gray8b_left = gray8b_left < brThreshold;
 
-	cv::Mat right_mask = cv::Mat(gray8b_right, cv::Rect(gray8b.size().width/2, 0, gray8b.size().width, gray8b.size().height));
-    right_mask = 255;
+	cv::Mat right_mask = cv::Mat(gray8b_right, cv::Rect(0, 0, img.size().width/2, img.size().height));
+	right_mask = 255;
 	gray8b_right = gray8b_right < brThreshold;
 
-    double area_left;
-	QPoint pos_left;
-	PosAreaCalcMasked(gray8b_left, area_left, pos_left);
+	try
+	{
+		double area_left;
+		QPoint pos_left;
+		PosAreaCalcMasked(gray8b_left, area_left, pos_left);
+		h_left.updatePos(pos_left.x(), pos_left.y(), area_left>areaThreshold);
+	}
+	catch(std::exception& e)
+	{
+	}
 
-    double area_right;
-	QPoint pos_right;
-	PosAreaCalcMasked(gray8b_right, area_right, pos_right);
-
-	h_left.updatePos(pos_left.x(), pos_left.y(), area_left>areaThreshold);
-	h_right.updatePos(pos_right.x(), pos_right.y(), area_right>areaThreshold);
-
+	try
+	{
+		double area_right;
+		QPoint pos_right;
+		PosAreaCalcMasked(gray8b_right, area_right, pos_right);
+		h_right.updatePos(pos_right.x(), pos_right.y(), area_right>areaThreshold);
+	}
+	catch(std::exception& e)
+	{
+	}
 }
 
 
