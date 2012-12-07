@@ -302,7 +302,7 @@ QList<MDMA::event> EventZone::update(HandDescriptor& main)
 				{
 					if(active[MDMA::OUT] != MDMA::NOTHING)
 					{
-						is_active[main.id] = true;
+						is_active[main.id	] = true;
 						msgs << MDMA::OUT;
 					}
 				}

@@ -8,9 +8,10 @@ EventManager::EventManager(QObject* parent) :
 
 void EventManager::detection()
 {
+	int current_tab = Configuration::config().data.current_tab;
 	for(EventZone& evz : Configuration::config().data.zones)
 	{
-		if(evz.tab == Configuration::config().data.current_tab)
+		if(evz.tab == current_tab)
         {
 			QList<MDMA::event> msgs;
 			if(Configuration::config().track_hand)
