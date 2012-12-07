@@ -246,34 +246,17 @@ QList<MDMA::event> EventZone::update(HandDescriptor& main)
 		case MDMA::SEGMENT:
 		{
 			is_active[main.hand] = false;
-			//Intersection des deux segments, celui de la zone et celui de la main
-            QPoint vect_hand = main.curr_pos - main.last_pos;
-			QPoint vect_segm = P1 - P2;
-			QPoint x;
-			int d, t;
-
-			//Calcul du dénominateur
-			d = vect_hand.x() * vect_segm.y() - vect_hand.y() * vect_segm.x();
-
-			if(d == 0) break;
-
-			//Vérifie si l'intersection est dans le segment de la zone
-            x = main.last_pos - P1;
-			t = vect_hand.x() * x.y() - vect_hand.y() * x.x();
-
-			if(d*t < 0 || abs(t) > abs(d)) break;
-
-			//Vérifie si l'intersection est dans le segment décrit par la main
-            x = P1 - main.last_pos;
-			t = vect_segm.x() * x.y() - vect_segm.y() * x.x();
-
-			if(d*t < 0 || abs(t) > abs(d)) break;
-			is_active[main.hand] = true;
-            if(d > 0)
-                msgs << MDMA::IN;
-            else
-                msgs << MDMA::OUT;
-			break;
+			QLineF vect_hand = QLineF(QPointF(main.curr_pos),QPointF(main.last_pos));
+			QLineF vect_segm = QLineF(QPointF(P1), QPointF(P2));
+			QPointF intersect_point;
+			if(vect_segm.intersect(vect_hand, &intersect_point) == QLineF::BoundedIntersection)
+			{
+				is_active[main.hand] = true;
+				if(vect_segm.dx() * vect_hand.dy() - vect_segm.dy() * vect_hand.dx() > 0)
+					msgs << MDMA::IN;
+				else
+					msgs << MDMA::OUT;
+			}
 		}
 	}
 	emph_display = is_active[0] || is_active[1] || is_active[2];

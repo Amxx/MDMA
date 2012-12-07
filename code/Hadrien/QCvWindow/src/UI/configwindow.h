@@ -26,9 +26,10 @@ class ConfigWindow : public QDialog
 	private slots:
 		void on_pushButton_midi_clicked();
 		void on_checkBox_flip_clicked();
-		void on_checkBox_mousetrack_clicked();
 		void on_pushButton_ok_clicked();
 		void on_pushButton_device_clicked();
+		void on_pushButton_hand_track_clicked();
+		void on_pushButton_mouse_track_clicked();
 
 	private:
 		void refreshPorts();

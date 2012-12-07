@@ -4,6 +4,7 @@ Configuration::Configuration() :
 	flip(true),
 	freeze(false),
 	running(false),
+	track_image(true),
 	track_mouse(false),
 	changed(false),
 	calibration_status(MDMA::NOT_CALIBRATED),

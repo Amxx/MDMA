@@ -62,12 +62,14 @@ class Configuration : public QWidget
 		bool flip;
 		bool freeze;
 		bool running;
-		bool track_mouse;
 		bool changed;
 		MDMA::calibration calibration_status;
 		QList<QPoint> user_mask;
 		cv::Mat close_calib;
 		cv::Mat open_calib;
+
+		bool track_image;
+		bool track_mouse;
 
 		HandDescriptor left_hand;
 		HandDescriptor right_hand;

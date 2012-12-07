@@ -1,5 +1,6 @@
 #include "configwindow.h"
 #include "ui_configwindow.h"
+#include "ui_mainwindow.h"
 
 ConfigWindow::ConfigWindow(MidiManager &_midi, QWidget *parent) :
 	QDialog(parent),
@@ -8,7 +9,11 @@ ConfigWindow::ConfigWindow(MidiManager &_midi, QWidget *parent) :
 {
 	ui->setupUi(this);
 	ui->checkBox_flip->setChecked(Configuration::config().flip);
-	ui->checkBox_mousetrack->setChecked(Configuration::config().track_mouse);
+//	ui->checkBox_mousetrack->setChecked(Configuration::config().track_mouse);
+
+	ui->pushButton_hand_track->setText(Configuration::config().track_image?"Disable hand tracking":"Enable hand tracking");
+	ui->pushButton_mouse_track->setText(Configuration::config().track_mouse?"Disable mouse tracking":"Enable mouse tracking");
+
 	refreshPorts();
 }
 
@@ -54,13 +59,38 @@ void ConfigWindow::on_checkBox_flip_clicked()
 {
 	Configuration::config().flip = ui->checkBox_flip->isChecked();
 }
-void ConfigWindow::on_checkBox_mousetrack_clicked()
-{
-	Configuration::config().track_mouse = ui->checkBox_mousetrack->isChecked();
-}
 
 void ConfigWindow::on_pushButton_device_clicked()
 {
 	Configuration::config().setCamera(true);
 }
 
+void ConfigWindow::on_pushButton_hand_track_clicked()
+{
+	if(Configuration::config().track_image)
+	{
+		Configuration::config().track_image = false;
+		ui->pushButton_hand_track->setText("Enable hand tracking");
+		Configuration::config().ui->pushButton_calibrate->setDisabled(true);
+	}
+	else
+	{
+		Configuration::config().track_image = true;
+		ui->pushButton_hand_track->setText("Disable hand tracking");
+		Configuration::config().ui->pushButton_calibrate->setDisabled(false);
+	}
+}
+
+void ConfigWindow::on_pushButton_mouse_track_clicked()
+{
+	if(Configuration::config().track_mouse)
+	{
+		Configuration::config().track_mouse = false;
+		ui->pushButton_mouse_track->setText("Enable mouse tracking");
+	}
+	else
+	{
+		Configuration::config().track_mouse = true;
+		ui->pushButton_mouse_track->setText("Disable mouse tracking");
+	}
+}

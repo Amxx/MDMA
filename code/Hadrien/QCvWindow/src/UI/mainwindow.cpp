@@ -160,13 +160,18 @@ void MainWindow::on_actionAbout_Qt_triggered()
 
 void MainWindow::on_pushButton_run_clicked()
 {
-	/*
-	if(Configuration::config().calibration_status != MDMA::CALIBRATED)
+
+	if(Configuration::config().calibration_status != MDMA::CALIBRATED && Configuration::config().track_image)
 	{
-		QMessageBox::information(this, "Setup isn't configured", "This setup hasn't been configured yet, please run the configuration window before running");
+		QMessageBox::information(this, "Calibration requested", "Calibration is needed to run image tracking, please run the calibration window before running");
 		return;
 	}
-	*/
+	if(!Configuration::config().track_image && !Configuration::config().track_mouse)
+	{
+		QMessageBox::information(this, "Tracking disabled", "No tracking is enable at this time, please enable some tracking in the configuration window");
+		return;
+	}
+
 
 	if(Configuration::config().running)
 	{
@@ -331,7 +336,6 @@ void MainWindow::on_pushButton_deleteAll_clicked()
 
 void MainWindow::on_comboBox_tab_currentIndexChanged(int index)
 {
-	Configuration::config().changed = true;
 	Configuration::config().data.current_tab = index;
 }
 
@@ -345,7 +349,7 @@ void MainWindow::ui_disable(bool b, bool all)
 {
 	ui->menubar->setDisabled(b);
 	ui->comboBox_tab->setDisabled(b);
-	ui->pushButton_calibrate->setDisabled(b);
+	ui->pushButton_calibrate->setDisabled(b || !Configuration::config().track_image);
 	ui->pushButton_configure->setDisabled(b);
 	ui->pushButton_delete->setDisabled(b);
 	ui->pushButton_deleteAll->setDisabled(b);
