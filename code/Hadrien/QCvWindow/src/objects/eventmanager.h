@@ -13,6 +13,7 @@ class EventManager : public QObject
 
 	public:
 		EventManager(QObject* parent = 0);
+		void run_messages(EventZone& evz, QList<MDMA::event> msgs);
 
 	public slots:
         void detection();

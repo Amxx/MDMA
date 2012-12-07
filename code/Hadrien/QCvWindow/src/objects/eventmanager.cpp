@@ -5,6 +5,30 @@ EventManager::EventManager(QObject* parent) :
 {
 }
 
+void EventManager::run_messages(EventZone& evz, QList<MDMA::event> msgs)
+{
+	for(MDMA::event msg: msgs)
+	{
+		switch(evz.active[msg])
+		{
+			case MDMA::GOTO_TAB1:
+				Configuration::config().setCurrentTab(0);
+				break;
+			case MDMA::GOTO_TAB2:
+				Configuration::config().setCurrentTab(1);
+				break;
+			case MDMA::GOTO_TAB3:
+				Configuration::config().setCurrentTab(2);
+				break;
+			default:
+			{
+				MDMA::signal midi = evz.getMidi(msg);
+				if(midi) emit sendMidi(midi);
+			}
+		}
+	}
+}
+
 
 void EventManager::detection()
 {
@@ -13,81 +37,14 @@ void EventManager::detection()
 	{
 		if(evz.tab == current_tab)
         {
-			QList<MDMA::event> msgs;
 			if(Configuration::config().track_hand)
 			{
-				msgs = evz.update(Configuration::config().left_hand);
-				for(MDMA::event msg: msgs)
-				{
-					MDMA::signal midi;
-					switch(evz.active[msg])
-					{
-					case MDMA::GOTO_TAB1:
-						Configuration::config().setCurrentTab(0);
-						break;
-					case MDMA::GOTO_TAB2:
-						Configuration::config().setCurrentTab(1);
-						break;
-					case MDMA::GOTO_TAB3:
-						Configuration::config().setCurrentTab(2);
-						break;
-					default:
-						midi = evz.getMidi(msg);
-						/*
-						if(midi)
-							emit sendMidi(midi);
-							*/
-					}
-				}
-				msgs = evz.update(Configuration::config().right_hand);
-				for(MDMA::event msg: msgs)
-				{
-					MDMA::signal midi;
-					switch(evz.active[msg])
-					{
-					case MDMA::GOTO_TAB1:
-						Configuration::config().setCurrentTab(0);
-					   break;
-					case MDMA::GOTO_TAB2:
-						Configuration::config().setCurrentTab(1);
-						break;
-					case MDMA::GOTO_TAB3:
-						Configuration::config().setCurrentTab(2);
-						break;
-					default:
-						midi = evz.getMidi(msg);
-						/*
-						if(midi)
-							emit sendMidi(midi);
-							*/
-					}
-				}
+				run_messages(evz, evz.update(Configuration::config().left_hand));
+				run_messages(evz, evz.update(Configuration::config().right_hand));
 			}
 			if(Configuration::config().track_mouse)
 			{
-				msgs = evz.update(Configuration::config().mouse_hand);
-				for(MDMA::event msg: msgs)
-				{
-					MDMA::signal midi;
-					switch(evz.active[msg])
-					{
-					case MDMA::GOTO_TAB1:
-						Configuration::config().setCurrentTab(0);
-						break;
-					case MDMA::GOTO_TAB2:
-						Configuration::config().setCurrentTab(1);
-						break;
-					case MDMA::GOTO_TAB3:
-						Configuration::config().setCurrentTab(2);
-						break;
-					default:
-						midi = evz.getMidi(msg);
-						/*
-						if(midi)
-							emit sendMidi(midi);
-							*/
-					}
-				}
+				run_messages(evz, evz.update(Configuration::config().mouse_hand));
 			}
 		}
     }
