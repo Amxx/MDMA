@@ -24,6 +24,7 @@ void EventManager::run_messages(EventZone& evz, QList<MDMA::event> msgs)
 			{
 				MDMA::signal midi = evz.getMidi(msg);
 				if(midi) emit sendMidi(midi);
+
 			}
 		}
 	}

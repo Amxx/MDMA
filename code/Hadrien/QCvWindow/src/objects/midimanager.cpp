@@ -103,20 +103,21 @@ void MidiManager::sendMessage(MDMA::signal msg)
 #endif //WIN32
 
 #ifndef WIN32
-	std::vector <unsigned char> v;
+	std::vector<unsigned char>* v = new std::vector<unsigned char>;
 
 	if(((msg[0] & 0xf0) == 0xc0) || ((msg[0] & 0xf0) == 0xd0))//program change or channel aftertouch
 	{
 		qDebug() << "size 2: program change or channel aftertouch";
-		v.assign(msg, msg+2);
+		v->assign(msg, msg+2);
 	}
 	else
 	{
 		qDebug() << "size 3";
-		v.assign(msg, msg+3);
+		v->assign(msg, msg+3);
 	}
+	qDebug() << msg[0] << msg[1] << msg[2];
 
-	RtMidiOut::sendMessage(&v);
+	RtMidiOut::sendMessage(v);
 
 	delete msg;
 #endif //NOT WIN32
