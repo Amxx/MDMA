@@ -248,6 +248,20 @@ QList<MDMA::event> EventZone::update(HandDescriptor& main)
 				is_active[main.id] = true;
 				msgs << MDMA::CLOSE;
 			}
+
+			if(rect.contains(main.curr_pos) && rect.contains(main.last_pos) && active[MDMA::SHOCK] != MDMA::NOTHING)
+			{
+				int spe_chang = main.curr_speed.x() * main.last_speed.y() - main.curr_speed.y() * main.last_speed.x();
+				int acc_value = main.curr_acc.x() * main.curr_acc.x() + main.curr_acc.y() * main.curr_acc.y();
+
+				qDebug() << spe_chang << acc_value;
+
+				if(acc_value > 80 && spe_chang < 0)
+				{
+					is_active[main.id] = true;
+					msgs << MDMA::SHOCK;
+				}
+			}
 /*
 			if(!rect.contains(main.curr_pos))
 			{
@@ -302,7 +316,7 @@ QList<MDMA::event> EventZone::update(HandDescriptor& main)
 				{
 					if(active[MDMA::OUT] != MDMA::NOTHING)
 					{
-						is_active[main.id	] = true;
+						is_active[main.id] = true;
 						msgs << MDMA::OUT;
 					}
 				}
