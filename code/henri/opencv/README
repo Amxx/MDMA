@@ -1,0 +1,16 @@
+Programmes tests pour l'utilisation de la Kinect de Miscrosoft
+
+Dépendances
+-----------
+Pour pouvoir compiler et lancer ces programmes, la bibliothèque OpenCV sera nécessaire. Elle se trouve dans les dépots de votre distribution, ou bien à l'adresse http://opencv.org/downloads.html.
+Dépendance à OpenNI et aux drivers primesensor  à vérifier.
+Compilation
+-----------
+Pour compiler, il vous suffit de lancer la commande :
+	make
+dans la racine.
+
+Exécution
+---------
+Pour lancer le test d'utilisation de la kinect avec OpenCV :
+	./opencv_openni
