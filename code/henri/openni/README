@@ -1,0 +1,45 @@
+Programmes tests pour l'utilisation de la Kinect de Miscrosoft
+
+Dépendances
+-----------
+Test OpenNI avec OpenCV : une seule dépendance à la compilation, OpenCV compilé avec le flag WITH_OPENNI. 
+Par défaut, celle ci est compilée sans ce flag, il faut donc la compiler et l'installer manuellement et donc installer la bibilothèque OpenNI et son module PrimeSensor(NITE) pour utiliser la kinect.
+
+Test OpenNI seul : nécessite la bibilothèque OpenNI et son module PrimeSensor(NITE) pour compiler.
+
+Dans les deux cas, les dépendances à l'éxécution est à déterminer
+
+Installation de OpenNI et NITE
+------------------------------
+Soit vous avez les paquets nécessaires pour votre distribution 
+
+Ubuntu: http://doc.ubuntu-fr.org/kinect_openni puis http://doc.ubuntu-fr.org/kinect_openni_nite
+Archlinux: AUR: openni-git et sensorkinect-git
+
+Compilation de OpenCV
+---------------------
+Télecharger les sources d'OpenCV: http://opencv.org/downloads.html
+A l'aide de cmake, placez le flag WITH_OPENNI à 1.
+Suivez les instructions d'installation.
+
+Compilation
+-----------
+Pour compiler, il vous suffit de lancer la commande :
+	make
+dans la racine.
+
+Exécution
+---------
+Pour lancer le test d'utilisation de la kinect avec OpenCV :
+	./opencv_openni
+Pour lancer le test d'utilisation de la kinect sans OpenCV :
+	./openni
+	
+Problèmes
+---------
+Sous linux:
+- Couldn't initialize: Failed to set USB interface!
+	il faut désactiver le module gspca_kinect après avoir branché la kinect: 
+	#rmmod gspca_kinect
+	
+
