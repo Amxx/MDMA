@@ -2,12 +2,14 @@ Programmes tests pour l'utilisation de la Kinect de Miscrosoft
 
 Dépendances
 -----------
-Test OpenNI avec OpenCV : une seule dépendance à la compilation, OpenCV compilé avec le flag WITH_OPENNI. 
+Test OpenNI avec OpenCV (1): une seule dépendance à la compilation, OpenCV compilé avec le flag WITH_OPENNI. 
 Par défaut, celle ci est compilée sans ce flag, il faut donc la compiler et l'installer manuellement et donc installer la bibilothèque OpenNI et son module PrimeSensor(NITE) pour utiliser la kinect.
 
-Test OpenNI seul : nécessite la bibilothèque OpenNI et son module PrimeSensor(NITE) pour compiler.
+Test OpenNI + NITE (2): nécessite la bibilothèque OpenNI et son module PrimeSensor(NITE) pour compiler.
 
-Dans les deux cas, les dépendances à l'éxécution est à déterminer
+Test OpenNI seul (1): nécessite la bibilothèque OpenNI.
+
+Dans les trois cas, les dépendances à l'éxécution est à déterminer
 
 Installation de OpenNI et NITE
 ------------------------------
@@ -34,7 +36,19 @@ Pour lancer le test d'utilisation de la kinect avec OpenCV :
 	./opencv_openni
 Pour lancer le test d'utilisation de la kinect sans OpenCV :
 	./openni
+ou
+	./openni_class_nite
+Pour lancer le test d'utilisation de la kinect sans OpenCV sans nite:
+	./openni_class
 	
+Détails
+-------
+opencv_openni affiche deux images, la profondeur et l'image RGB
+openni et openni_class_nite donne la position d'une main dans l'espace
+openni_class donnent les positions de plusieurs mains dans l'espaces.
+
+Pour que les programmes detectent une main, il faut faire une mouvement d'avant en arriere avec la main. (considérer comme un click)
+
 Problèmes
 ---------
 Sous linux:
