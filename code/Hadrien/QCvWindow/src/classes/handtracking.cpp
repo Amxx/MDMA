@@ -50,15 +50,16 @@ void HandTracking::PosAreaCalcMasked(cv::Mat img_bin, double& area, QPoint& pos)
 		pos += QPoint(p.x, p.y);
 	pos /= hull.size();
 
-	/*
+/*
 	static int i = 0;
 	QString winname = QString("test")+QString::number(i++);
 	cv::namedWindow(winname.toStdString().c_str(), 1);
 	contours.push_back(hull);
 	cv::drawContours(img_bin, contours, -1, 128);
 	cv::imshow(winname.toStdString().c_str(), img_bin);
-	*/
-	//	qDebug() << "merged contour : area" << area << "pos" << pos;
+	qDebug() << "merged contour : area" << area << "pos" << pos;
+*/
+
 }
 
 void HandTracking::PosAreaCalc(cv::Mat img_bin, cv::Point* pts, int& len, double& area, QPoint& pos)

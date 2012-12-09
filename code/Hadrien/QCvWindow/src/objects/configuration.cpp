@@ -1,13 +1,14 @@
 #include "configuration.h"
 #include "ui_mainwindow.h"
+
 Configuration::Configuration() :
 	flip(true),
 	freeze(false),
 	running(false),
-	track_hand(true),
-	track_mouse(false),
 	changed(false),
 	calibration_status(MDMA::NOT_CALIBRATED),
+	track_hand(true),
+	track_mouse(false),
 	left_hand(0, 0, MDMA::LEFT),
 	right_hand(0, 0, MDMA::RIGHT),
 	mouse_hand(0, 0, MDMA::MOUSE),
@@ -23,6 +24,7 @@ void Configuration::initialize(QWidget *_main, Ui::MainWindow *_ui)
 {
 	main = _main;
 	ui = _ui;
+
 	camera.open(cameraPort);
 	setCamera();
 }
@@ -43,7 +45,8 @@ bool Configuration::setCamera(bool force)
 	while(ok && !(run && camera.isOpened()))
 	{
 		run = true;
-		cameraPort = QInputDialog::getInt(this, "Camera selection", "Please select camera device number", cameraPort, 0, 2147483647, 1, &ok);
+		cameraPort = QInputDialog::getInt(0, "Camera selection", "Please select camera device number", cameraPort, 0, 2147483647, 1, &ok);
+		if(camera.isOpened()) camera.release();
 		camera.open(cameraPort);
 	}
 	return ok;

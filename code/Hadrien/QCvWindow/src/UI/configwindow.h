@@ -31,6 +31,8 @@ class ConfigWindow : public QDialog
 		void on_pushButton_hand_track_clicked();
 		void on_pushButton_mouse_track_clicked();
 
+		void on_comboBox_midi_currentIndexChanged(int index);
+
 	private:
 		void refreshPorts();
 

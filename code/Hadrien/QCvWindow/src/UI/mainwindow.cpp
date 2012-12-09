@@ -16,9 +16,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	midi_manager(),
 	zone_manager(this)
 {
-
 	ui->setupUi(this);
 	ui->statusbar->showMessage("Ready");
+	show();
 
 	Configuration::config().initialize(this, ui);
 	QObject::connect(&camera_manager, SIGNAL(track_updated()), &event_manager, SLOT(detection()));

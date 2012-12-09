@@ -7,6 +7,11 @@ MidiManager::MidiManager()
 #ifdef WIN32
 	port = NULL;
 #endif //WIN32
+
+// ===========================================
+	changePort(0);
+// ===========================================
+
 }
 
 MidiManager::~MidiManager() throw()

@@ -52,6 +52,10 @@ void ConfigWindow::refreshPorts()
 		ui->comboBox_midi->addItem(QString(midi.getPortName(i).c_str()));
 }
 
+void ConfigWindow::on_comboBox_midi_currentIndexChanged(int index)
+{
+	midi.changePort(index);
+}
 
 void ConfigWindow::on_checkBox_flip_clicked()
 {
@@ -61,6 +65,9 @@ void ConfigWindow::on_checkBox_flip_clicked()
 void ConfigWindow::on_pushButton_device_clicked()
 {
 	Configuration::config().setCamera(true);
+
+	Configuration::config().calibration_status = MDMA::NOT_CALIBRATED;
+	Configuration::config().ui->pushButton_calibrate->setText("Calibrate");
 }
 
 void ConfigWindow::on_pushButton_hand_track_clicked()
