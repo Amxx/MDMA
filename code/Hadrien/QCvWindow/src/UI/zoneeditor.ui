@@ -130,7 +130,7 @@
      <property name="geometry">
       <rect>
        <x>-1</x>
-       <y>70</y>
+       <y>60</y>
        <width>51</width>
        <height>30</height>
       </rect>
@@ -146,7 +146,7 @@
      <property name="geometry">
       <rect>
        <x>-1</x>
-       <y>110</y>
+       <y>130</y>
        <width>51</width>
        <height>30</height>
       </rect>
@@ -165,7 +165,7 @@
      <property name="geometry">
       <rect>
        <x>209</x>
-       <y>70</y>
+       <y>60</y>
        <width>49</width>
        <height>30</height>
       </rect>
@@ -184,7 +184,7 @@
      <property name="geometry">
       <rect>
        <x>169</x>
-       <y>70</y>
+       <y>60</y>
        <width>40</width>
        <height>30</height>
       </rect>
@@ -200,7 +200,7 @@
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>70</y>
+       <y>60</y>
        <width>119</width>
        <height>30</height>
       </rect>
@@ -253,7 +253,7 @@
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>110</y>
+       <y>130</y>
        <width>119</width>
        <height>30</height>
       </rect>
@@ -306,7 +306,7 @@
      <property name="geometry">
       <rect>
        <x>169</x>
-       <y>110</y>
+       <y>130</y>
        <width>40</width>
        <height>30</height>
       </rect>
@@ -322,7 +322,7 @@
      <property name="geometry">
       <rect>
        <x>209</x>
-       <y>110</y>
+       <y>130</y>
        <width>49</width>
        <height>30</height>
       </rect>
@@ -335,7 +335,7 @@
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>40</y>
+       <y>30</y>
        <width>119</width>
        <height>30</height>
       </rect>
@@ -351,7 +351,7 @@
      <property name="geometry">
       <rect>
        <x>169</x>
-       <y>40</y>
+       <y>30</y>
        <width>40</width>
        <height>30</height>
       </rect>
@@ -367,7 +367,7 @@
      <property name="geometry">
       <rect>
        <x>209</x>
-       <y>40</y>
+       <y>30</y>
        <width>49</width>
        <height>30</height>
       </rect>
@@ -383,7 +383,7 @@
      <property name="geometry">
       <rect>
        <x>258</x>
-       <y>40</y>
+       <y>30</y>
        <width>49</width>
        <height>30</height>
       </rect>
@@ -397,12 +397,12 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_axex_3">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
        <x>258</x>
-       <y>70</y>
+       <y>60</y>
        <width>49</width>
        <height>30</height>
       </rect>
@@ -416,12 +416,12 @@
     </widget>
     <widget class="QSpinBox" name="spinBox_axey_3">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
        <x>258</x>
-       <y>110</y>
+       <y>130</y>
        <width>49</width>
        <height>30</height>
       </rect>
@@ -435,6 +435,110 @@
      <property name="value">
       <number>64</number>
      </property>
+    </widget>
+    <widget class="QLabel" name="label_axex_2">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>90</y>
+       <width>100</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>set variable</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_axex_3">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>160</y>
+       <width>100</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>set variable</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QWidget" name="widget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>90</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <widget class="QRadioButton" name="radioButton_variable_1_1">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>0</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radioButton_variable_1_2">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>0</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="widget_2" native="true">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>160</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <widget class="QRadioButton" name="radioButton_variable_2_1">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>0</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radioButton_variable_2_2">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>0</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QWidget" name="tab_Pad">

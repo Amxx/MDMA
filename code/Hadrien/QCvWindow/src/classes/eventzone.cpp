@@ -28,6 +28,9 @@ EventZone::EventZone(QPoint _P1, QPoint _P2, int _tab) :
 		signal[i][1] = 0;
 		signal[i][2] = 0;
 	}
+	for(int i=0; i<2; i++)
+			variable[i] = false;
+
 }
 
 EventZone::EventZone(const EventZone &cpy) :
@@ -52,6 +55,9 @@ EventZone::EventZone(const EventZone &cpy) :
 		signal[i][1] = cpy.signal[i][1];
 		signal[i][2] = cpy.signal[i][2];
 	}
+	for(int i=0; i<2; i++)
+			variable[i] = cpy.variable[i];
+
 }
 
 EventZone::~EventZone()
@@ -81,14 +87,14 @@ void EventZone::display(QPainter& painter)
 			{
 				int x_min = std::min(P1.x(), P2.x());
 				int x_max = std::max(P1.x(), P2.x());
-				int x_value = x_min + (x_max - x_min) * signal[MDMA::EVENT_X][MDMA::is_midi(active[MDMA::EVENT_X])]/127;
+				int x_value = x_min + (x_max - x_min) * signal[MDMA::EVENT_X][variable[0]?1:2]/127;
 				painter.drawLine(QPoint(x_value, P1.y()), QPoint(x_value, P2.y()));
 			}
 			if(MDMA::is_midi(active[MDMA::EVENT_Y]))
 			{
 				int y_min = std::min(P1.y(), P2.y());
 				int y_max = std::max(P1.y(), P2.y());
-				int y_value = y_max - (y_max - y_min) * signal[MDMA::EVENT_Y][MDMA::is_midi(active[MDMA::EVENT_Y])]/127;
+				int y_value = y_max - (y_max - y_min) * signal[MDMA::EVENT_Y][variable[1]?1:2]/127;
 				painter.drawLine(QPoint(P1.x(), y_value), QPoint(P2.x(), y_value));
 			}
 
@@ -180,12 +186,20 @@ QList<MDMA::event> EventZone::update(HandDescriptor& main)
 				is_active[main.id] = true;
 				if(active[MDMA::EVENT_X] != MDMA::NOTHING)
 				{
-					signal[MDMA::EVENT_X][MDMA::is_midi(active[MDMA::EVENT_X])] = (main.curr_pos.x() - rect.x())*127/rect.width();
+					int x_value = (main.curr_pos.x() - rect.x())*127/rect.width();
+					if(variable[0])
+						signal[MDMA::EVENT_X][1] = x_value;
+					else
+						signal[MDMA::EVENT_X][2] = x_value;
 					msgs << MDMA::EVENT_X;
 				}
 				if(active[MDMA::EVENT_Y] != MDMA::NOTHING)
 				{
-					signal[MDMA::EVENT_Y][MDMA::is_midi(active[MDMA::EVENT_Y])] = (rect.y() + rect.height() - main.curr_pos.y())*127/rect.height();
+					int y_value = (rect.y() + rect.height() - main.curr_pos.y())*127/rect.height();
+					if(variable[1])
+						signal[MDMA::EVENT_Y][1] = y_value;
+					else
+						signal[MDMA::EVENT_Y][2] = y_value;
 					msgs << MDMA::EVENT_Y;
 				}
 			}
@@ -353,6 +367,9 @@ QDataStream& operator << (QDataStream& out, const EventZone& evz)
 			<< evz.signal[i][1]					// Char
 			<< evz.signal[i][2];				// Char
 	}
+	for(int i=0; i<2; i++)
+			out << evz.variable[i];
+
 	return out;
 }
 QDataStream& operator >> (QDataStream& in, EventZone& evz)
@@ -373,5 +390,8 @@ QDataStream& operator >> (QDataStream& in, EventZone& evz)
 		in >> evz.signal[i][1];					// Char
 		in >> evz.signal[i][2];					// Char
 	}
+	for(int i=0; i<2; i++)
+			in << evz.variable[i];
+
 	return in;
 }

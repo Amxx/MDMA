@@ -36,11 +36,8 @@ class ZoneEditor : public QDialog
 
 
 		void on_comboBox_in_currentIndexChanged(int index);
-
 		void on_comboBox_out_currentIndexChanged(int index);
-
 		void on_buttonBox_rejected();
-
 		void on_noteHelp_clicked();
 
 	private:

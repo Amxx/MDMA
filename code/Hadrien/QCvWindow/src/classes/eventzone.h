@@ -43,6 +43,7 @@ class EventZone
 		MDMA::type type;
 		MDMA::active active[9];
 		MDMA::signal signal[9];
+		bool variable[2];
 
 		// ----------------------------------------------------------
 
