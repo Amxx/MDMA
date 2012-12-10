@@ -1,6 +1,7 @@
 #include "subconfig.h"
 
 SubConfig::SubConfig() :
+	version(MDMA::VERSION),
 	name("New Configuration"),
 	path(""),
 	current_tab(0)
@@ -8,6 +9,7 @@ SubConfig::SubConfig() :
 }
 
 SubConfig::SubConfig(const SubConfig &sub_config) :
+	version(sub_config.version),
 	name(sub_config.name),
 	path(sub_config.path),
 	current_tab(sub_config.current_tab),
@@ -30,7 +32,8 @@ void SubConfig::initSubConfig()
 QDataStream& operator << (QDataStream& out, const SubConfig& sub_config)
 {
 
-	out << sub_config.name							// QString
+	out << sub_config.version
+		<< sub_config.name							// QString
 		<< sub_config.path							// QString
 		<< sub_config.current_tab					// Int
 		<< sub_config.zones;
@@ -39,6 +42,7 @@ QDataStream& operator << (QDataStream& out, const SubConfig& sub_config)
 }
 QDataStream& operator >> (QDataStream& in, SubConfig& sub_config)
 {
+	in >> sub_config.version;
 	in >> sub_config.name;							// QString
 	in >> sub_config.path;							// QPoint
 	in >> sub_config.current_tab;					// QPoint

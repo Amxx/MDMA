@@ -367,8 +367,8 @@ QDataStream& operator << (QDataStream& out, const EventZone& evz)
 			<< evz.signal[i][1]					// Char
 			<< evz.signal[i][2];				// Char
 	}
-	for(int i=0; i<2; i++)
-			out << evz.variable[i];
+	out << evz.variable[0];
+	out << evz.variable[1];
 
 	return out;
 }
@@ -390,8 +390,8 @@ QDataStream& operator >> (QDataStream& in, EventZone& evz)
 		in >> evz.signal[i][1];					// Char
 		in >> evz.signal[i][2];					// Char
 	}
-	for(int i=0; i<2; i++)
-			in << evz.variable[i];
+	in >> evz.variable[0];
+	in >> evz.variable[1];
 
 	return in;
 }

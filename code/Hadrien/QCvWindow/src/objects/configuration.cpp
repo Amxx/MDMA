@@ -71,6 +71,7 @@ bool Configuration::reset()
 				break;
 		}
 
+	data.version = MDMA::VERSION;
 	data.name = "New configuration";
 	data.path = "";
 	data.current_tab = 0;
@@ -111,10 +112,19 @@ bool Configuration::open()
 	data = file.value("SubConfig", qVariantFromValue(SubConfig())).value<SubConfig>();
 
 	ui->treeWidget_list->clear();
+	changed = false;
+
+	if(data.version != MDMA::VERSION)
+	{
+		QMessageBox::information(0, "Depreciated configuration file", "The configuration you tried to load does not match the current verion of MDMA");
+		reset();
+		return false;
+	}
+
 	for(EventZone& evz : data.zones)
 		ui->treeWidget_list->addTopLevelItem(new QTreeWidgetItem(QStringList() << evz.name << MDMA::type_to_string(evz.type) << QString::number(evz.tab+1)));
 	ui->comboBox_tab->setCurrentIndex(data.current_tab);
-	changed = false;
+
 
 	return true;
 }

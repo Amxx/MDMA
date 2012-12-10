@@ -179,6 +179,13 @@ void MainWindow::on_pushButton_run_clicked()
 		ui_disable(false);
 		ui->pushButton_run->setText("Run");
 		ui->statusbar->showMessage("Ready");
+
+		for(EventZone& evz : Configuration::config().data.zones)
+		{
+			evz.is_active[0] = false;
+			evz.is_active[1] = false;
+			evz.is_active[2] = false;
+		}
 	}
 	else
 	{
@@ -295,17 +302,21 @@ void MainWindow::on_pushButton_edit_clicked()
 
 		if(popup.exec())
 		{
-			if(name != evz.name)
+
+			EventZone evz_t(evz);
+			Configuration::config().data.zones.remove(name);
+
+			if(Configuration::config().data.zones.find(evz_t.name) != Configuration::config().data.zones.end())
 			{
-				EventZone evz_t(evz);
-				Configuration::config().data.zones.insert(evz_t.name, evz_t);
+				int i = 0;
+				while(Configuration::config().data.zones.find(evz_t.name+"_"+QString::number(i)) != Configuration::config().data.zones.end()) i++;
+				evz_t.name+=("_"+QString::number(i));
 			}
+			Configuration::config().data.zones.insert(evz_t.name, evz_t);
 
-			ui->treeWidget_list->currentItem()->setText(0, evz.name);
-			ui->treeWidget_list->currentItem()->setText(1, MDMA::type_to_string(evz.type));
-			ui->treeWidget_list->currentItem()->setText(2, QString::number(evz.tab + 1));
-
-			if(name != evz.name) Configuration::config().data.zones.remove(name);
+			ui->treeWidget_list->currentItem()->setText(0, evz_t.name);
+			ui->treeWidget_list->currentItem()->setText(1, MDMA::type_to_string(evz_t.type));
+			ui->treeWidget_list->currentItem()->setText(2, QString::number(evz_t.tab + 1));
 
 			Configuration::config().changed = true;
 		}

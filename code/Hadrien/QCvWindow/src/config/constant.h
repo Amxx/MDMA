@@ -59,6 +59,7 @@ namespace MDMA
 	typedef unsigned char* signal;
     typedef QPair<active, signal> event_signal;
 
+	const QString VERSION =					QString("MDMA v0.1.0 alpha");
 
 	const QColor calib_color =				QColor(64, 64, 64, 128);
 	const QColor mask_color =				QColor(64, 64, 64, 128);

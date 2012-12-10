@@ -15,6 +15,7 @@ class SubConfig
 
 		static void initSubConfig();
 
+		QString version;
 		QString name;
 		QString path;
 		int current_tab;
