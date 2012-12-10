@@ -185,6 +185,7 @@ void MainWindow::on_pushButton_run_clicked()
 			evz.is_active[0] = false;
 			evz.is_active[1] = false;
 			evz.is_active[2] = false;
+			evz.emph_display = false;
 		}
 	}
 	else

@@ -37,7 +37,6 @@ void ConfigWindow::on_pushButton_ok_clicked()
 
 void ConfigWindow::on_pushButton_midi_clicked()
 {
-	/*
 	bool ok;
 	QString name = QInputDialog::getText(this, "Create a new midi port", "Port name", QLineEdit::Normal, "MDMA", &ok);
 	if(ok && name != "")
@@ -45,7 +44,6 @@ void ConfigWindow::on_pushButton_midi_clicked()
 		midi.createPort(name);
 		on_pushButton_midi_refresh_clicked();
 	}
-	*/
 }
 
 
