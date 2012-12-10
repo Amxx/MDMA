@@ -4,6 +4,7 @@
 
 ConfigWindow::ConfigWindow(MidiManager &_midi, QWidget *parent) :
 	QDialog(parent),
+	refreshing(false),
 	midi(_midi),
 	ui(new Ui::ConfigWindow)
 {
@@ -12,7 +13,7 @@ ConfigWindow::ConfigWindow(MidiManager &_midi, QWidget *parent) :
 	ui->pushButton_hand_track->setText(Configuration::config().track_hand?"Disable hand tracking":"Enable hand tracking");
 	ui->pushButton_mouse_track->setText(Configuration::config().track_mouse?"Disable mouse tracking":"Enable mouse tracking");
 
-	refreshPorts();
+	on_pushButton_midi_refresh_clicked();
 }
 
 ConfigWindow::~ConfigWindow()
@@ -36,31 +37,46 @@ void ConfigWindow::on_pushButton_ok_clicked()
 
 void ConfigWindow::on_pushButton_midi_clicked()
 {
+	/*
 	bool ok;
 	QString name = QInputDialog::getText(this, "Create a new midi port", "Port name", QLineEdit::Normal, "MDMA", &ok);
 	if(ok && name != "")
 	{
 		midi.createPort(name);
-		refreshPorts();
+		on_pushButton_midi_refresh_clicked();
 	}
+	*/
 }
 
-void ConfigWindow::refreshPorts()
+
+void ConfigWindow::on_pushButton_midi_refresh_clicked()
 {
+	refreshing = true;
+
 	ui->comboBox_midi->clear();
 	for(unsigned int i=0; i<midi.getPortCount(); i++)
 		ui->comboBox_midi->addItem(QString(midi.getPortName(i).c_str()));
+	ui->comboBox_midi->setCurrentIndex(midi.current_port);
+
+	refreshing = false;
 }
 
 void ConfigWindow::on_comboBox_midi_currentIndexChanged(int index)
 {
-	midi.changePort(index);
+	if(!refreshing) midi.changePort(index);
 }
+
+
+
+
 
 void ConfigWindow::on_checkBox_flip_clicked()
 {
 	Configuration::config().flip = ui->checkBox_flip->isChecked();
 }
+
+
+
 
 void ConfigWindow::on_pushButton_device_clicked()
 {
@@ -99,3 +115,4 @@ void ConfigWindow::on_pushButton_mouse_track_clicked()
 		ui->pushButton_mouse_track->setText("Disable mouse tracking");
 	}
 }
+

@@ -2,14 +2,15 @@
 
 #include <vector>
 
-MidiManager::MidiManager()
+MidiManager::MidiManager() :
+	current_port(0)
 {
 #ifdef WIN32
 	port = NULL;
 #endif //WIN32
 
 // ===========================================
-	changePort(0);
+	changePort(current_port);
 // ===========================================
 
 }
@@ -67,7 +68,8 @@ void MidiManager::changePort(int n)
 	}
 #endif //WIN32
 
-	openPort(n);
+	current_port = n;
+	openPort(current_port);
 }
 
 //void MidiManager::sendMessage(const unsigned char* msg)
@@ -105,9 +107,7 @@ void MidiManager::sendMessage(MDMA::signal msg)
 
         delete msg;
     }
-#endif //WIN32
-
-#ifndef WIN32
+#else
 	std::vector<unsigned char>* v = new std::vector<unsigned char>;
 
 	if(((msg[0] & 0xf0) == 0xc0) || ((msg[0] & 0xf0) == 0xd0))//program change or channel aftertouch

@@ -24,6 +24,8 @@ class MidiManager : public QObject, public RtMidiOut
 		MidiManager();
 		~MidiManager() throw();
 
+		int current_port;
+
 	public slots:
 		void createPort(QString name);
 		void changePort(int n);
