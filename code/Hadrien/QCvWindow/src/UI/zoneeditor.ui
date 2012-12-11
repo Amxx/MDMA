@@ -26,7 +26,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Editeur de zone</string>
+   <string>Zone editor</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../ressources.qrc">
