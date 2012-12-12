@@ -2,16 +2,20 @@
 
 #include <vector>
 
-MidiManager::MidiManager() :
-	current_port(0)
+MidiManager::MidiManager()
 {
 #ifdef WIN32
 	port = NULL;
 #endif //WIN32
 
+	MIDIPortName = "";
+	current_port = -1;
+
 // ===========================================
-	changePort(current_port);
+//	changePort(current_port);
 // ===========================================
+
+	createPort(QString("MDMA"));
 
 }
 
@@ -27,6 +31,7 @@ MidiManager::~MidiManager() throw()
 void MidiManager::createPort(QString name)
 {
 	closePort();
+	current_port = -1;
 
 #ifndef WIN32
 	openVirtualPort(name.toStdString());
@@ -44,7 +49,7 @@ void MidiManager::createPort(QString name)
 	// We need the name of the MIDI port in LPCWSTR, this this awfull part of code
 	int len;
 	int slength = (int)name.length() + 1;
-	len = MultiByteToWideChar(CP_ACP, 0, name.c_str(), slength, 0, 0);
+	len = MultiByteToWideChar(CP_ACP, 0, name.toStdString(), slength, 0, 0);
 	wchar_t* buf = new wchar_t[len];
 	MultiByteToWideChar(CP_ACP, 0, name.c_str(), slength, buf, len);
 	std::wstring r(buf);
@@ -55,6 +60,8 @@ void MidiManager::createPort(QString name)
 		printf( "could not create port: %d\n", GetLastError() );
 	}
 #endif
+
+	MIDIPortName = name.toStdString();
 }
 
 void MidiManager::changePort(int n)
@@ -70,6 +77,8 @@ void MidiManager::changePort(int n)
 
 	current_port = n;
 	openPort(current_port);
+
+	MIDIPortName = "";
 }
 
 //void MidiManager::sendMessage(const unsigned char* msg)

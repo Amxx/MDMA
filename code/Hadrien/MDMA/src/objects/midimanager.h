@@ -21,6 +21,9 @@ class MidiManager : public QObject, public RtMidiOut
 #endif //WIN32
 
 	public:
+		std::string MIDIPortName;
+
+	public:
 		MidiManager();
 		~MidiManager() throw();
 

@@ -52,9 +52,17 @@ void ConfigWindow::on_pushButton_midi_refresh_clicked()
 	refreshing = true;
 
 	ui->comboBox_midi->clear();
-	for(unsigned int i=0; i<midi.getPortCount(); i++)
+	unsigned int nbPorts = midi.getPortCount();
+	for(unsigned int i=0; i<nbPorts; i++)
 		ui->comboBox_midi->addItem(QString(midi.getPortName(i).c_str()));
-	ui->comboBox_midi->setCurrentIndex(midi.current_port);
+
+	if(midi.current_port != -1) {
+		ui->comboBox_midi->setCurrentIndex(midi.current_port);
+	}
+	else {
+		ui->comboBox_midi->addItem(QString(midi.MIDIPortName.c_str()));
+		ui->comboBox_midi->setCurrentIndex(nbPorts);
+	}
 
 	refreshing = false;
 }
