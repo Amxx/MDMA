@@ -29,15 +29,17 @@
 #include <XnHashT.h>
 
 // Hand position history length (positions)
-#define MAX_HAND_TRAIL_LENGTH	10
+//#define MAX_HAND_TRAIL_LENGTH	10
 
-typedef XnCyclicStackT<XnPoint3D, MAX_HAND_TRAIL_LENGTH> Trail;
-typedef XnHashT<XnUserID, Trail> TrailHistory;
+//typedef XnCyclicStackT<XnPoint3D, MAX_HAND_TRAIL_LENGTH> Trail;
+//typedef XnHashT<XnUserID, Trail> TrailHistory;
+
+typedef XnHashT<XnUserID, XnPoint3D> TrailHistory;
 
 class HandTracker
 {
 public:
-	HandTracker();
+    HandTracker(xn::Context&);
 	~HandTracker();
 
 	XnStatus Init();
@@ -46,7 +48,7 @@ public:
 
     QImage getCamera();
 
-	const TrailHistory&	GetHistory()	const	{return m_History;}
+    const TrailHistory&	GetHistory()	const	{return m_History;}
 
 private:
 	// OpenNI Gesture and Hands Generator callbacks
@@ -77,10 +79,11 @@ private:
 
 	xn::Context				m_rContext;
     xn::ScriptNode 			m_scriptNode;
-	TrailHistory			m_History;
+    TrailHistory			m_History;
 	xn::GestureGenerator	m_GestureGenerator;
 	xn::HandsGenerator		m_HandsGenerator;
     xn::ImageGenerator      m_ImageGenerator;
+    xn::DepthGenerator      m_DepthGenerator;
     xn::ImageMetaData       m_IimageMD;
 
     QImage*                 m_imagecamera;

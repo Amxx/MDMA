@@ -19,7 +19,8 @@ protected:
     
 private:
     QLabel* label;
-    HandTracker ht;
+    HandTracker* ht;
+    xn::Context m_rContext;
 };
 
 #endif // MAINWINDOW_H

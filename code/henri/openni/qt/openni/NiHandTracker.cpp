@@ -96,7 +96,7 @@ void XN_CALLBACK_TYPE HandTracker::Hand_Create(	xn::HandsGenerator& /*generator*
 		return;
 	}
 
-	pThis->m_History[nId].Push(*pPosition);
+    pThis->m_History[nId] = *pPosition;
 }
 
 void XN_CALLBACK_TYPE HandTracker::Hand_Update(	xn::HandsGenerator& /*generator*/, 
@@ -113,14 +113,14 @@ void XN_CALLBACK_TYPE HandTracker::Hand_Update(	xn::HandsGenerator& /*generator*
 	}
 
 	// Add to this user's hands history
-	TrailHistory::Iterator it = pThis->m_History.Find(nId);
+    TrailHistory::Iterator it = pThis->m_History.Find(nId);
 	if (it == pThis->m_History.End())
 	{
 		printf("Dead hand update: skipped!\n");
 		return;
-	}
-	printf("%d: (%f,%f,%f) [%f]\n", nId, pPosition->X, pPosition->Y, pPosition->Z, fTime);
-	it->Value().Push(*pPosition);
+    }
+    it->Value() = *pPosition;
+    //printf("%d: (%f,%f,%f) [%f]\n", nId, pPosition->X, pPosition->Y, pPosition->Z, fTime);
 }
 
 void XN_CALLBACK_TYPE HandTracker::Hand_Destroy(	xn::HandsGenerator& /*generator*/, 
@@ -138,23 +138,18 @@ void XN_CALLBACK_TYPE HandTracker::Hand_Destroy(	xn::HandsGenerator& /*generator
 	}
 
 	// Remove this user from hands history
-	pThis->m_History.Remove(nId);
+    pThis->m_History.Remove(nId);
 }
 
 
 //---------------------------------------------------------------------------
 // Method Definitions
 //---------------------------------------------------------------------------
-HandTracker::HandTracker() 
+HandTracker::HandTracker(xn::Context &context) :
+        m_rContext(context)
 {
 	// Track all living instances (to protect against calling dead pointers in the Gesture/Hand Generator hooks)
-    XnStatus rc = m_rContext.InitFromXmlFile("Sample-Tracking.xml", m_scriptNode);
-	if (rc != XN_STATUS_OK)
-	{
-		printf("Couldn't initialize: %s\n", xnGetStatusString(rc));
-		exit(1);
-	}
-	rc = sm_Instances.AddLast(this);
+    XnStatus rc = sm_Instances.AddLast(this);
 	if (rc != XN_STATUS_OK)
 	{
 		printf("Unable to add NiHandTracker instance to the list.");
@@ -193,7 +188,21 @@ XnStatus HandTracker::Init()
 		return rc;
 	}
 
-	// Register callbacks
+    rc = m_DepthGenerator.Create(m_rContext);
+    if (rc != XN_STATUS_OK)
+    {
+        printf("Unable to create ImageGenerator.");
+        return rc;
+    }
+
+    rc = m_ImageGenerator.Create(m_rContext);
+    if (rc != XN_STATUS_OK)
+    {
+        printf("Unable to create ImageGenerator.");
+        return rc;
+    }
+
+    // Register callbacks
 	// Using this as cookie
 	rc = m_GestureGenerator.RegisterGestureCallbacks(Gesture_Recognized, Gesture_Process, this, chandle);
 	if (rc != XN_STATUS_OK)
@@ -206,13 +215,6 @@ XnStatus HandTracker::Init()
     if (rc != XN_STATUS_OK)
     {
         printf("Unable to register hand callbacks.");
-        return rc;
-    }
-
-    rc = m_ImageGenerator.Create(m_rContext);
-    if (rc != XN_STATUS_OK)
-    {
-        printf("Unable to create ImageGenerator.");
         return rc;
     }
 
@@ -262,10 +264,26 @@ XnStatus HandTracker::Update()
             }
             pImageRow += m_IimageMD.XRes();
     }
+    for(TrailHistory::Iterator it = m_History.Begin(); it != m_History.End() ; ++it)
+    {
+        XnPoint3D	point = it->Value();
+        m_DepthGenerator.ConvertRealWorldToProjective(1, &point, &point);
+        point.X *= 640; point.Y *= 480;
+        point.X /= m_IimageMD.XRes(); point.Y /= m_IimageMD.YRes();
+        point.X = 640 - point.X;
+        value = qRgb(255,255,255);
+        for (XnUInt y = 0; y < 5; ++y)
+        {
+                for (XnUInt x = 0; x < 5; ++x)
+                {
+                        m_imagecamera->setPixel(x+point.X, y+point.Y, value);
+                }
+        }
+    }
 	return rc;
 }
 
 QImage HandTracker::getCamera()
 {
-    return *m_imagecamera;
+    return m_imagecamera->mirrored(true, false);
 }
