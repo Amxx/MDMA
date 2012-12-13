@@ -1,0 +1,11 @@
+This file describes the modifications necessary to compile in windows
+
+additional qmake arguments: -spec win32-g++
+(in qtcreator: qmake part in project configuration)
+
+INCLUDEPATH += opencv include path (opencv install/build/include)
+LIBS += correct stuff (opencv lib path + libs with version number)
+CONFIG += exceptions (why is this necessary? no clue, but otherwise -fno-exceptions is added to the flags given to mingw)
+
+bin\rcc.exe to rcc.exe (done in the .pro)
+(see http://blog.qt.digia.com/blog/2012/09/13/qt-4-8-3-released/#comment-17505)

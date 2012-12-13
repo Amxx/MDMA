@@ -50,13 +50,24 @@ FORMS += \
     src/UI/notenumberwindow.ui
 
 win32 {
-    LIBS += -Lc:/opencv/build/x86/mingw/lib #or whereever your opencv is installed
+    INCLUDEPATH += c:/lib/opencv/build/include/
+    LIBS += -Lc:/lib/opencv/build/x86/mingw/lib/ #or wherever your opencv is installed
+    LIBS += \ #the windows libs have filenames like libopencv_core243.dll.a -> needs opencv version number
+        -lopencv_core243 \
+        -lopencv_highgui243 \
+        -lopencv_imgproc243
+
+    QMAKE_RCC = $$[QT_INSTALL_BINS]$${DIR_SEPARATOR}rcc.exe #fix for QT 4.8.3 bug in qmake win32 conf files (see windows.txt)
 }
 
-LIBS += \
-    -lopencv_core \
-    -lopencv_highgui \
-    -lopencv_imgproc
+#what about win64 compilation? not tested (don't have a windows 64bits compiler)
+
+unix{
+    LIBS += \
+        -lopencv_core \
+        -lopencv_highgui \
+        -lopencv_imgproc
+}
 
 unix {
 macx {
@@ -76,6 +87,10 @@ QMAKE_CXXFLAGS += \
 
 CONFIG += \
     console
+
+win32 {
+    CONFIG += exceptions #necessaire sous windows
+}
 
 RESOURCES += \
     src/ressources.qrc
