@@ -32,11 +32,11 @@ done
 
 if [ $errors != 0 ]
 then
-	echo -e "\n====== Dependences error, instalation aborted ======" && exit
+	echo -e "\n====== Dependences error, installation aborted ======" && exit
 fi
 
 
-echo -e "\n====== All dependences are ok, starting instalation ======"
+echo -e "\n====== All dependences are ok, starting installation ======"
 qmake
 make
 
