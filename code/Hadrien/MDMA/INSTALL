@@ -4,7 +4,7 @@ system=$(uname -s)
 errors=0
 
 echo -e "\n====== Configuring dependences ======"
-echo -e "System identified : $system"
+echo -e "System identified as $system"
 case $system in
     Linux) dependences="opencv_core
                         opencv_highgui
@@ -39,6 +39,6 @@ fi
 echo -e "\n====== All dependences are ok, starting instalation ======"
 qmake
 make
-
+cp MDMA /usr/bin/MDMA
 
 
