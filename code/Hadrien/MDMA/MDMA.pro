@@ -49,17 +49,27 @@ FORMS += \
     src/UI/zoneeditor.ui \
     src/UI/notenumberwindow.ui
 
+win32 {
+    LIBS += -Lc:/opencv/build/x86/mingw/lib #or whereever your opencv is installed
+}
+
 LIBS += \
     -lopencv_core \
     -lopencv_highgui \
     -lopencv_imgproc
 
+unix {
 macx {
     LIBS += -ljack
 }
-!macx {
-    LIBS += -lasound #ne marche pas pour windows, mais de toute façon les .so feront planter
+!macx { #linux
+    LIBS += -lasound
 }
+}
+!unix { #windows
+    LIBS += -lwinmm
+}
+
 
 QMAKE_CXXFLAGS += \
     -std=c++0x
