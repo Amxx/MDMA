@@ -55,23 +55,48 @@ MOC_DIR     = build/moc/
 UI_DIR      = build/ui/
 RCC_DIR     = build/rcc/
 
-LIBS += \
-    -lopencv_core \
-    -lopencv_highgui \
-    -lopencv_imgproc
+win32 {
+    INCLUDEPATH += c:/lib/opencv/build/include/
+    LIBS += -Lc:/lib/opencv/build/x86/mingw/lib/ #or wherever your opencv is installed
+    LIBS += \ #the windows libs have filenames like libopencv_core243.dll.a -> needs opencv version number
+        -lopencv_core243 \
+        -lopencv_highgui243 \
+        -lopencv_imgproc243
 
+    QMAKE_RCC = $$[QT_INSTALL_BINS]$${DIR_SEPARATOR}rcc.exe #fix for QT 4.8.3 bug in qmake win32 conf files (see windows.txt)
+}
+
+#what about win64 compilation? not tested (don't have a windows 64bits compiler)
+
+unix{
+    LIBS += \
+        -lopencv_core \
+        -lopencv_highgui \
+        -lopencv_imgproc
+}
+
+unix {
 macx {
     LIBS += -ljack
 }
-!macx {
-    LIBS += -lasound #ne marche pas pour windows, mais de toute façon les .so feront planter
+!macx { #linux
+    LIBS += -lasound
 }
+}
+!unix { #windows
+    LIBS += -lwinmm
+}
+
 
 QMAKE_CXXFLAGS += \
     -std=c++0x
 
 CONFIG += \
     console
+
+win32 {
+    CONFIG += exceptions #necessaire sous windows
+}
 
 RESOURCES += \
     src/ressources.qrc
