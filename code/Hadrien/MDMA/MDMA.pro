@@ -49,6 +49,12 @@ FORMS += \
     src/UI/zoneeditor.ui \
     src/UI/notenumberwindow.ui
 
+#DESTDIR = build/target/
+OBJECTS_DIR = build/obj/
+MOC_DIR     = build/moc/
+UI_DIR      = build/ui/
+RCC_DIR     = build/rcc/
+
 LIBS += \
     -lopencv_core \
     -lopencv_highgui \

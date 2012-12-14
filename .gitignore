@@ -1,5 +1,9 @@
 # generated files
 *.o
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
+
 # temp file
 *~
 *.swp
