@@ -150,7 +150,7 @@ void MidiManager::sendMessage(MDMA::signal msg)
         delete msg;
     }
 #else
-	std::vector<unsigned char>* v = new std::vector<unsigned char>;
+	std::vector<unsigned char> v;
 
 	if(((msg[0] & 0xf0) == 0xc0) || ((msg[0] & 0xf0) == 0xd0))//program change or channel aftertouch
 	{
@@ -164,7 +164,7 @@ void MidiManager::sendMessage(MDMA::signal msg)
 	}
 	//qDebug() << msg[0] << msg[1] << msg[2];
 
-	RtMidiOut::sendMessage(v);
+	RtMidiOut::sendMessage(&v);
 
 	delete msg;
 #endif //NOT __WINDOWS_MM__
