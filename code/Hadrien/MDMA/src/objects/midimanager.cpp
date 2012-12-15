@@ -33,10 +33,6 @@ void MidiManager::createPort(QString name)
 	closePort();
 	current_port = -1;
 
-#ifndef WIN32
-	openVirtualPort(name.toStdString());
-#endif
-
 #if defined(WIN32) || defined (WIN64)
 	// Go VirtuamMIDISDK
 	// Pour ca il faut ajouter le teVirtualMIDI.h, ainsi que compiler avec teVirtualMIDI32.lib
@@ -59,6 +55,8 @@ void MidiManager::createPort(QString name)
 	if ( !port ) {
 		printf( "could not create port: %d\n", GetLastError() );
 	}
+#else
+    openVirtualPort(name.toStdString());    
 #endif
 
 	MIDIPortName = name.toStdString();
