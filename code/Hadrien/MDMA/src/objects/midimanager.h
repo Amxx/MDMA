@@ -7,7 +7,7 @@
 #include "../config/constant.h"
 #include "../classes/RtMidi.h"
 
-#ifdef WIN32
+#ifdef __WINDOWS_MM__
 #include "../include/teVirtualMIDI.h"
 #endif //WIN32
 
@@ -15,7 +15,7 @@ class MidiManager : public QObject, public RtMidiOut
 {
 	Q_OBJECT
 
-#ifdef WIN32
+#ifdef __WINDOWS_MM__
 	private:
 		LPVM_MIDI_PORT port;
 #endif //WIN32

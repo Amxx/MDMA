@@ -62,6 +62,8 @@ win32 {
         -lopencv_core243 \
         -lopencv_highgui243 \
         -lopencv_imgproc243
+    
+    LIBS += ../MDMA/teVirtualMIDI32.lib
 
     QMAKE_RCC = $$[QT_INSTALL_BINS]$${DIR_SEPARATOR}rcc.exe #fix for QT 4.8.3 bug in qmake win32 conf files (see windows.txt)
 }
