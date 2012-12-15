@@ -37,7 +37,7 @@ void MidiManager::createPort(QString name)
 	openVirtualPort(name.toStdString());
 #endif
 
-#ifdef WIN32
+#if defined(WIN32) || defined (WIN64)
 	// Go VirtuamMIDISDK
 	// Pour ca il faut ajouter le teVirtualMIDI.h, ainsi que compiler avec teVirtualMIDI32.lib
 
