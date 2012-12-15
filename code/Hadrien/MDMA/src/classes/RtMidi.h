@@ -53,7 +53,7 @@
 #elif __linux
     #define __LINUX_ALSA__
 #elif __unix
-    #define __UNIX_JACK__
+    #define __MACOSX_CORE__
 #endif
 
 

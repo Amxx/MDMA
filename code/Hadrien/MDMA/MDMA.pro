@@ -77,7 +77,7 @@ unix{
 
 unix {
 macx {
-    LIBS += -ljack
+    LIBS += -framework CoreMIDI -framework CoreAudio -framework CoreFoundation
 }
 !macx { #linux
     LIBS += -lasound
