@@ -15,7 +15,15 @@
 
 \______ Informations __________________________________________________________
 
+Motion Detection Midi Adaptor - v0.1.0 alpha
 
+Réalisé dans le cadre du Master 1 d’Informatique Fondamentale de l’ENS de Lyon,
+ce projet étudiant vise à développer un logiciel utilisant des technologies de
+reconnaissance de mouvement pour contrôler, via une interface MIDI, un
+séquenceur musical. Nous sommes sur la dernière ligne droite, en train de
+finaliser l’intégration du logiciel sous Linux, Mac OS et Windows !
+
+Keep update at : http://graal.ens-lyon.fr/mdma/
 
 \______ Installation __________________________________________________________
 
