@@ -147,9 +147,7 @@ void MainWindow::on_actionAbout_MDMA_triggered()
 {
 	if(!Configuration::config().running)
 	{
-
-		//handtracking.hadriencalib(Configuration::config().current_frame.clone());
-
+		QMessageBox::information(0, "Not available", "Feature soon to be added");
 	}
 }
 
