@@ -202,6 +202,8 @@ void MainWindow::on_pushButton_calibrate_clicked()
 	zone_manager.reset_clic();
 	ui_disable(true, true);
 
+	MDMA::calibration old_calib = Configuration::config().calibration_status;
+
 	// -------------------------------------------------------
 
 	Configuration::config().calibration_status = MDMA::MASK_DRAW;
@@ -217,9 +219,11 @@ void MainWindow::on_pushButton_calibrate_clicked()
 
 	if(mask_window.result() == QDialog::Rejected)
 	{
-		Configuration::config().calibration_status = MDMA::NOT_CALIBRATED;
+		//Configuration::config().calibration_status = MDMA::NOT_CALIBRATED;
+		Configuration::config().calibration_status = old_calib;
+
 		ui_disable(false, true);
-		ui->pushButton_calibrate->setText("Calibrate");
+		//ui->pushButton_calibrate->setText("Calibrate");
 		return;
 	}
 

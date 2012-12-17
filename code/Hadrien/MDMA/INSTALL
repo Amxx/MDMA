@@ -11,9 +11,9 @@ case $system in
 						opencv_imgproc
 						asound
 						qmake";;
-	Darwin) dependences="";;
 
     *) echo -e "This script hasn't been designed to work with your system, please refer to the README" && exit;;
+
 esac
 
 

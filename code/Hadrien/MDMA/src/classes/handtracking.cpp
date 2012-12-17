@@ -187,6 +187,9 @@ void HandTracking::Calibrate(cv::Mat img1, QList<QPoint> img1hand1, QList<QPoint
 	}
 	closed_area /= count;
 
+
+
+
 	areaThreshold = (closed_area + open_area)/2;
 	//areaThreshold=(a11+a12+a21+a22)/4;
 
