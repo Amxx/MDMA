@@ -120,12 +120,77 @@ void HandTracking::Calibrate(cv::Mat img1, QList<QPoint> img1hand1, QList<QPoint
 
 	QPoint c11, c12, c21, c22;
 	double a11, a12, a21, a22;
-	PosAreaCalc(gray8b1_binarized, p11, len11, a11, c11);
-	PosAreaCalc(gray8b1_binarized, p12, len12, a12, c12);
-	PosAreaCalc(gray8b2_binarized, p21, len21, a21, c21);
-	PosAreaCalc(gray8b2_binarized, p22, len22, a22, c22);
+	double closed_area = 0;
+	double open_area = 0;
 
-    areaThreshold=(a11+a12+a21+a22)/4;
+	//========================================================
+
+	int count = 0;
+	bool oneerror = false;
+	try
+	{
+		PosAreaCalc(gray8b1_binarized, p11, len11, a11, c11);
+		closed_area += a11;
+		count++;
+	}
+	catch(std::exception& e)
+	{
+		if(oneerror)
+			throw std::exception();
+		else
+			oneerror = true;
+	}
+	try
+	{
+		PosAreaCalc(gray8b1_binarized, p12, len12, a12, c12);
+		closed_area += a12;
+		count++;
+	}
+	catch(std::exception& e)
+	{
+		if(oneerror)
+			throw std::exception();
+		else
+			oneerror = true;
+	}
+	closed_area /= count;
+
+	//========================================================
+
+	count = 0;
+	oneerror = false;
+	try
+	{
+		PosAreaCalc(gray8b2_binarized, p21, len21, a21, c21);
+		closed_area += a21;
+		count++;
+	}
+	catch(std::exception& e)
+	{
+		if(oneerror)
+			throw std::exception();
+		else
+			oneerror = true;
+	}
+	try
+	{
+		PosAreaCalc(gray8b2_binarized, p22, len22, a22, c22);
+		closed_area += a22;
+		count++;
+	}
+	catch(std::exception& e)
+	{
+		if(oneerror)
+			throw std::exception();
+		else
+			oneerror = true;
+	}
+	closed_area /= count;
+
+	areaThreshold = (closed_area + open_area)/2;
+	//areaThreshold=(a11+a12+a21+a22)/4;
+
+
 
     //memory free
     delete[] p11;

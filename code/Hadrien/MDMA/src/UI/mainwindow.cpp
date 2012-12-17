@@ -276,7 +276,7 @@ void MainWindow::on_pushButton_calibrate_clicked()
 	{
 		Configuration::config().calibration_status = MDMA::NOT_CALIBRATED;
 		ui->pushButton_calibrate->setText("Calibrate");
-		QMessageBox::critical(this, "Calibration unsuccesfull", "Calibration failled due to lack of contrast");
+		QMessageBox::critical(this, "Calibration unsuccesfull", "Calibration failed due to lack of contrast");
 	}
 	// -------------------------------------------------------
 	ui_disable(false, true);
