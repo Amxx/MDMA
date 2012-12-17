@@ -46,14 +46,12 @@
 #define RTMIDI_H
 
 //detect OS and do define to compile the appropriate API
-#ifdef _WIN64
-   #define __WINDOWS_MM__
-#elif _WIN32
-   #define __WINDOWS_MM__
-#elif __linux
+#ifdef __linux
     #define __LINUX_ALSA__
 #elif __unix
-    #define __UNIX_JACK__
+    #define __MACOSX_CORE__
+#else
+    #define __WINDOWS_MM__
 #endif
 
 

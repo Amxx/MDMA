@@ -69,7 +69,7 @@ void ConfigWindow::on_pushButton_midi_refresh_clicked()
 
 void ConfigWindow::on_comboBox_midi_currentIndexChanged(int index)
 {
-	if(!refreshing && index != midi.getPortCount())
+	if(!refreshing && index != int(midi.getPortCount()))
 	{
 		midi.changePort(index);
 		on_pushButton_midi_refresh_clicked();

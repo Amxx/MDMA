@@ -49,6 +49,12 @@ FORMS += \
     src/UI/zoneeditor.ui \
     src/UI/notenumberwindow.ui
 
+#DESTDIR = build/target/
+OBJECTS_DIR = build/obj/
+MOC_DIR     = build/moc/
+UI_DIR      = build/ui/
+RCC_DIR     = build/rcc/
+
 win32 {
     INCLUDEPATH += c:/lib/opencv/build/include/
     LIBS += -Lc:/lib/opencv/build/x86/mingw/lib/ #or wherever your opencv is installed
@@ -56,6 +62,8 @@ win32 {
         -lopencv_core243 \
         -lopencv_highgui243 \
         -lopencv_imgproc243
+    
+    LIBS += ../MDMA/teVirtualMIDI32.lib
 
     QMAKE_RCC = $$[QT_INSTALL_BINS]$${DIR_SEPARATOR}rcc.exe #fix for QT 4.8.3 bug in qmake win32 conf files (see windows.txt)
 }
@@ -71,7 +79,7 @@ unix{
 
 unix {
 	macx {
-	    LIBS += -ljack
+	    LIBS += -framework CoreMIDI -framework CoreAudio -framework CoreFoundation
 	}
 	!macx { #linux
 	    LIBS += -lasound
