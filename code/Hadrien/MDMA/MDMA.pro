@@ -60,7 +60,7 @@ win32 {
     QMAKE_RCC = $$[QT_INSTALL_BINS]$${DIR_SEPARATOR}rcc.exe #fix for QT 4.8.3 bug in qmake win32 conf files (see windows.txt)
 }
 
-#what about win64 compilation? not tested (don't have a windows 64bits compiler)
+# what about win64 compilation? not tested (don't have a windows 64bits compiler)
 
 unix{
     LIBS += \
@@ -70,12 +70,12 @@ unix{
 }
 
 unix {
-macx {
-    LIBS += -ljack
-}
-!macx { #linux
-    LIBS += -lasound
-}
+	macx {
+	    LIBS += -ljack
+	}
+	!macx { #linux
+	    LIBS += -lasound
+	}
 }
 !unix { #windows
     LIBS += -lwinmm
