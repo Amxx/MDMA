@@ -188,19 +188,41 @@ QList<MDMA::event> EventZone::update(HandDescriptor& main)
 				{
 					int x_value = (main.curr_pos.x() - rect.x())*127/rect.width();
 					if(variable[0])
-						signal[MDMA::EVENT_X][1] = x_value;
+					{
+						if(std::abs(signal[MDMA::EVENT_X][1] - x_value) > MDMA::SEUIL)
+						{
+							signal[MDMA::EVENT_X][1] = x_value;
+							msgs << MDMA::EVENT_X;
+						}
+					}
 					else
-						signal[MDMA::EVENT_X][2] = x_value;
-					msgs << MDMA::EVENT_X;
+					{
+						if(std::abs(signal[MDMA::EVENT_X][2] - x_value) > MDMA::SEUIL)
+						{
+							signal[MDMA::EVENT_X][2] = x_value;
+							msgs << MDMA::EVENT_X;
+						}
+					}
 				}
 				if(active[MDMA::EVENT_Y] != MDMA::NOTHING)
 				{
 					int y_value = (rect.y() + rect.height() - main.curr_pos.y())*127/rect.height();
 					if(variable[1])
-						signal[MDMA::EVENT_Y][1] = y_value;
+					{
+						if(std::abs(signal[MDMA::EVENT_Y][1] - y_value) > MDMA::SEUIL)
+						{
+							signal[MDMA::EVENT_Y][1] = y_value;
+							msgs << MDMA::EVENT_Y;
+						}
+					}
 					else
-						signal[MDMA::EVENT_Y][2] = y_value;
-					msgs << MDMA::EVENT_Y;
+					{
+						if(std::abs(signal[MDMA::EVENT_Y][2] - y_value) > MDMA::SEUIL)
+						{
+							signal[MDMA::EVENT_Y][2] = y_value;
+							msgs << MDMA::EVENT_Y;
+						}
+					}
 				}
 			}
 			/*

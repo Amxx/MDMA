@@ -59,6 +59,8 @@ namespace MDMA
 	typedef unsigned char* signal;
     typedef QPair<active, signal> event_signal;
 
+	const int SEUIL =						2;
+
 	const QString VERSION =					QString("MDMA v0.1.0 alpha");
 
 	const QColor calib_color =				QColor(64, 64, 64, 128);
@@ -80,8 +82,9 @@ namespace MDMA
 }
 
 bool usesGnome();
-//const QFileDialog::Options QFILEDIALOGOPTION = (usesGnome())?QFileDialog::DontUseNativeDialog:QFileDialog::Options(0);
-const QFileDialog::Options QFILEDIALOGOPTION(0);
+
+const QFileDialog::Options QFILEDIALOGOPTION = (usesGnome())?QFileDialog::DontUseNativeDialog:QFileDialog::Options(0);
+//const QFileDialog::Options QFILEDIALOGOPTION(0);
 
 
 #endif // CONSTANT_H
