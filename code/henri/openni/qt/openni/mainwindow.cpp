@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     if (rc != XN_STATUS_OK)
     {
         printf("Couldn't initialize: %s\n", xnGetStatusString(rc));
-        exit(1);
+		exit(1);
     }
     ht = new HandTracker(m_rContext);
     label = new QLabel(this);
