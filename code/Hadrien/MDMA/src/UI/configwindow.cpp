@@ -9,7 +9,8 @@ ConfigWindow::ConfigWindow(MidiManager &_midi, QWidget *parent) :
 	ui(new Ui::ConfigWindow)
 {
 	ui->setupUi(this);
-	ui->checkBox_flip->setChecked(Configuration::config().flip);
+	ui->checkBox_flip_display->setChecked(Configuration::config().flip_display);
+	ui->checkBox_flip_zones->setChecked(Configuration::config().flip_zones);
 	ui->pushButton_hand_track->setText(Configuration::config().track_hand?"Disable hand tracking":"Enable hand tracking");
 	ui->pushButton_mouse_track->setText(Configuration::config().track_mouse?"Disable mouse tracking":"Enable mouse tracking");
 
@@ -78,13 +79,14 @@ void ConfigWindow::on_comboBox_midi_currentIndexChanged(int index)
 
 
 
-
-
-void ConfigWindow::on_checkBox_flip_clicked()
+void ConfigWindow::on_checkBox_flip_display_clicked()
 {
-	Configuration::config().flip = ui->checkBox_flip->isChecked();
+	Configuration::config().flip_display = ui->checkBox_flip_display->isChecked();
 }
-
+void ConfigWindow::on_checkBox_flip_zones_clicked()
+{
+	Configuration::config().flip_zones = ui->checkBox_flip_zones->isChecked();
+}
 
 
 
@@ -126,3 +128,17 @@ void ConfigWindow::on_pushButton_mouse_track_clicked()
 	}
 }
 
+
+
+
+void ConfigWindow::on_pushButton_dualdisplay_clicked()
+{
+	if(Configuration::config().second_display == 0)
+	{
+
+		SecondWindow *sw = new SecondWindow;
+		sw->show();
+
+		Configuration::config().second_display = sw->ui;
+	}
+}

@@ -1,5 +1,6 @@
 #include "cameramanager.h"
 #include "ui_mainwindow.h"
+#include "ui_secondwindow.h"
 
 CameraManager::CameraManager(HandTracking& _handtracking, QObject *parent) :
 	QObject(parent),
@@ -17,7 +18,10 @@ void CameraManager::timerEvent(QTimerEvent*)
 	if(Configuration::config().camera.isOpened() && !Configuration::config().freeze)
 	{
 		Configuration::config().camera >> Configuration::config().current_frame;
-		if(Configuration::config().flip) cv::flip(Configuration::config().current_frame, Configuration::config().current_frame, 1);
+
+
+		if(Configuration::config().flip_display) cv::flip(Configuration::config().current_frame, Configuration::config().current_frame, 1);
+
 
 		display();
 
@@ -41,13 +45,24 @@ void CameraManager::timerEvent(QTimerEvent*)
 
 void CameraManager::display()
 {
-	Configuration::config().ui->label_camera->setPixmap(QPixmap::fromImage(mat2qimage(Configuration::config().current_frame)));
+	QImage img = mat2qimage(Configuration::config().current_frame);
+
+	Configuration::config().ui->label_camera->setPixmap(QPixmap::fromImage(img));
+
+	if(Configuration::config().second_display)
+		Configuration::config().second_display->label_camera->setPixmap((QPixmap::fromImage((Configuration::config().flip_display)?img.mirrored(true,false):img)));
+
+	/*
+	cv::Mat frame;
+	Configuration::config().current_frame.copyTo(frame);
+
+	if(Configuration::config().second_display)
+		Configuration::config().second_display->display->setPixmap(QPixmap::fromImage(mat2qimage(frame)));
+
+	if(Configuration::config().flip_display)
+		cv::flip(frame, frame, 1);
+	*/
 }
-
-
-
-
-
 
 
 

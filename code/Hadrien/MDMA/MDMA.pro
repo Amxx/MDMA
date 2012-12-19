@@ -17,7 +17,8 @@ SOURCES += \
     src/UI/maskwindow.cpp \
     src/UI/mainwindow.cpp \
     src/UI/zoneeditor.cpp \
-    src/UI/notenumberwindow.cpp
+    src/UI/notenumberwindow.cpp \
+    src/UI/secondwindow.cpp
 
 HEADERS += \
     src/classes/eventzone.h \
@@ -38,7 +39,8 @@ HEADERS += \
     src/UI/mainwindow.h \
     src/UI/maskwindow.h \
     src/UI/zoneeditor.h \
-    src/UI/notenumberwindow.h
+    src/UI/notenumberwindow.h \
+    src/UI/secondwindow.h
 
 FORMS += \
     src/UI/configwindow.ui \
@@ -47,7 +49,8 @@ FORMS += \
     src/UI/mainwindow.ui \
     src/UI/maskwindow.ui \
     src/UI/zoneeditor.ui \
-    src/UI/notenumberwindow.ui
+    src/UI/notenumberwindow.ui \
+    src/UI/secondwindow.ui
 
 #DESTDIR = build/target/
 OBJECTS_DIR = build/obj/

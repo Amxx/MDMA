@@ -1,5 +1,6 @@
 #include "zonemanager.h"
 #include "ui_mainwindow.h"
+#include "ui_secondwindow.h"
 
 ZoneManager::ZoneManager(QObject *parent) :
 	QObject(parent),
@@ -106,8 +107,6 @@ void ZoneManager::display()
 			for(QPoint p : MDMA::zone_rightclose) poly_right << p;
 			drawPolygon(poly_left);
 			drawPolygon(poly_right);
-//			fillRect(40, 200, 100, 100, MDMA::calib_color);
-//			fillRect(500, 200, 100, 100, MDMA::calib_color);
 			break;
 		}
 		case MDMA::HANDS_OPEN:
@@ -117,11 +116,13 @@ void ZoneManager::display()
 			for(QPoint p : MDMA::zone_rightopen) poly_right << p;
 			drawPolygon(poly_left);
 			drawPolygon(poly_right);
-//			fillRect(40, 200, 100, 100, MDMA::calib_color);
-//			fillRect(500, 200, 100, 100, MDMA::calib_color);
 			break;
 		}
 	}
 
 	Configuration::config().ui->label_zone->setPixmap(pixmax);
+
+	if(Configuration::config().second_display)
+		Configuration::config().second_display->label_zones->setPixmap(Configuration::config().flip_display?QPixmap::fromImage(pixmax.toImage().mirrored(true, false)): pixmax);
+
 }

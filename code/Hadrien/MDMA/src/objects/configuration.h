@@ -20,6 +20,7 @@
 
 namespace Ui {
 	class MainWindow;
+	class SecondWindow;
 }
 
 class Configuration : public QWidget
@@ -59,7 +60,8 @@ class Configuration : public QWidget
 
 		// ----------------------------------------------------------
 
-		bool flip;
+		bool flip_display;
+		bool flip_zones;
 		bool freeze;
 		bool running;
 		bool changed;
@@ -84,6 +86,7 @@ class Configuration : public QWidget
 		// ----------------------------------------------------------
 
 		QWidget *main;
+		Ui::SecondWindow *second_display;
 		Ui::MainWindow *ui;
 };
 

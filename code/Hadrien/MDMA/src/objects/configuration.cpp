@@ -1,8 +1,10 @@
 #include "configuration.h"
 #include "ui_mainwindow.h"
+#include "ui_secondwindow.h"
 
 Configuration::Configuration() :
-	flip(true),
+	flip_display(true),
+	flip_zones(false),
 	freeze(false),
 	running(false),
 	changed(false),
