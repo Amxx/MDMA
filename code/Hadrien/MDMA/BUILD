@@ -36,9 +36,8 @@ then
 fi
 
 
-echo -e "\n====== All dependences are ok, starting installation ======"
+echo -e "\n====== All dependences are ok, starting compilation ======"
 qmake
 make
-cp MDMA /usr/bin/MDMA
 
 

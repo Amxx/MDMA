@@ -86,8 +86,10 @@ class Configuration : public QWidget
 		// ----------------------------------------------------------
 
 		QWidget *main;
-		Ui::SecondWindow *second_display;
 		Ui::MainWindow *ui;
+
+		Ui::SecondWindow *second_display;
+
 };
 
 

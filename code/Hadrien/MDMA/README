@@ -27,8 +27,8 @@ Keep update at : http://graal.ens-lyon.fr/mdma/
 
 \______ Installation __________________________________________________________
 
-LINUX		To install `MDMA`, simply run `sudo ./INSTALL`. This script will
-			check dependences before making the program.
+LINUX		To install `MDMA`, simply run `./BUILD`. This script will check
+			dependences before making the program.
 
 			In case of error please refer to the dependences paragraph
 

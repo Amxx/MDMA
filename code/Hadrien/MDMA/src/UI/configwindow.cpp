@@ -136,7 +136,7 @@ void ConfigWindow::on_pushButton_dualdisplay_clicked()
 	if(Configuration::config().second_display == 0)
 	{
 
-		SecondWindow *sw = new SecondWindow;
+		SecondWindow *sw = new SecondWindow(Configuration::config().main);
 		sw->show();
 
 		Configuration::config().second_display = sw->ui;
