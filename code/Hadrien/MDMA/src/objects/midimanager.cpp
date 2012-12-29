@@ -40,7 +40,7 @@ MidiManager::MidiManager()
 {
 #ifdef __WINDOWS_MM__
 	port = NULL;
-#endif //WIN32
+#endif //__WINDOWS_MM__
 
 	MIDIPortName = "";
 	current_port = -1;
@@ -51,7 +51,7 @@ MidiManager::MidiManager()
 
 #ifdef __WINDOWS_MM__
 	changePort(0); // Using Windows, there normally always exists a MIDI port n.0
-#elif //__WINDOWS_MM__
+#else //__WINDOWS_MM__
 	createPort(QString("MDMA"));
 #endif //NOT __WINDOWS_MM__
 }

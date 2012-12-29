@@ -41,7 +41,7 @@ void ConfigWindow::on_pushButton_midi_clicked()
 #ifdef __WINDOWS_MM__
 	bool ok;
 	QString name = QInputDialog::getText(this, "[This option is currently disabled for Windows user] Create a new MIDI port", "Port name", QLineEdit::Normal, "MDMA", &ok);
-#elif //__WINDOWS_MM__
+#else //__WINDOWS_MM__
 	bool ok;
 	QString name = QInputDialog::getText(this, "Create a new MIDI port", "Port name", QLineEdit::Normal, "MDMA", &ok);
 	if(ok && name != "")
