@@ -15,7 +15,7 @@ class MidiManager : public QObject, public RtMidiOut
 {
 	Q_OBJECT
 
-#ifdef __WINDOWS_MM__
+#ifdef VIRTUALMIDI_USE
 	private:
 		LPVM_MIDI_PORT port;
 #endif //WIN32

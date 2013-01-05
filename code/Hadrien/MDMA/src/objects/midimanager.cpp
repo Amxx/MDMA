@@ -3,7 +3,7 @@
 #include <vector>
 #include <iostream>
 
-#ifdef __WINDOWS_MM__
+#ifdef VIRTUALMIDI_USE
 
 #define MAX_SYSEX_BUFFER	65535
 
@@ -38,7 +38,7 @@ void CALLBACK teVMCallback( LPVM_MIDI_PORT midiPort, LPBYTE midiDataBytes, DWORD
 
 MidiManager::MidiManager()
 {
-#ifdef __WINDOWS_MM__
+#ifdef VIRTUALMIDI_USE
 	port = NULL;
 #endif //__WINDOWS_MM__
 
@@ -50,7 +50,11 @@ MidiManager::MidiManager()
 */
 
 #ifdef __WINDOWS_MM__
+#ifdef VIRTUALMIDI_USE
+    createPort(QString("MDMA"));
+#else
 	changePort(0); // Using Windows, there normally always exists a MIDI port n.0
+#endif
 #else //__WINDOWS_MM__
 	createPort(QString("MDMA"));
 #endif //NOT __WINDOWS_MM__
@@ -58,9 +62,9 @@ MidiManager::MidiManager()
 
 MidiManager::~MidiManager() throw()
 {
-#ifdef __WINDOWS_MM__
+#ifdef VIRTUALMIDI_USE
 	if(port != NULL) virtualMIDIClosePort( port ); // This closes the port opened by virtualMIDISDK (if it exists)
-#endif //__WINDOWS_MM__
+#endif //VIRTUALMIDI_USE
 
 	closePort(); // This closes an open MIDI connection initiated by RtMidiOut (if one exists)
 }
@@ -70,8 +74,9 @@ void MidiManager::createPort(QString name)
 	closePort();
 	current_port = -1;
 
-/*
+
 #ifdef __WINDOWS_MM__
+#ifdef VIRTUALMIDI_USE
 	// Go VirtuamMIDISDK
 	// Pour ca il faut ajouter le teVirtualMIDI.h, ainsi que compiler avec teVirtualMIDI.lib
 
@@ -94,26 +99,24 @@ void MidiManager::createPort(QString name)
         std::cerr << "could not create port: " << GetLastError() << std::endl;
 	}
 #else
+    MIDIPortName = "No port";
+#endif //VIRTUALMIDI_USE
+#else
     openVirtualPort(name.toStdString());
+    MIDIPortName = name.toStdString();
 #endif
-*/
-	openVirtualPort(name.toStdString());
-
-	MIDIPortName = name.toStdString();
 }
 
 void MidiManager::changePort(int n)
 {
 	closePort();
 
-/*
-#ifdef __WINDOWS_MM__
+#ifdef VIRTUALMIDI_USE
 	if(port != NULL) {
 		virtualMIDIClosePort( port );
 		port = NULL;
 	}
-#endif //__WINDOWS_MM__
-*/
+#endif //VIRTUALMIDI_USE
 
 	current_port = n;
 	openPort(current_port);
@@ -125,7 +128,7 @@ void MidiManager::changePort(int n)
 void MidiManager::sendMessage(MDMA::signal msg)
 {
 #ifdef __WINDOWS_MM__
-/*
+#ifdef VIRTUALMIDI_USE
     if(port) { // Utilisation d'un port cree par VirtualMIDISDK
         if(((msg[0] & 0xf0) == 0xc0) || ((msg[0] & 0xf0) == 0xd0)) // program change or channel aftertouch
         {
@@ -140,7 +143,8 @@ void MidiManager::sendMessage(MDMA::signal msg)
         }
     }
     else { // Utilisation d'un port déjà existant
-*/
+
+       #endif //VIRTUALMIDI_USE
         std::vector <unsigned char> v;
 
         if(((msg[0] & 0xf0) == 0xc0) || ((msg[0] & 0xf0) == 0xd0)) // program change or channel aftertouch
@@ -157,7 +161,9 @@ void MidiManager::sendMessage(MDMA::signal msg)
         RtMidiOut::sendMessage(&v);
 
         delete msg;
-    }
+#ifdef VIRTUALMIDI_USE
+    } // if(port)
+#endif
 #else
 	std::vector<unsigned char> v;
 
