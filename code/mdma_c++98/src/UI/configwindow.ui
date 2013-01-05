@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ConfigWindow</class>
+ <widget class="QDialog" name="ConfigWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>320</width>
+    <height>250</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Configuration</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../ressources.qrc">
+    <normaloff>:/icons/ressources/Logo-256.png</normaloff>:/icons/ressources/Logo-256.png</iconset>
+  </property>
+  <widget class="QLabel" name="label_midi">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>70</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Midi Port</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_midi">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>10</y>
+     <width>140</width>
+     <height>61</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_midi">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>10</y>
+     <width>95</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>New Port</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_ok">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>220</y>
+     <width>95</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Ok</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_flip">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>80</y>
+     <width>70</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Camera</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBox_flip_display">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>115</y>
+     <width>101</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Flip display</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="tristate">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_device">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>80</y>
+     <width>140</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Change device</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_flip_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>140</y>
+     <width>70</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Tracking</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_hand_track">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>140</y>
+     <width>235</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Disable hand tracking</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_mouse_track">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>180</y>
+     <width>235</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Enable mouse tracking</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_midi_refresh">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>40</y>
+     <width>95</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Refresh</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_dualdisplay">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>80</y>
+     <width>95</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Dual View</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBox_flip_zones">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>115</y>
+     <width>101</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Flip zones</string>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="tristate">
+    <bool>false</bool>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="../ressources.qrc"/>
+ </resources>
+ <connections/>
+</ui>
