@@ -1,0 +1,84 @@
+                  ____                           ____                   
+                ,'  , `.     ,---,             ,'  , `.    ,---,        
+             ,-+-,.' _ |   .'  .' `\        ,-+-,.' _ |   '  .' \       
+          ,-+-. ;   , || ,---.'     \    ,-+-. ;   , ||  /  ;    '.     
+         ,--.'|'   |  ;| |   |  .`\  |  ,--.'|'   |  ;| :  :       \    
+        |   |  ,', |  ': :   : |  '  | |   |  ,', |  ': :  |   /\   \   
+        |   | /  | |  || |   ' '  ;  : |   | /  | |  || |  :  ' ;.   :  
+        '   | :  | :  |, '   | ;  .  | '   | :  | :  |, |  |  ;/  \   \ 
+        ;   . |  ; |--'  |   | :  |  ' ;   . |  ; |--'  '  :  | \  \ ,' 
+        |   : |  | ,     '   : | /  ;  |   : |  | ,     |  |  '  '--'   
+        |   : '  |/      |   | '` ,/   |   : '  |/      |  :  :         
+        ;   | |`-'       ;   :  .'     ;   | |`-'       |  | ,'         
+        |   ;/           |   ,.'       |   ;/           `--''           
+        '---'            '---'         '---'                     [v0.1.0 alpha]
+
+\______ Informations __________________________________________________________
+
+Motion Detection Midi Adaptor - v0.1.0 alpha
+
+Réalisé dans le cadre du Master 1 d’Informatique Fondamentale de l’ENS de Lyon,
+ce projet étudiant vise à développer un logiciel utilisant des technologies de
+reconnaissance de mouvement pour contrôler, via une interface MIDI, un
+séquenceur musical. Nous sommes sur la dernière ligne droite, en train de
+finaliser l’intégration du logiciel sous Linux, Mac OS et Windows !
+
+Keep update at : http://graal.ens-lyon.fr/mdma/
+
+\______ Installation __________________________________________________________
+
+LINUX		To install `MDMA`, simply run `./BUILD`. This script will check
+			dependences before making the program.
+
+			In case of error please refer to the dependences paragraph
+
+MAC			.
+
+WINDOWS		.
+
+\______ Dependences ___________________________________________________________
+
+[UBUNTU / DEBIAN]
+
+opencv_core :
+	install package libopencv-core-dev
+
+opencv_highgui :
+	install package libopencv-highgui-dev
+
+open_imgproc :
+	install package libopencv-imgproc-dev
+
+asound :
+	install package libasound2-dev
+
+qmake :
+	install package qt4-qmake
+
+
+[...]
+
+
+\______ Contact _______________________________________________________________
+
+If you have any question or issue installing/using this software, please
+contact us at `mdma@ens-lyon.fr`.
+
+\______ Changelog _____________________________________________________________
+
+v0.1.0 alpha	Full fonctionality including mouse and hand tracking. It is now
+				possible to select which data changes when moving fadder.
+				Configuration files are now signed with the version number to
+				avoid conficts.
+
+v0.0.0			Basic configuration editing, including load and save functions.
+				Camera selection and flipping.
+
+\______ Licence _______________________________________________________________
+
+
+
+
+
+
+

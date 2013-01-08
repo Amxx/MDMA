@@ -52,7 +52,7 @@ FORMS += \
     src/UI/notenumberwindow.ui \
     src/UI/secondwindow.ui
 
-#DESTDIR	= build/target/
+#DESTDIR = build/target/
 OBJECTS_DIR = build/obj/
 MOC_DIR     = build/moc/
 UI_DIR      = build/ui/
@@ -91,10 +91,6 @@ unix {
 !unix { #windows
     LIBS += -lwinmm
 }
-
-
-QMAKE_CXXFLAGS += \
-    -std=c++0x
 
 CONFIG += \
     console
