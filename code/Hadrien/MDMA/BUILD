@@ -16,7 +16,6 @@ case $system in
 
 esac
 
-
 echo -e "\n====== Checking dependences ======"
 for i in $dependences
 do
@@ -29,12 +28,10 @@ do
 	fi
 done
 
-
 if [ $errors != 0 ]
 then
 	echo -e "\n====== Dependences error, installation aborted ======" && exit
 fi
-
 
 echo -e "\n====== All dependences are ok, starting compilation ======"
 qmake
