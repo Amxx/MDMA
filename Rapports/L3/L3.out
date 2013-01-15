@@ -1,0 +1,24 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Motivations}{}% 2
+\BOOKMARK [1][-]{section.3}{Sp\351cifications}{}% 3
+\BOOKMARK [1][-]{section.4}{Design Interface \046 Int\351gration}{}% 4
+\BOOKMARK [2][-]{subsection.4.1}{Objectifs}{section.4}% 5
+\BOOKMARK [2][-]{subsection.4.2}{L'interface}{section.4}% 6
+\BOOKMARK [2][-]{subsection.4.3}{Int\351gration}{section.4}% 7
+\BOOKMARK [1][-]{section.5}{Caract\351risation des \351v\350nements}{}% 8
+\BOOKMARK [2][-]{subsection.5.1}{Introduction}{section.5}% 9
+\BOOKMARK [2][-]{subsection.5.2}{Description des zones}{section.5}% 10
+\BOOKMARK [2][-]{subsection.5.3}{Impl\351mentation}{section.5}% 11
+\BOOKMARK [2][-]{subsection.5.4}{Affichage des zones}{section.5}% 12
+\BOOKMARK [1][-]{section.6}{Interface MIDI}{}% 13
+\BOOKMARK [1][-]{section.7}{Compilation et installation}{}% 14
+\BOOKMARK [2][-]{subsection.7.1}{Linux}{section.7}% 15
+\BOOKMARK [2][-]{subsection.7.2}{Windows}{section.7}% 16
+\BOOKMARK [2][-]{subsection.7.3}{Mac OS}{section.7}% 17
+\BOOKMARK [1][-]{section.8}{Communication}{}% 18
+\BOOKMARK [2][-]{subsection.8.1}{Introduction}{section.8}% 19
+\BOOKMARK [2][-]{subsection.8.2}{D\351finition d'une identit\351 graphique}{section.8}% 20
+\BOOKMARK [2][-]{subsection.8.3}{Communication externe}{section.8}% 21
+\BOOKMARK [2][-]{subsection.8.4}{Autres pr\351sences}{section.8}% 22
+\BOOKMARK [1][-]{section.9}{Une utilisation concr\350te de MDMA}{}% 23
+\BOOKMARK [1][-]{section.10}{Conclusion}{}% 24
