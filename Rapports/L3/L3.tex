@@ -28,13 +28,14 @@
 \par Nous avons pris le parti de demander à l'utilisateur un matériel minimal. Une simple webcam suffit à fournir l'image que notre logiciel analyse pour situer les mains. Dans un souci d'efficacité et de précision, nous proposons d'utiliser d'autres types de périphériques d'acquisition. Nous sommes en train de mettre au point une version utilisant la \emph{Microsoft Kinect} et la \emph{Leap Motion} est aussi à l'étude. Ensuite, il s'agit de traduire ces mouvements en commandes MIDI et de pouvoir les exporter vers un autre logiciel.
 \par Le travail a été divisé en plusieurs \emph{workpackages} chacun centré sur l'un des aspects fondamentaux du projet :
 \begin{itemize}
-    \item les spécifications du logiciel (\bf{Louis Parlant}, Timothée Bernard)
-    \item la conception de l'interface graphique (\bf{Hadrien Croubois}, Luc Rocher)
-    \item la gestion des messages MIDI (\bf{Gaetan Gilbert}, Louis Parlant, Timothée Bernard)
-    \item la gestion du flux vidéo et la détection des mains (\bf{Semen Marchuk}, Henri Derycke, Hadrien Croubois)
-    \item la traduction des mouvements des mains en événements (\bf{Henri Derycke}, Semen Marchuk, Hadrien Croubois)
-    \item la communication interne et externe du projet (\bf{Luc Rocher}, Hadrien Croubois, Timothée Bernard
-    \item l'intégration des différents composants logiciels et leur test (\bf{Timothée Bernard}, Hadrien Croubois)
+    \item les spécifications du logiciel (\textbf{Louis Parlant}, Timothée Bernard)
+    \item la conception de l'interface graphique (\textbf{Hadrien Croubois}, Luc Rocher)
+    \item la gestion des messages MIDI (\textbf{Gaetan Gilbert}, Louis Parlant, Timothée Bernard)
+    \item la gestion du flux vidéo et la détection des mains (\textbf{Semen Marchuk}, Henri Derycke, Hadrien Croubois)
+    \item la traduction des mouvements des mains en événements (\textbf{Henri Derycke}, Semen Marchuk, Hadrien Croubois)
+    \item la communication interne et externe du projet (\textbf{Luc Rocher}, Hadrien Croubois, Timothée Bernard)
+    \item l'intégration des différents composants logiciels (\textbf{Hadrien Croubois})
+    \item la procédure de test de l'ensemble des fonctionnalités (\textbf{Timothée Bernard})
 \end{itemize}
 \par Cette découpe accompagnée d'un calendrier a été effectuée afin de répartir le travail intelligemment entre les différents membres du projet de manière à ce qu'ils disposent en permanence d'objectifs définis et des ressources nécessaires à leur réalisation.
 \section{Motivations}
@@ -134,6 +135,7 @@ Un code de couleurs et d'opacités sur les zones et les segments permet de mettr
 \end{itemize}
 \par Du point de vue logiciel, le module nécessite que la bibliothèque OpenCV soit installée sur le système.
 \par Comme extension du projet initial, nous sommes en train de développer une version de notre logiciel fonctionnant avec une \emph{Microsoft Kinect}. L'utilisation de ce périphérique, parce qu'elle implique des frais de part de l'utilisateur, sera toujours optionnelle. Cependant l'implémentation de cette possibilité est profitable pour les utilisateurs les plus exigeants car permet une reconnaissance des mains bien plus précise.
+
 \subsection*{Algorithme développé}
 \par L'algorithme de détection des mains par webcam est implémenté de manière multi-plateforme à l'aide de la bibliothèque OpenCV qui facilite la réalisation des opérations de base sur les images : capture de l'image, opérations avec les canaux, érosion, dilatation et autres.
 \paragraph{Structure de l'algorithme}
@@ -141,35 +143,78 @@ Un code de couleurs et d'opacités sur les zones et les segments permet de mettr
     \item  Calibration du système : l'utilisateur place les mains dans des zones dessinées à l'écran. Après cela le système fixe $L'$ égal à l'éclairage du point hors de ces zones le plus sombre. $L=L'-\Delta$ devient le seuil critique de luminosité. On utilise pour la calibration 2 images : celle avec les mains ouvertes et celle avec les mains fermées. Après la détermination du seuil de luminosité on fait un tour de la boucle présentée ci-dessous et on calcule la surface des mains pour les deux images. La moyenne de ces valeurs définit le seuil de la surface utilisé pour dire si la main est ouverte ou fermée. Après cette étape la boucle principale de fonctionnement se déroule.
     \item Commencement de la boucle : capture de l'image.
     \item Conversion RGB vers Niveau de Gris (luminosité calculée avec la formule: $Y'=0.299 \ cdot R + 0.587 \cdot G +  0.114 \cdot B$, formule largement utiisée dans de nombreux logiciels graphiques). 
+    
+		\begin{figure}[h!]
+    		\centering
+    		\includegraphics[width=8cm]{sz_base.jpg}
+    		\caption{Image capturée en niveaux de gris}
+		\end{figure}
+
+    \item Masquage des pixels de la zone couvrant le corps de l'utilisateur. Les pixels de cette zone sont fixés à $255$ (blanc).
+    
     \item Binarisation de l'image. Les 1 prennent la place de tous les pixels dont la luminosité est inférieur à $L$.
-    \item Masquage des pixels de la zone couvrant le corps de l'utilisateur. Les pixels de cette zone sont fixés à 0.
+    
+		\begin{figure}[h!]
+    		\centering
+    		\includegraphics[width=8cm]{sz_bin.jpg}
+    		\caption{Image binarisée}
+		\end{figure}
+    
     \item Érosion de l'image.
-    \par L'érosion est l'une des deux opérations fondamentales du traitement d'image morphologique. Soit A une image binaire et B un élément de structure., l'érosion de A par B est donnée par : $A \bigodot B = \{z|(B)_z \subset A\}$.
-    \par Pour l'élément structurant dans l'implémentation nous utilisons une ellipse $3 \times 3$.
-    \begin{table}[h]
-        \centering
-        \begin{tabular}{|c|c|c|}
-            \hline
-            0 & 1 & 0 \\ \hline
-            1 & 1 & 1 \\ \hline
-            0 & 1 & 0 \\ \hline
-        \end{tabular}
-        \caption{Élément structurant: ellipse $3 \times 3$}
-    \end{table}
-    \par L'érosion est utilisée pour le filtrage du bruit, c'est à dire les  petites particules blanches qui peuvent apparaître sur l'image binarisée par hasard. L'érosion est appliquée à l'image deux fois. Le résultat de l'application est la suppression des petites zones blancs (moins de 4 pixels), les zones correspondant aux mains et seulement elles restent sur l'image. La diminution de leur taille de 2 pixels est compensé pendant l'étape suivante.
+	    \par L'érosion est l'une des deux opérations fondamentales du traitement d'image morphologique. Soit A une image binaire et B un élément de structure., l'érosion de A par B est donnée par : $A \bigodot B = \{z|(B)_z \subset A\}$.
+    	\par Le résultat de l'érosion ainsi que celui de la dilation n'est pas évident, l'image ne change presque pas. Les différences seront démontrer pendant l'étape de construction de l'enveloppe convexe. 
+	    \par Pour l'élément structurant dans l'implémentation nous utilisons une ellipse $3 \times 3$.
+	    \begin{table}[h!]
+    	    \centering
+    	    \begin{tabular}{|c|c|c|}
+        	    \hline
+        	    0 & 1 & 0 \\ \hline
+        	    1 & 1 & 1 \\ \hline
+        	    0 & 1 & 0 \\ \hline
+        	\end{tabular}
+        	\caption{Élément structurant: ellipse $3 \times 3$}
+    	\end{table}
+    	\par L'érosion est utilisée pour le filtrage du bruit, c'est à dire les  petites particules blanches qui peuvent apparaître sur l'image binarisée par hasard. L'érosion est appliquée à l'image deux fois. Le résultat de l'application est la suppression des petites zones blancs (moins de 4 pixels), les zones correspondant aux mains et seulement elles restent sur l'image. La diminution de leur taille de 2 pixels est compensé pendant l'étape suivante.
+
     \item Dilatation de l'image.
-    \par La dilatation a pour but de compenser l'utilisation de l'érosion et de  simplifier les frontières des objets. La dilatation est définie comme $A  \bigoplus B = \cup_{b \in B}A_b$. Pour la dilatation le même élément structurant que pour l'érosion dans l'étape précédente. 
+    	\par La dilatation a pour but de compenser l'utilisation de l'érosion et de  simplifier les frontières des objets. La dilatation est définie comme $A  \bigoplus B = \cup_{b \in B}A_b$. Pour la dilatation le même élément structurant que pour l'érosion dans l'étape précédente. 
+
     \item La recherche des contours. La recherche des contours est réalisée en utilisant un algorithme basé sur la topologie discrète \footnote{Suzuki, S. and Abe, K., Topological Structural Analysis of Digitized Binary Images by Border Following. CVGIP 30 1, pp 32-46 (1985)}. qui est déjà réalisé dans la bibliothèque OpenCV. La bibliothèque fournit aussi l'algorithme de Teh-Chin \footnote{Teh, C.H. and Chin, R.T.,  On the Detection of Dominant Points on Digital Curve. PAMI 11 8, pp  859-872 (1989)} qui permet diminuer le nombre de points du contour en réunissant les séries des points formant des segments et par cela simplifier les calculs de l'étape suivante.
+
+		\begin{figure}[h!]
+    		\centering
+    		\includegraphics[width=8cm]{sz_contours.jpg}
+    		\caption{La détection des contours}
+		\end{figure}
+    
     \item Construction de l'enveloppe convexe. Les points des contours sont  divisés en deux ensembles selon la partie de l'image (gauche ou droite) à  laquelle ils appartiennent. Pour chaque ensemble on construit une  enveloppe convexe : un polygone convexe tel que tout les points blancs de l'image se situent dedans ce polygone. OpenCV fournit l'algorithme de Sklansky \footnote{Sklansky, J.,  Finding the Convex Hull of a Simple Polygon. pp 79-83 (1982)} qui permet calculer un tel polygone en temps $O(N \cdot log N)$, où $N$ est le nombre de points.
+                
+		\begin{figure}[h!]
+    		\centering
+    		\includegraphics[width=8cm]{sz_hull.jpg}
+    		\caption{Enveloppe convexe}
+		\end{figure}
+
+		\par Montrons le résultat de la construction de l'enveloppe convexe pour l'image à laquelle on n'a pas appliqué l'étape d'érosion/dilation. La figure~\ref{erosion} montre l'enveloppe construite à partir de l'image initiale sans application de ces deux étapes.
+
+		\begin{figure}[h!]
+		    \centering
+		    \includegraphics[width=8cm]{sz_bad_hull.jpg}
+		    \caption{Démonstration de la raison d'application de l'érosion/dilation}
+		    \label{erosion}
+		\end{figure}
+
     \item La moyenne des coordonnées de chaque enveloppe est considérée comme la  coordonnée de la main. La surface du polygone qui est facile à calculer (somme des surfaces des triangles) est comparé avec la valeur du seuil de la surface calculée lors de la calibration. Si la surface dépasse le seuil, la main est considerée ouverte, sinon on la considère comme fermée. En gardant la position précedente des mains on peut calculer la vitesse. En disposant de la vitesse courante et de celle de l'étape précedente on calcule l'accélération. On n'a donc besoin que de l'image courante ainsi que de la vitesse et la position à l'étape précédents pour calculer toutes les caractéristiques des mains. On les transmet alors au module de gestion des événements.
+
     \item On recommence la boucle.
 \end{itemize}
+
 \section{Caractérisation des évènements}
 \subsection{Introduction}
 \par La caractérisation des évènements correspond à l'interprétation des gestes de l'utilisateur à travers différentes zones décrites par ce dernier et au déclenchement de signaux MIDI associés. Pour chaque zone, on a pu associer un évènement à un signal MIDI. Visuellement, lorsqu'un évènement est détecté dans une zone, celle-ci est mise en valeur dans l'affichage. En entrée, on dispose de positions des mains et de leurs ouvertures. En sortie, on appelle des fonctions d'envoi de signaux MIDI.
 \subsection{Description des zones}
 \par  Une zone est décrite initialement par sa position, sa taille, son type  (fader, pad ou segment) et, pour chaque événement, un ensemble de  signaux MIDI (éventuellement vide) qui doivent être déclenché lorsque cette événement est détecté.
-\par  Pour détecter un événement, on dispose de l'historique des positions et vitesses de chaque main. On s'intéresse aux deux dernières entrées de l'historique et de l'état de la main, ouverte ou fermée. De ces informations on détecte directement l'entrée/sortie d'une zone, le franchissement d'un segment. 
+\par  Pour détecter un événement, on dispose de l'historique des positions et vitesses de chaque main. On s'intéresse aux deux dernières entrées de l'historique et de l'état de la main, ouverte ou fermée. De ces informations on détecte directement l'entrée/sortie d'une zone et le franchissement d'un segment. La bibliothèque Qt fournit en effet des fonctions qui permettent de savoir si un point est dans un rectangle et si deux segments se coupent.
 \par Le franchissement d'un segment est orienté. Le sens est déterminé par signe du déterminant lors du calcul d'intersection entre le segment et et le segment formé par les deux dernières positions de la main. 
 \par La frappe est détéctée lors d'un changement de du sens de la vitesse et lorsque la norme des vitesses atteint une certaine valeur. On calcule en fait l'accélération. Malheureusement, le choix de la valeur seuil est expérimentale et n'a pas donné de résultat suffisamment stable pour être utilisable.
 \par Pour les autres événements, il nous faut  également l'état de la zone :

@@ -7,22 +7,22 @@
 \contentsline {subsection}{\numberline {4.2}L'interface}{7}{subsection.4.2}
 \contentsline {subsection}{\numberline {4.3}Int\IeC {\'e}gration}{7}{subsection.4.3}
 \contentsline {paragraph}{Structure de l'algorithme}{8}{subsection.4.3}
-\contentsline {section}{\numberline {5}Caract\IeC {\'e}risation des \IeC {\'e}v\IeC {\`e}nements}{9}{section.5}
-\contentsline {subsection}{\numberline {5.1}Introduction}{9}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Description des zones}{9}{subsection.5.2}
-\contentsline {subsection}{\numberline {5.3}Impl\IeC {\'e}mentation}{9}{subsection.5.3}
-\contentsline {subsection}{\numberline {5.4}Affichage des zones}{10}{subsection.5.4}
-\contentsline {section}{\numberline {6}Interface MIDI}{10}{section.6}
-\contentsline {section}{\numberline {7}Compilation et installation}{11}{section.7}
-\contentsline {subsection}{\numberline {7.1}Linux}{11}{subsection.7.1}
-\contentsline {subsection}{\numberline {7.2}Windows}{12}{subsection.7.2}
-\contentsline {subsection}{\numberline {7.3}Mac OS}{12}{subsection.7.3}
-\contentsline {section}{\numberline {8}Communication}{12}{section.8}
-\contentsline {subsection}{\numberline {8.1}Introduction}{12}{subsection.8.1}
-\contentsline {subsection}{\numberline {8.2}D\IeC {\'e}finition d'une identit\IeC {\'e} graphique}{12}{subsection.8.2}
-\contentsline {subsection}{\numberline {8.3}Communication externe}{12}{subsection.8.3}
-\contentsline {paragraph}{Internet}{12}{subsection.8.3}
-\contentsline {paragraph}{Diffusion dans l'\IeC {\'e}cole}{13}{figure.12}
-\contentsline {subsection}{\numberline {8.4}Autres pr\IeC {\'e}sences}{13}{subsection.8.4}
-\contentsline {section}{\numberline {9}Une utilisation concr\IeC {\`e}te de MDMA}{13}{section.9}
+\contentsline {section}{\numberline {5}Caract\IeC {\'e}risation des \IeC {\'e}v\IeC {\`e}nements}{11}{section.5}
+\contentsline {subsection}{\numberline {5.1}Introduction}{11}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Description des zones}{11}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}Impl\IeC {\'e}mentation}{11}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.4}Affichage des zones}{11}{subsection.5.4}
+\contentsline {section}{\numberline {6}Interface MIDI}{11}{section.6}
+\contentsline {section}{\numberline {7}Compilation et installation}{13}{section.7}
+\contentsline {subsection}{\numberline {7.1}Linux}{13}{subsection.7.1}
+\contentsline {subsection}{\numberline {7.2}Windows}{13}{subsection.7.2}
+\contentsline {subsection}{\numberline {7.3}Mac OS}{13}{subsection.7.3}
+\contentsline {section}{\numberline {8}Communication}{14}{section.8}
+\contentsline {subsection}{\numberline {8.1}Introduction}{14}{subsection.8.1}
+\contentsline {subsection}{\numberline {8.2}D\IeC {\'e}finition d'une identit\IeC {\'e} graphique}{14}{subsection.8.2}
+\contentsline {subsection}{\numberline {8.3}Communication externe}{14}{subsection.8.3}
+\contentsline {paragraph}{Internet}{14}{subsection.8.3}
+\contentsline {paragraph}{Diffusion dans l'\IeC {\'e}cole}{15}{figure.17}
+\contentsline {subsection}{\numberline {8.4}Autres pr\IeC {\'e}sences}{15}{subsection.8.4}
+\contentsline {section}{\numberline {9}Une utilisation concr\IeC {\`e}te de MDMA}{15}{section.9}
 \contentsline {section}{\numberline {10}Conclusion}{15}{section.10}
