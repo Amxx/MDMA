@@ -13,7 +13,8 @@ TEMPLATE = app
 
 LIBS += -lOpenNI
 
-INCLUDEPATH += /usr/include/ni
+QMAKE_CXXFLAGS += -isystem /usr/include/ni
+#INCLUDEPATH += /usr/include/ni
 
 SOURCES += main.cpp\
         mainwindow.cpp \

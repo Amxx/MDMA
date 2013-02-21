@@ -18,7 +18,8 @@ SOURCES += \
     src/UI/mainwindow.cpp \
     src/UI/zoneeditor.cpp \
     src/UI/notenumberwindow.cpp \
-    src/UI/secondwindow.cpp
+    src/UI/secondwindow.cpp \
+    src/classes/kinect.cpp
 
 HEADERS += \
     src/classes/eventzone.h \
@@ -40,7 +41,8 @@ HEADERS += \
     src/UI/maskwindow.h \
     src/UI/zoneeditor.h \
     src/UI/notenumberwindow.h \
-    src/UI/secondwindow.h
+    src/UI/secondwindow.h \
+    src/classes/kinect.h
 
 FORMS += \
     src/UI/configwindow.ui \
@@ -78,6 +80,9 @@ unix{
         -lopencv_core \
         -lopencv_highgui \
         -lopencv_imgproc
+    #Kinect
+    LIBS += -lOpenNI
+    QMAKE_CXXFLAGS += -isystem /usr/include/ni
 }
 
 unix {
