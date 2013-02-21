@@ -4,7 +4,8 @@
 #include <QMainWindow>
 #include <QLabel>
 
-#include "NiHandTracker.h"
+#include "kinect.h"
+#include "handdescriptor.h"
 
 class MainWindow : public QMainWindow
 {
@@ -19,8 +20,8 @@ protected:
     
 private:
     QLabel* label;
-    HandTracker* ht;
-    xn::Context m_rContext;
+    Kinect* ht;
+    HandDescriptor l,r;
 };
 
 #endif // MAINWINDOW_H

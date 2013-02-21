@@ -4,19 +4,19 @@
 #include <QVBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent)
+    QMainWindow(parent),
+    l(0,0),
+    r(0,0)
 {
-    xn::ScriptNode scriptNode;
-    XnStatus rc = m_rContext.InitFromXmlFile("Sample-Tracking.xml", scriptNode);
-    if (rc != XN_STATUS_OK)
-    {
-        printf("Couldn't initialize: %s\n", xnGetStatusString(rc));
-		exit(1);
-    }
-    ht = new HandTracker(m_rContext);
+    ht = new Kinect(l,r);
     label = new QLabel(this);
     label->setFixedSize(640,480);
-    ht->Init();
+    int rc = ht->Init();
+    if(rc != 0)
+    {
+        printf("pouet\n");
+        exit(0);
+    }
     ht->Run();
     setFixedSize(640,480);
     startTimer(25);

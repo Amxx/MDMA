@@ -1,3 +1,6 @@
+#ifndef KINECT_H
+#define KINECT_H
+
 /****************************************************************************
 *                                                                           *
 *  OpenNI 1.x Alpha                                                         *
@@ -19,8 +22,6 @@
 *  along with OpenNI. If not, see <http://www.gnu.org/licenses/>.           *
 *                                                                           *
 ****************************************************************************/
-#ifndef NI_HAND_TRACKER_H__
-#define NI_HAND_TRACKER_H__
 
 #include <QImage>
 
@@ -28,26 +29,29 @@
 #include <XnCyclicStackT.h>
 #include <XnHashT.h>
 
+#include "handdescriptor.h"
+
 typedef XnHashT<XnUserID, XnPoint3D> TrailHistory;
 
-class HandTracker
+class Kinect
 {
 public:
-    HandTracker(xn::Context&);
-	~HandTracker();
+    Kinect(HandDescriptor &_left, HandDescriptor &_right);
+    ~Kinect();
 
-	XnStatus Init();
-	XnStatus Run();
-	XnStatus Update();
+    XnStatus Init();
+    XnStatus Run();
+    XnStatus Update();
 
     QImage getCamera();
 
-
+    HandDescriptor& h_left;
+    HandDescriptor& h_right;
 
     const TrailHistory&	GetHistory()	const	{return m_History;}
 
 private:
-	// OpenNI Gesture and Hands Generator callbacks
+    // OpenNI Gesture and Hands Generator callbacks
     static void Gesture_Recognized(xn::GestureGenerator&	generator,
                                 const XnChar*			strGesture,
                                 const XnPoint3D*		pIDPosition,
@@ -73,11 +77,12 @@ private:
                                 XnFloat				fTime,
                                 void*				pCookie);
 
+    void calibrateOn(XnPoint3D  handPos);
+
     xn::Context				m_rContext;
-    xn::ScriptNode 			m_scriptNode;
     TrailHistory			m_History;
     xn::GestureGenerator	m_GestureGenerator;
-	xn::HandsGenerator		m_HandsGenerator;
+    xn::HandsGenerator		m_HandsGenerator;
     xn::ImageGenerator      m_ImageGenerator;
     xn::DepthGenerator      m_DepthGenerator;
     xn::ImageMetaData       m_ImageMD;
@@ -86,10 +91,14 @@ private:
     QImage*                 m_imagecamera;
     QImage*                 m_imagedepth;
 
-    static XnListT<HandTracker*>	sm_Instances;	// Living instances of the class
+    int                     m_treshold;
+    XnPoint3D               rectangle[3];
+
+    static XnListT<Kinect*>	sm_Instances;	// Living instances of the class
 
 private:
-	XN_DISABLE_COPY_AND_ASSIGN(HandTracker);
+    Kinect(const Kinect&);
+    void operator=(const Kinect&);
 };
 
-#endif //NI_HAND_TRACKER_H__
+#endif // KINECT_H

@@ -14,14 +14,16 @@ TEMPLATE = app
 LIBS += -lOpenNI
 
 QMAKE_CXXFLAGS += -isystem /usr/include/ni
-#INCLUDEPATH += /usr/include/ni
+INCLUDEPATH += /usr/include/ni
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    NiHandTracker.cpp
+    kinect.cpp \
+    handdescriptor.cpp
 
 HEADERS  += mainwindow.h \
-    NiHandTracker.h
+    kinect.h \
+    handdescriptor.h
 
 FORMS    +=
 
