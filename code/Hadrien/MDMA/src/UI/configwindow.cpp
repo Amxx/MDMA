@@ -14,6 +14,10 @@ ConfigWindow::ConfigWindow(MidiManager &_midi, QWidget *parent) :
 	ui->pushButton_hand_track->setText(Configuration::config().track_hand?"Disable hand tracking":"Enable hand tracking");
 	ui->pushButton_mouse_track->setText(Configuration::config().track_mouse?"Disable mouse tracking":"Enable mouse tracking");
 
+#ifdef __WINDOWS_MM__
+	ui->pushButton_midi->setEnabled(false);
+#endif
+
 	on_pushButton_midi_refresh_clicked();
 }
 
