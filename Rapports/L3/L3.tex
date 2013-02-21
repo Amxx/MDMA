@@ -11,6 +11,11 @@
     Hadrien Croubois, Henri Derycke, Gaëtan Gilbert, Semen Marchuk, Luc Rocher
 \end{center}
 \vspace*{\stretch{1}}
+\begin{center}
+    \emph{Remerciements :}\\
+    Eddy Caron, Emilie Diot, Benoît Recur
+\end{center}
+\vspace*{\stretch{1}}
 \newpage
 \tableofcontents
 \newpage
@@ -142,7 +147,7 @@ Un code de couleurs et d'opacités sur les zones et les segments permet de mettr
 \begin{itemize}
     \item  Calibration du système : l'utilisateur place les mains dans des zones dessinées à l'écran. Après cela le système fixe $L'$ égal à l'éclairage du point hors de ces zones le plus sombre. $L=L'-\Delta$ devient le seuil critique de luminosité. On utilise pour la calibration 2 images : celle avec les mains ouvertes et celle avec les mains fermées. Après la détermination du seuil de luminosité on fait un tour de la boucle présentée ci-dessous et on calcule la surface des mains pour les deux images. La moyenne de ces valeurs définit le seuil de la surface utilisé pour dire si la main est ouverte ou fermée. Après cette étape la boucle principale de fonctionnement se déroule.
     \item Commencement de la boucle : capture de l'image.
-    \item Conversion RGB vers Niveau de Gris (luminosité calculée avec la formule: $Y'=0.299 \ cdot R + 0.587 \cdot G +  0.114 \cdot B$, formule largement utiisée dans de nombreux logiciels graphiques). 
+    \item Conversion RGB vers Niveau de Gris (luminosité calculée avec la formule: $Y'=0.299 \cdot R + 0.587 \cdot G +  0.114 \cdot B$, formule largement utiisée dans de nombreux logiciels graphiques). 
     
 		\begin{figure}[h!]
     		\centering
