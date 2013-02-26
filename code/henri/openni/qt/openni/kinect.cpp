@@ -3,6 +3,7 @@
 #include <cassert>
 
 using namespace xn;
+using namespace cv;
 
 
 //---------------------------------------------------------------------------
@@ -71,10 +72,10 @@ void Kinect::Hand_Create(	xn::HandsGenerator& /*generator*/,
         printf("Dead Kinect: skipped!\n");
         return;
     }
-
-    pThis->calibrateOn(*pPosition);
-
-    pThis->m_History[nId] = *pPosition;
+    Hand h;
+    h.pos = *pPosition;
+    pThis->m_History[nId] = h;
+    pThis->calibrateOn(nId);
 }
 
 void Kinect::Hand_Update(	xn::HandsGenerator& /*generator*/,
@@ -91,14 +92,15 @@ void Kinect::Hand_Update(	xn::HandsGenerator& /*generator*/,
     }
 
     // Add to this user's hands history
-    TrailHistory::Iterator it = pThis->m_History.Find(nId);
+    HandHistory::Iterator it = pThis->m_History.Find(nId);
     if (it == pThis->m_History.End())
     {
         printf("Dead hand update: skipped!\n");
         return;
     }
-    pThis->calibrateOn(*pPosition);
-    it->Value() = *pPosition;
+    it->Value().pos = *pPosition;
+    pThis->areaOf(nId);
+    //pThis->calibrateOn(nId);
     //printf("%d: (%f,%f,%f) [%f]\n", nId, pPosition->X, pPosition->Y, pPosition->Z, fTime);
 }
 
@@ -138,7 +140,7 @@ Kinect::Kinect(HandDescriptor &_left, HandDescriptor &_right) :
     m_imagecamera = NULL;
     m_imagedepth = NULL;
 
-    m_treshold = 30;
+    m_treshold = 80;
 }
 
 Kinect::~Kinect()
@@ -227,7 +229,7 @@ XnStatus Kinect::Run()
 
     m_DepthGenerator.GetMetaData(m_DepthMD);
 
-    m_imagecamera = new QImage(m_DepthMD.FullXRes(),m_DepthMD.FullYRes(),QImage::Format_RGB888);
+    m_imagecamera = new QImage(1280,480,QImage::Format_RGB888);
 
     return XN_STATUS_OK;
 }
@@ -240,7 +242,7 @@ XnStatus Kinect::Update()
         printf("Read failed: %s\n", xnGetStatusString(rc));
         return rc;
     }
-    /*m_ImageGenerator.GetMetaData(m_ImageMD);
+    m_ImageGenerator.GetMetaData(m_ImageMD);
     // draw image frame to texture
     const XnRGB24Pixel* pImageRow = m_ImageMD.RGB24Data();
     QRgb value;
@@ -256,12 +258,10 @@ XnStatus Kinect::Update()
     }
     //Set left/right hands
     int i = 0;
-    for(TrailHistory::Iterator it = m_History.Begin(); it != m_History.End() && i < 2; ++it, ++i)
+    for(HandHistory::Iterator it = m_History.Begin(); it != m_History.End() && i < 2; ++it, ++i)
     {
-        XnPoint3D	point = it->Value();
+        XnPoint3D	point = it->Value().pos;
         m_DepthGenerator.ConvertRealWorldToProjective(1, &point, &point);
-        point.X *= 640; point.Y *= 480;
-        point.X /= m_ImageMD.XRes(); point.Y /= m_ImageMD.YRes();
         point.X = 640 - point.X;
         if(i==0)
             h_left.updatePos(point.X, point.Y, false);
@@ -270,15 +270,15 @@ XnStatus Kinect::Update()
 
     }
     //Display Hand positions
-    for(TrailHistory::Iterator it = m_History.Begin(); it != m_History.End() ; ++it)
+    for(HandHistory::Iterator it = m_History.Begin(); it != m_History.End() ; ++it)
     {
-        XnPoint3D	point = it->Value();
+        XnPoint3D	point = it->Value().pos;
         m_DepthGenerator.ConvertRealWorldToProjective(1, &point, &point);
-        point.X *= 640; point.Y *= 480;
-        point.X /= m_ImageMD.XRes(); point.Y /= m_ImageMD.YRes();
         point.X = 640 - point.X;
+        point.Y += 20;
         value = qRgb(255,255,255);
-
+        if(it->Value().area / it->Value().calibration < TRESHOLD)
+            value = qRgb(0,255,255);
         for (XnUInt y = 0; y < 5; ++y)
         {
                 for (XnUInt x = 0; x < 5; ++x)
@@ -286,95 +286,177 @@ XnStatus Kinect::Update()
                         m_imagecamera->setPixel(x+point.X, y+point.Y, value);
                 }
         }
-    }*/
+    }
     return rc;
 }
 
-void Kinect::calibrateOn(XnPoint3D  handPos)
+void Kinect::areaOf(XnUserID nId)
 {
-    const XnFloat dimx = 300;
-    const XnFloat dimy = 300;
+    HandHistory::Iterator it = this->m_History.Find(nId);
+    if (it == this->m_History.End())
+    {
+        printf("Dead hand area: skipped!\n");
+        return;
+    }
+    XnPoint3D   handPos = it->Value().pos;
+    Mat depthRaw(YRES, XRES, CV_16UC1);
+    Mat depthShow(YRES, XRES, CV_8UC1);
 
-    rectangle[0].X  =   handPos.X-dimx/2;
-    rectangle[0].Y  =   handPos.Y-dimy/2;
+    /* Definition de la région d'intérêt */
+    Rect dim(Point(0,0),Size(XRES,YRES));
+    Rect roi;
+
+    rectangle[0].X  =   handPos.X-ROI_OFFSET;
+    rectangle[0].Y  =   handPos.Y-ROI_OFFSET;
     rectangle[0].Z  =   handPos.Z;
-    rectangle[1].X  =   handPos.X+dimx/2;
-    rectangle[1].Y  =   handPos.Y+dimy/2;
+    rectangle[1].X  =   handPos.X+ROI_OFFSET;
+    rectangle[1].Y  =   handPos.Y+ROI_OFFSET;
     rectangle[1].Z  =   handPos.Z;
     rectangle[2]    =   handPos;
 
     m_DepthGenerator.ConvertRealWorldToProjective(3, rectangle, rectangle);
-    m_DepthGenerator.GetMetaData(m_DepthMD);
 
-    for(int i = 0 ; i < 3 ; ++i)
-    {
-        rectangle[i].X *= 640 / m_DepthMD.XRes();
-        rectangle[i].Y *= 480 / m_DepthMD.YRes();
-    }
+    roi=Rect(Point(rectangle[0].X,rectangle[0].Y),Point(rectangle[1].X,rectangle[1].Y));
+    roi &= dim;
 
-    const XnUInt xmin   = std::min(rectangle[0].X,rectangle[1].X);
-    const XnUInt ymin   = std::min(rectangle[0].Y,rectangle[1].Y);
-    const XnUInt xmax   = std::max(rectangle[0].X,rectangle[1].X);
-    const XnUInt ymax   = std::max(rectangle[0].Y,rectangle[1].Y);
+    /* Calcul de l'image binaire de la main */
+    memcpy(depthRaw.data, m_DepthGenerator.GetDepthMap(), XRES*YRES*2);
+    const float DEPTH_SCALE_FACTOR = 255./4096.;
+    depthRaw.convertTo(depthShow, CV_8U, DEPTH_SCALE_FACTOR);
 
-    const XnDepthPixel* depthMap = m_DepthGenerator.GetDepthMap();
-    depthMap += m_DepthMD.XRes() * ymin;
+    Mat handCpy(depthShow, roi);
+    Mat handMat = handCpy.clone();
+    //Treshold
+    handMat = (handMat > (handPos.Z * DEPTH_SCALE_FACTOR - 5)) & (handMat < (handPos.Z * DEPTH_SCALE_FACTOR + 5));
+    //Filtre median pour supprimer les inpuretés
+    medianBlur(handMat, handMat, 5);
 
-    int count = 0;
-    for (XnUInt y = ymin; y < ymax; ++y)
-    {
-        const XnDepthPixel* pImage = depthMap;
-        pImage += xmin;
-        for (XnUInt x = xmin; x < xmax; ++x, ++pImage)
-        {
-            if(abs(*pImage - handPos.Z) < m_treshold)
-                count++;
-        }
-        depthMap += m_DepthMD.XRes();
-    }
+    /* Calcul de la surface */
+    int count = countNonZero(handMat);
+
     const float smallconst = 1E-9;
-    printf("c=%f\n", (count*smallconst)*(handPos.Z*handPos.Z));
+    //printf("c\t%i\t%f\n", r<0.68,r);
 
     //Dessin
     QRgb value;
-    depthMap = m_DepthGenerator.GetDepthMap();
-    for (XnUInt y = 0; y < m_DepthMD.YRes(); ++y)
+    const XnDepthPixel* depthMap = m_DepthGenerator.GetDepthMap();
+    for (int y = 0; y < YRES; ++y)
     {
         const XnDepthPixel* pImage = depthMap;
-        for (XnUInt x = 0; x < m_DepthMD.XRes(); ++x, ++pImage)
+        for (int x = 0; x < XRES; ++x, ++pImage)
         {
-            if(((y >= ymin && y < ymax) && (x == xmin || x == xmax-1)) || ((y == ymin || y == ymax-1) && (x >= xmin && x < xmax)))
+            if(((y >= roi.y && y < roi.y+roi.height) && (x == roi.x || x == roi.x+roi.width-1)) || ((y == roi.y || y == roi.y+roi.height-1) && (x >= roi.x && x < roi.x+roi.width)))
                 value = qRgb(255,0,0);
             else if(abs(*pImage - handPos.Z) < m_treshold)
                 value = qRgb(255,255,255);
             else
                 value = qRgb(0,0,0);
-            m_imagecamera->setPixel(x, y, value);
+            m_imagecamera->setPixel(1279-x, y, value);
         }
-        depthMap += m_DepthMD.XRes();
+        depthMap += XRES;
     }
+    const float r = (count*smallconst)*(handPos.Z*handPos.Z)/it->Value().calibration;
     //Display Hand positions
-    rectangle[0].X  =   handPos.X-dimx/2;
-    rectangle[0].Y  =   handPos.Y-dimy/2;
-    rectangle[0].Z  =   handPos.Z;
-    rectangle[1].X  =   handPos.X+dimx/2;
-    rectangle[1].Y  =   handPos.Y+dimy/2;
-    rectangle[1].Z  =   handPos.Z;
-    rectangle[2]    =   handPos;
     for(int i = 0 ; i < 3 ; ++i)
     {
         XnPoint3D	point = rectangle[i];
-        m_DepthGenerator.ConvertRealWorldToProjective(1, &point, &point);
-        point.X *= 640; point.Y *= 480;
-        point.X /= m_DepthMD.XRes(); point.Y /= m_DepthMD.YRes();
+        //point.X = 640 - point.X;
+        value = 255 << (i*8);
+        if(r < TRESHOLD)
+            value ^= -1;
+        for (int y = 0; y < 5; ++y)
+        {
+                for (int x = 0; x < 5; ++x)
+                {
+                        m_imagecamera->setPixel(1279-(x+point.X), y+point.Y, value);
+                }
+        }
+    }
+    it->Value().area = (count*smallconst)*(handPos.Z*handPos.Z);
+    return;
+
+}
+
+void Kinect::calibrateOn(XnUserID nId)
+{
+    HandHistory::Iterator it = this->m_History.Find(nId);
+    if (it == this->m_History.End())
+    {
+        printf("Dead hand calibration: skipped!\n");
+        return;
+    }
+    XnPoint3D   handPos = it->Value().pos;
+
+    Mat depthRaw(YRES, XRES, CV_16UC1);
+    Mat depthShow(YRES, XRES, CV_8UC1);
+
+    /* Definition de la région d'intérêt */
+    Rect dim(Point(0,0),Size(XRES,YRES));
+    Rect roi;
+
+    rectangle[0].X  =   handPos.X-ROI_OFFSET;
+    rectangle[0].Y  =   handPos.Y-ROI_OFFSET;
+    rectangle[0].Z  =   handPos.Z;
+    rectangle[1].X  =   handPos.X+ROI_OFFSET;
+    rectangle[1].Y  =   handPos.Y+ROI_OFFSET;
+    rectangle[1].Z  =   handPos.Z;
+    rectangle[2]    =   handPos;
+
+    m_DepthGenerator.ConvertRealWorldToProjective(3, rectangle, rectangle);
+
+    roi=Rect(Point(rectangle[0].X,rectangle[0].Y),Point(rectangle[1].X,rectangle[1].Y));
+    roi &= dim;
+
+    /* Calcul de l'image binaire de la main */
+    memcpy(depthRaw.data, m_DepthGenerator.GetDepthMap(), XRES*YRES*2);
+    const float DEPTH_SCALE_FACTOR = 255./4096.;
+    depthRaw.convertTo(depthShow, CV_8U, DEPTH_SCALE_FACTOR);
+
+    Mat handCpy(depthShow, roi);
+    Mat handMat = handCpy.clone();
+    //Treshold
+    handMat = (handMat > (handPos.Z * DEPTH_SCALE_FACTOR - 5)) & (handMat < (handPos.Z * DEPTH_SCALE_FACTOR + 5));
+    //Filtre median pour supprimer les inpuretés
+    medianBlur(handMat, handMat, 5);
+
+    /* Calcul de la surface */
+    int count = countNonZero(handMat);
+
+
+    const float smallconst = 1E-9;
+    printf("calibration of %i=%f\n", nId, (count*smallconst)*(handPos.Z*handPos.Z));
+    it->Value().calibration = (count*smallconst)*(handPos.Z*handPos.Z);
+    //Dessin
+    QRgb value;
+    const XnDepthPixel* depthMap = m_DepthGenerator.GetDepthMap();
+    for (int y = 0; y < YRES; ++y)
+    {
+        const XnDepthPixel* pImage = depthMap;
+        for (int x = 0; x < XRES; ++x, ++pImage)
+        {
+            if(((y >= roi.y && y < roi.y+roi.height) && (x == roi.x || x == roi.x+roi.width-1)) || ((y == roi.y || y == roi.y+roi.height-1) && (x >= roi.x && x < roi.x+roi.width)))
+                value = qRgb(255,0,0);
+            else if(abs(*pImage - handPos.Z) < m_treshold)
+                value = qRgb(255,255,255);
+            else
+                value = qRgb(0,0,0);
+            m_imagecamera->setPixel(1279-x, y, value);
+        }
+        depthMap += XRES;
+    }
+
+    //Display Hand positions
+    for(int i = 0 ; i < 3 ; ++i)
+    {
+        XnPoint3D	point = rectangle[i];
         //point.X = 640 - point.X;
         value = 255 << (i*8);
 
-        for (XnUInt y = 0; y < 5; ++y)
+        for (int y = 0; y < 5; ++y)
         {
-                for (XnUInt x = 0; x < 5; ++x)
+                for (int x = 0; x < 5; ++x)
                 {
-                        m_imagecamera->setPixel(x+point.X, y+point.Y, value);
+                        m_imagecamera->setPixel(1279-(x+point.X), y+point.Y, value);
                 }
         }
     }
@@ -382,5 +464,5 @@ void Kinect::calibrateOn(XnPoint3D  handPos)
 
 QImage Kinect::getCamera()
 {
-    return m_imagecamera->mirrored(false, false);
+    return m_imagecamera->mirrored(true, false);
 }

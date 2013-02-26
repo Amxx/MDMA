@@ -29,9 +29,15 @@
 #include <XnCyclicStackT.h>
 #include <XnHashT.h>
 
+#include <opencv2/opencv.hpp>
+
 #include "handdescriptor.h"
 
-typedef XnHashT<XnUserID, XnPoint3D> TrailHistory;
+#define XRES        640
+#define YRES        480
+#define ROI_OFFSET  100
+
+#define TRESHOLD    0.68
 
 class Kinect
 {
@@ -48,9 +54,17 @@ public:
     HandDescriptor& h_left;
     HandDescriptor& h_right;
 
-    const TrailHistory&	GetHistory()	const	{return m_History;}
+    //const TrailHistory&	GetHistory()	const	{return m_History;}
 
 private:
+    typedef struct {
+        XnPoint3D pos;
+        float area;
+        float calibration;
+    } Hand;
+
+    typedef XnHashT<XnUserID, Hand> HandHistory;
+
     // OpenNI Gesture and Hands Generator callbacks
     static void Gesture_Recognized(xn::GestureGenerator&	generator,
                                 const XnChar*			strGesture,
@@ -77,10 +91,11 @@ private:
                                 XnFloat				fTime,
                                 void*				pCookie);
 
-    void calibrateOn(XnPoint3D  handPos);
+    void calibrateOn(XnUserID	nId);
+    void areaOf(XnUserID		nId);
 
     xn::Context				m_rContext;
-    TrailHistory			m_History;
+    HandHistory             m_History;
     xn::GestureGenerator	m_GestureGenerator;
     xn::HandsGenerator		m_HandsGenerator;
     xn::ImageGenerator      m_ImageGenerator;
@@ -93,6 +108,7 @@ private:
 
     int                     m_treshold;
     XnPoint3D               rectangle[3];
+
 
     static XnListT<Kinect*>	sm_Instances;	// Living instances of the class
 

@@ -11,7 +11,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = openni
 TEMPLATE = app
 
-LIBS += -lOpenNI
+LIBS += -lOpenNI \
+    -lopencv_core \
+    -lopencv_imgproc
 
 QMAKE_CXXFLAGS += -isystem /usr/include/ni
 INCLUDEPATH += /usr/include/ni
