@@ -2,6 +2,10 @@
 
 #include <cassert>
 
+#define MAX_DEPTH 10000
+
+const bool m_showdepth = true;
+
 //---------------------------------------------------------------------------
 // Method Definitions
 //---------------------------------------------------------------------------
@@ -11,7 +15,7 @@ Kinect::Kinect(HandDescriptor &_left, HandDescriptor &_right) :
 {
     m_imagecamera = NULL;
     m_imagedepth = NULL;
-
+    m_HandTracker = new nite::HandTracker;
     m_treshold = 80;
 }
 
@@ -21,19 +25,22 @@ Kinect::~Kinect()
         delete m_imagecamera;
     if(m_imagedepth)
         delete m_imagedepth;
+    delete m_HandTracker;
 }
 
 openni::Status Kinect::Init()
 {
     openni::OpenNI::initialize();
 
-	openni::Status rc = m_device.open(openni::ANY_DEVICE);
+    puts("Open device");
+    openni::Status rc = m_device.open(openni::ANY_DEVICE);
 	if (rc != openni::STATUS_OK)
 	{
 		printf("Open Device failed:\n%s\n", openni::OpenNI::getExtendedError());
 		return rc;
 	}
-	rc = m_depthStream.create(device, openni::SENSOR_DEPTH);
+    /*puts("Get depth stream");
+    rc = m_depthStream.create(m_device, openni::SENSOR_DEPTH);
 	if (rc == openni::STATUS_OK)
 	{
 		rc = m_depthStream.start();
@@ -46,9 +53,10 @@ openni::Status Kinect::Init()
 	else
 	{
 		printf("SimpleViewer: Couldn't find depth stream:\n%s\n", openni::OpenNI::getExtendedError());
-	}
+    }*/
 
-	rc = m_colorStream.create(device, openni::SENSOR_COLOR);
+    puts("Get color stream");
+    rc = m_colorStream.create(m_device, openni::SENSOR_COLOR);
 	if (rc == openni::STATUS_OK)
 	{
 		rc = m_colorStream.start();
@@ -63,44 +71,45 @@ openni::Status Kinect::Init()
 		printf("SimpleViewer: Couldn't find color stream:\n%s\n", openni::OpenNI::getExtendedError());
 	}
 
-	if (!m_depthStream.isValid() || !m_colorStream.isValid())
+    if (!m_colorStream.isValid())
 	{
 		printf("SimpleViewer: No valid streams. Exiting\n");
 		openni::OpenNI::shutdown();
         return openni::STATUS_ERROR;
 	}
-    openni::VideoMode depthVideoMode;
+    //openni::VideoMode depthVideoMode;
     openni::VideoMode colorVideoMode;
 
-    depthVideoMode = m_depthStream.getVideoMode();
+    //depthVideoMode = m_depthStream.getVideoMode();
     colorVideoMode = m_colorStream.getVideoMode();
 
-    int depthWidth = depthVideoMode.getResolutionX();
-    int depthHeight = depthVideoMode.getResolutionY();
+    //int depthWidth = depthVideoMode.getResolutionX();
+    //int depthHeight = depthVideoMode.getResolutionY();
     int colorWidth = colorVideoMode.getResolutionX();
     int colorHeight = colorVideoMode.getResolutionY();
 
-    if (depthWidth == colorWidth &&
-        depthHeight == colorHeight)
+    //if (depthWidth == colorWidth && depthHeight == colorHeight)
     {
-        m_width = depthWidth;
-        m_height = depthHeight;
+        m_width = colorWidth;
+        m_height = colorHeight;
     }
-    else
+    /*else
     {
         printf("Error - expect color and depth to be in same resolution: D: %dx%d, C: %dx%d\n",
             depthWidth, depthHeight,
             colorWidth, colorHeight);
         return openni::STATUS_ERROR;
-    }
+    }*/
 
-	nite::NiTE::initialize();
+    puts("NiTE init");
+    nite::NiTE::initialize();
 
-	if (m_HandTracker->create(&m_device) != nite::STATUS_OK)
-	{
-		return openni::STATUS_ERROR;
+    puts("NiTE track create");
+    if (m_HandTracker->create(&m_device) != nite::STATUS_OK)
+    {
+        return openni::STATUS_ERROR;
 	}
-
+    puts("NiTE start gesture");
 	m_HandTracker->startGestureDetection(nite::GESTURE_WAVE);
 	m_HandTracker->startGestureDetection(nite::GESTURE_CLICK);
 
@@ -110,6 +119,7 @@ openni::Status Kinect::Init()
 openni::Status Kinect::Run()
 {
     m_imagecamera = new QImage(m_width,m_height,QImage::Format_RGB888);
+    m_imagedepth = new QImage(m_width,m_height,QImage::Format_RGB888);
 
     return openni::STATUS_OK;
 }
@@ -121,7 +131,7 @@ openni::Status Kinect::Update()
 	if (rc != nite::STATUS_OK)
 	{
 		printf("GetNextData failed\n");
-		return;
+        return openni::STATUS_ERROR;
 	}
 
     m_depthFrame = handFrame.getDepthFrame();
@@ -143,8 +153,60 @@ openni::Status Kinect::Update()
 	glOrtho(0, GL_WIN_SIZE_X, GL_WIN_SIZE_Y, 0, -1.0, 1.0);
 	*/
     m_colorStream.readFrame(&m_colorFrame);
-    m_imagecamera->loadFromData(m_colorFrame.getData(),sizeof(openni::RGB888Pixel)*m_width*m_height);
-	
+    *m_imagecamera = QImage((const uchar*)m_colorFrame.getData(), m_width, m_height, QImage::Format_RGB888);
+    if (m_depthFrame.isValid())
+    {
+        float depthHist[MAX_DEPTH];
+        uchar depthTrans[MAX_DEPTH];
+        const openni::DepthPixel* pDepth = (const openni::DepthPixel*)m_depthFrame.getData();
+
+        memset(depthHist, 0, MAX_DEPTH*sizeof(float));
+        int restOfRow = m_depthFrame.getStrideInBytes() / sizeof(openni::DepthPixel) - m_width;
+
+        unsigned int nNumberOfPoints = 0;
+        for (int y = 0; y < m_height; ++y)
+        {
+            for (int x = 0; x < m_width; ++x, ++pDepth)
+            {
+                if (*pDepth != 0)
+                {
+                    depthHist[*pDepth]++;
+                    nNumberOfPoints++;
+                }
+            }
+            pDepth += restOfRow;
+        }
+        for (int nIndex=1; nIndex<MAX_DEPTH; nIndex++)
+        {
+            depthHist[nIndex] += depthHist[nIndex-1];
+        }
+        if (nNumberOfPoints)
+        {
+            for (int nIndex=1; nIndex<MAX_DEPTH; nIndex++)
+            {
+                depthHist[nIndex] = (1.0f - (depthHist[nIndex] / nNumberOfPoints));
+            }
+        }
+        pDepth = (const openni::DepthPixel*)m_depthFrame.getData();
+        for (int y = 0; y < m_depthFrame.getHeight(); ++y)
+        {
+            for (int x = 0; x < m_depthFrame.getWidth(); ++x, ++pDepth)
+            {
+                if (*pDepth != 0)
+                {
+                    QRgb value = depthTrans[*pDepth]*qRgb(1,1,1);
+                    value = m_imagecamera->pixel(x,y);
+                    value = qRgb(qRed(value)*depthHist[*pDepth],qGreen(value)*depthHist[*pDepth],qBlue(value)*depthHist[*pDepth]);
+                    m_imagedepth->setPixel(x,y,value);
+                }
+            }
+            pDepth += restOfRow;
+        }
+    }
+        //*m_imagedepth = QImage((const uchar*)m_depthFrame.getData(), m_width, m_height, m_depthFrame.getStrideInBytes(), QImage::Format_Indexed8);
+
+
+
 	/*if (depthFrame.isValid())
 	{
 		const openni::DepthPixel* pDepth = (const openni::DepthPixel*)depthFrame.getData();
@@ -216,36 +278,6 @@ openni::Status Kinect::Update()
 			pTexRow += m_nTexMapX;
 		}
 	}
-
-	glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP_SGIS, GL_TRUE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_nTexMapX, m_nTexMapY, 0, GL_RGB, GL_UNSIGNED_BYTE, m_pTexMap);
-
-	// Display the OpenGL texture map
-	glColor4f(1,1,1,1);
-
-	glEnable(GL_TEXTURE_2D);
-	glBegin(GL_QUADS);
-
-	g_nXRes = depthFrame.getVideoMode().getResolutionX();
-	g_nYRes = depthFrame.getVideoMode().getResolutionY();
-
-	// upper left
-	glTexCoord2f(0, 0);
-	glVertex2f(0, 0);
-	// upper right
-	glTexCoord2f((float)g_nXRes/(float)m_nTexMapX, 0);
-	glVertex2f(GL_WIN_SIZE_X, 0);
-	// bottom right
-	glTexCoord2f((float)g_nXRes/(float)m_nTexMapX, (float)g_nYRes/(float)m_nTexMapY);
-	glVertex2f(GL_WIN_SIZE_X, GL_WIN_SIZE_Y);
-	// bottom left
-	glTexCoord2f(0, (float)g_nYRes/(float)m_nTexMapY);
-	glVertex2f(0, GL_WIN_SIZE_Y);
-
-	glEnd();
-	glDisable(GL_TEXTURE_2D);
 */
 	const nite::Array<nite::GestureData>& gestures = handFrame.getGestures();
 	for (int i = 0; i < gestures.getSize(); ++i)
@@ -256,7 +288,7 @@ openni::Status Kinect::Update()
             printf("Gesture %d at (%f,%f,%f)\n", gestures[i].getType(), position.x, position.y, position.z);
 
 			nite::HandId newId;
-			m_pHandTracker->startHandTracking(gestures[i].getCurrentPosition(), &newId);
+            m_HandTracker->startHandTracking(gestures[i].getCurrentPosition(), &newId);
 		}
 	}
 
@@ -317,18 +349,18 @@ openni::Status Kinect::Update()
                 }
         }
     }*/
-    return rc;
+    return openni::STATUS_OK;
 }
 
 void Kinect::areaOf(nite::HandId nId)
 {
-    HandHistory::Iterator it = this->m_History.Find(nId);
-    if (it == this->m_History.End())
+    HandHistory::iterator it = this->m_history.find(nId);
+    if (it == this->m_history.end())
     {
         printf("Dead hand area: skipped!\n");
         return;
     }
-    nite::Point3f   handPos = it->Value().pos;
+    nite::Point3f   handPos = it->second.pos;
 
     const int XRES =    m_width;
     const int YRES =    m_height;
@@ -357,8 +389,8 @@ void Kinect::areaOf(nite::HandId nId)
     const float DEPTH_SCALE_FACTOR = 255./4096.;
     depthRaw.convertTo(depthShow, CV_8U, DEPTH_SCALE_FACTOR);
 
-    Mat handCpy(depthShow, roi);
-    Mat handMat = handCpy.clone();
+    cv::Mat handCpy(depthShow, roi);
+    cv::Mat handMat = handCpy.clone();
     //Treshold
     handMat = (handMat > (handPos.z * DEPTH_SCALE_FACTOR - 5)) & (handMat < (handPos.z * DEPTH_SCALE_FACTOR + 5));
     //Filtre median pour supprimer les inpuretés
@@ -380,7 +412,7 @@ void Kinect::areaOf(nite::HandId nId)
         {
             if(((y >= roi.y && y < roi.y+roi.height) && (x == roi.x || x == roi.x+roi.width-1)) || ((y == roi.y || y == roi.y+roi.height-1) && (x >= roi.x && x < roi.x+roi.width)))
                 value = qRgb(255,0,0);
-            else if(abs(*pImage - handPos.Z) < m_treshold)
+            else if(abs(*pImage - handPos.z) < m_treshold)
                 value = qRgb(255,255,255);
             else
                 value = qRgb(0,0,0);
@@ -388,7 +420,7 @@ void Kinect::areaOf(nite::HandId nId)
         }
         depthMap += XRES;
     }
-    const float r = (count*smallconst)*(handPos.z*handPos.z)/it->Value().calibration;
+    const float r = (count*smallconst)*(handPos.z*handPos.z)/it->second.calibration;
     //Display Hand positions
     for(int i = 0 ; i < 3 ; ++i)
     {
@@ -405,20 +437,20 @@ void Kinect::areaOf(nite::HandId nId)
                 }
         }
     }
-    it->Value().area = (count*smallconst)*(handPos.z*handPos.z);
+    it->second.area = (count*smallconst)*(handPos.z*handPos.z);
     return;
 
 }
 
 void Kinect::calibrateOn(nite::HandId nId)
 {
-    HandHistory::Iterator it = this->m_History.Find(nId);
-    if (it == this->m_History.End())
+    HandHistory::iterator it = this->m_history.find(nId);
+    if (it == this->m_history.end())
     {
         printf("Dead hand area: skipped!\n");
         return;
     }
-    nite::Point3f   handPos = it->Value().pos;
+    nite::Point3f   handPos = it->second.pos;
 
     const int XRES =    m_width;
     const int YRES =    m_height;
@@ -447,8 +479,8 @@ void Kinect::calibrateOn(nite::HandId nId)
     const float DEPTH_SCALE_FACTOR = 255./4096.;
     depthRaw.convertTo(depthShow, CV_8U, DEPTH_SCALE_FACTOR);
 
-    Mat handCpy(depthShow, roi);
-    Mat handMat = handCpy.clone();
+    cv::Mat handCpy(depthShow, roi);
+    cv::Mat handMat = handCpy.clone();
     //Treshold
     handMat = (handMat > (handPos.z * DEPTH_SCALE_FACTOR - 5)) & (handMat < (handPos.z * DEPTH_SCALE_FACTOR + 5));
     //Filtre median pour supprimer les inpuretés
@@ -458,8 +490,8 @@ void Kinect::calibrateOn(nite::HandId nId)
     int count = cv::countNonZero(handMat);
 
     const float smallconst = 1E-9;
-    printf("calibration of %i=%f\n", nId, (count*smallconst)*(handPos.Z*handPos.Z));
-    it->Value().calibration = (count*smallconst)*(handPos.Z*handPos.Z);
+    printf("calibration of %i=%f\n", nId, (count*smallconst)*(handPos.z*handPos.z));
+    it->second.calibration = (count*smallconst)*(handPos.z*handPos.z);
     //Dessin
     //Dessin
     QRgb value;
@@ -471,7 +503,7 @@ void Kinect::calibrateOn(nite::HandId nId)
         {
             if(((y >= roi.y && y < roi.y+roi.height) && (x == roi.x || x == roi.x+roi.width-1)) || ((y == roi.y || y == roi.y+roi.height-1) && (x >= roi.x && x < roi.x+roi.width)))
                 value = qRgb(255,0,0);
-            else if(abs(*pImage - handPos.Z) < m_treshold)
+            else if(abs(*pImage - handPos.z) < m_treshold)
                 value = qRgb(255,255,255);
             else
                 value = qRgb(0,0,0);
@@ -479,7 +511,7 @@ void Kinect::calibrateOn(nite::HandId nId)
         }
         depthMap += XRES;
     }
-    const float r = (count*smallconst)*(handPos.z*handPos.z)/it->Value().calibration;
+    const float r = (count*smallconst)*(handPos.z*handPos.z)/it->second.calibration;
     //Display Hand positions
     for(int i = 0 ; i < 3 ; ++i)
     {
@@ -500,5 +532,7 @@ void Kinect::calibrateOn(nite::HandId nId)
 
 QImage Kinect::getCamera()
 {
-    return m_imagecamera->mirrored(true, false);
+    if(!m_showdepth)
+        return m_imagecamera->mirrored(true, false);
+    return m_imagedepth->mirrored(true, false);
 }

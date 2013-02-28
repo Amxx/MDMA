@@ -10,7 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ht = new Kinect(l,r);
     label = new QLabel(this);
-    label->setFixedSize(1280,480);
+    label->setFixedSize(640,480);
+    puts("Init");
     int rc = ht->Init();
     if(rc != 0)
     {
@@ -18,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
         exit(0);
     }
     ht->Run();
-    setFixedSize(1280,480);
+    setFixedSize(640,480);
     startTimer(25);
 }
 

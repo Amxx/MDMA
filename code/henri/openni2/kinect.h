@@ -46,8 +46,7 @@ private:
 	openni::VideoFrameRef	m_depthFrame;
 	openni::VideoFrameRef	m_colorFrame;
 	
-	openni::VideoStream		m_depthStream;
-	openni::VideoStream		m_colorStream;
+    openni::VideoStream		m_colorStream;
 
     int			m_width;
     int			m_height;
