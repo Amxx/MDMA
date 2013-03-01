@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+CONFIG += console
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,10 +14,10 @@ TEMPLATE = app
 
 win32 {
     INCLUDEPATH += c:/dev/opencv/build/include/
-    LIBS += -Lc:/dev/opencv/build/x86/mingw/lib/ #or wherever your opencv is installed
+    LIBS += -Lc:/dev/opencv/build/x86/vc10/lib/ #or wherever your opencv is installed
     LIBS += \ #the windows libs have filenames like libopencv_core243.dll.a -> needs opencv version number
-        -lopencv_core243 \
-        -lopencv_imgproc243
+        -lopencv_core243d \
+        -lopencv_imgproc243d
 
     INCLUDEPATH += c:/dev/OpenNI2/x86/Include/
     LIBS += -Lc:/dev/OpenNI2/x86/Lib/

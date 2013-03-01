@@ -37,7 +37,7 @@ private:
         float calibration;
     } Hand;
 	
-	typedef std::map<int,Hand>	HandHistory;
+    typedef std::map<nite::HandId,Hand>	HandHistory;
 
     void calibrateOn(nite::HandId   nId);
     void areaOf(nite::HandId		nId);
@@ -59,7 +59,6 @@ private:
     QImage*                 m_imagedepth;
 
     int                     m_treshold;
-    nite::Point3f           m_rectangle[3];
 
 private:
     Kinect(const Kinect&);

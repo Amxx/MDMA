@@ -4,7 +4,7 @@
 
 #define MAX_DEPTH 10000
 
-const bool m_showdepth = true;
+const bool m_showdepth = false;
 
 //---------------------------------------------------------------------------
 // Method Definitions
@@ -31,7 +31,7 @@ Kinect::~Kinect()
 openni::Status Kinect::Init()
 {
     openni::OpenNI::initialize();
-
+    printf("After initialization:\n%s\n", openni::OpenNI::getExtendedError());
     puts("Open device");
     openni::Status rc = m_device.open(openni::ANY_DEVICE);
 	if (rc != openni::STATUS_OK)
@@ -118,7 +118,7 @@ openni::Status Kinect::Init()
 
 openni::Status Kinect::Run()
 {
-    m_imagecamera = new QImage(m_width,m_height,QImage::Format_RGB888);
+    m_imagecamera = new QImage(2*m_width,m_height,QImage::Format_RGB888);
     m_imagedepth = new QImage(m_width,m_height,QImage::Format_RGB888);
 
     return openni::STATUS_OK;
@@ -154,7 +154,7 @@ openni::Status Kinect::Update()
 	*/
     m_colorStream.readFrame(&m_colorFrame);
     *m_imagecamera = QImage((const uchar*)m_colorFrame.getData(), m_width, m_height, QImage::Format_RGB888);
-    if (m_depthFrame.isValid())
+    /*if (m_depthFrame.isValid())
     {
         float depthHist[MAX_DEPTH];
         uchar depthTrans[MAX_DEPTH];
@@ -194,7 +194,7 @@ openni::Status Kinect::Update()
             {
                 if (*pDepth != 0)
                 {
-                    QRgb value = depthTrans[*pDepth]*qRgb(1,1,1);
+                    QRgb value;
                     value = m_imagecamera->pixel(x,y);
                     value = qRgb(qRed(value)*depthHist[*pDepth],qGreen(value)*depthHist[*pDepth],qBlue(value)*depthHist[*pDepth]);
                     m_imagedepth->setPixel(x,y,value);
@@ -202,87 +202,11 @@ openni::Status Kinect::Update()
             }
             pDepth += restOfRow;
         }
-    }
-        //*m_imagedepth = QImage((const uchar*)m_depthFrame.getData(), m_width, m_height, m_depthFrame.getStrideInBytes(), QImage::Format_Indexed8);
-
-
-
-	/*if (depthFrame.isValid())
-	{
-		const openni::DepthPixel* pDepth = (const openni::DepthPixel*)depthFrame.getData();
-		int width = depthFrame.getWidth();
-		int height = depthFrame.getHeight();
-		// Calculate the accumulative histogram (the yellow display...)
-		memset(m_pDepthHist, 0, MAX_DEPTH*sizeof(float));
-		int restOfRow = depthFrame.getStrideInBytes() / sizeof(openni::DepthPixel) - width;
-
-		unsigned int nNumberOfPoints = 0;
-		for (int y = 0; y < height; ++y)
-		{
-			for (int x = 0; x < width; ++x, ++pDepth)
-			{
-				if (*pDepth != 0)
-				{
-					m_pDepthHist[*pDepth]++;
-					nNumberOfPoints++;
-				}
-			}
-			pDepth += restOfRow;
-		}
-		for (int nIndex=1; nIndex<MAX_DEPTH; nIndex++)
-		{
-			m_pDepthHist[nIndex] += m_pDepthHist[nIndex-1];
-		}
-		if (nNumberOfPoints)
-		{
-			for (int nIndex=1; nIndex<MAX_DEPTH; nIndex++)
-			{
-				m_pDepthHist[nIndex] = (unsigned int)(256 * (1.0f - (m_pDepthHist[nIndex] / nNumberOfPoints)));
-			}
-		}
-	}
-
-	memset(m_pTexMap, 0, m_nTexMapX*m_nTexMapY*sizeof(openni::RGB888Pixel));
-
-	float factor[3] = {1, 1, 1};
-	// check if we need to draw depth frame to texture
-	if (depthFrame.isValid() && g_drawDepth)
-	{
-		const openni::DepthPixel* pDepthRow = (const openni::DepthPixel*)depthFrame.getData();
-		openni::RGB888Pixel* pTexRow = m_pTexMap + depthFrame.getCropOriginY() * m_nTexMapX;
-		int rowSize = depthFrame.getStrideInBytes() / sizeof(openni::DepthPixel);
-
-		for (int y = 0; y < depthFrame.getHeight(); ++y)
-		{
-			const openni::DepthPixel* pDepth = pDepthRow;
-			openni::RGB888Pixel* pTex = pTexRow + depthFrame.getCropOriginX();
-
-			for (int x = 0; x < depthFrame.getWidth(); ++x, ++pDepth, ++pTex)
-			{
-				if (*pDepth != 0)
-				{
-					factor[0] = Colors[colorCount][0];
-					factor[1] = Colors[colorCount][1];
-					factor[2] = Colors[colorCount][2];
-
-					int nHistValue = m_pDepthHist[*pDepth];
-					pTex->r = nHistValue*factor[0];
-					pTex->g = nHistValue*factor[1];
-					pTex->b = nHistValue*factor[2];
-
-					factor[0] = factor[1] = factor[2] = 1;
-				}
-			}
-
-			pDepthRow += rowSize;
-			pTexRow += m_nTexMapX;
-		}
-	}
-*/
-	const nite::Array<nite::GestureData>& gestures = handFrame.getGestures();
+    }*/
+    const nite::Array<nite::GestureData>& gestures = handFrame.getGestures();
 	for (int i = 0; i < gestures.getSize(); ++i)
 	{
-		if (gestures[i].isComplete())
+        if (gestures[i].isComplete())
 		{
 			const nite::Point3f& position = gestures[i].getCurrentPosition();
             printf("Gesture %d at (%f,%f,%f)\n", gestures[i].getType(), position.x, position.y, position.z);
@@ -309,11 +233,14 @@ openni::Status Kinect::Update()
 			if (user.isNew())
 			{
 				printf("Found hand %d\n", user.getId());
-				h.calibration = 7;
-				//Calibration
+                m_history[user.getId()] = h;
+                this->calibrateOn(user.getId());
+                puts("Done");
 			}
+            else
+                h = m_history[user.getId()];
 			h.pos = user.getPosition();
-			//h.area = ...
+            this->areaOf(user.getId());
 		}
 	}
 	
@@ -378,7 +305,8 @@ void Kinect::areaOf(nite::HandId nId)
     rectangle[1].z  =   handPos.z;
     rectangle[2]    =   handPos;
 
-    //m_DepthGenerator.ConvertRealWorldToProjective(3, rectangle, rectangle);
+    for(int i = 0 ; i < 3 ; ++i)
+        m_HandTracker->convertHandCoordinatesToDepth(rectangle[i].x,rectangle[i].y,rectangle[i].z,&(rectangle[i].x),&(rectangle[i].y));
 
     cv::Rect dim(cv::Point(0,0),cv::Size(XRES,YRES));
     cv::Rect roi = cv::Rect(cv::Point(rectangle[0].x,rectangle[0].y),cv::Point(rectangle[1].x,rectangle[1].y));
@@ -391,7 +319,7 @@ void Kinect::areaOf(nite::HandId nId)
 
     cv::Mat handCpy(depthShow, roi);
     cv::Mat handMat = handCpy.clone();
-    //Treshold
+    //Threshold
     handMat = (handMat > (handPos.z * DEPTH_SCALE_FACTOR - 5)) & (handMat < (handPos.z * DEPTH_SCALE_FACTOR + 5));
     //Filtre median pour supprimer les inpuretés
     cv::medianBlur(handMat, handMat, 5);
@@ -416,7 +344,7 @@ void Kinect::areaOf(nite::HandId nId)
                 value = qRgb(255,255,255);
             else
                 value = qRgb(0,0,0);
-            m_imagecamera->setPixel(1279-x, y, value);
+            m_imagecamera->setPixel(x, y, value);
         }
         depthMap += XRES;
     }
@@ -433,7 +361,7 @@ void Kinect::areaOf(nite::HandId nId)
         {
                 for (int x = 0; x < 5; ++x)
                 {
-                        m_imagecamera->setPixel(1279-(x+point.x), y+point.y, value);
+                        m_imagecamera->setPixel((x+point.x), y+point.y, value);
                 }
         }
     }
@@ -444,6 +372,7 @@ void Kinect::areaOf(nite::HandId nId)
 
 void Kinect::calibrateOn(nite::HandId nId)
 {
+    puts("Calibration");
     HandHistory::iterator it = this->m_history.find(nId);
     if (it == this->m_history.end())
     {
@@ -468,7 +397,8 @@ void Kinect::calibrateOn(nite::HandId nId)
     rectangle[1].z  =   handPos.z;
     rectangle[2]    =   handPos;
 
-    //m_DepthGenerator.ConvertRealWorldToProjective(3, rectangle, rectangle);
+    for(int i = 0 ; i < 3 ; ++i)
+        m_HandTracker->convertHandCoordinatesToDepth(rectangle[i].x,rectangle[i].y,rectangle[i].z,&(rectangle[i].x),&(rectangle[i].y));
 
     cv::Rect dim(cv::Point(0,0),cv::Size(XRES,YRES));
     cv::Rect roi = cv::Rect(cv::Point(rectangle[0].x,rectangle[0].y),cv::Point(rectangle[1].x,rectangle[1].y));
@@ -481,8 +411,10 @@ void Kinect::calibrateOn(nite::HandId nId)
 
     cv::Mat handCpy(depthShow, roi);
     cv::Mat handMat = handCpy.clone();
+    puts("Threshold");
     //Treshold
     handMat = (handMat > (handPos.z * DEPTH_SCALE_FACTOR - 5)) & (handMat < (handPos.z * DEPTH_SCALE_FACTOR + 5));
+    puts("Median");
     //Filtre median pour supprimer les inpuretés
     cv::medianBlur(handMat, handMat, 5);
 
@@ -493,7 +425,7 @@ void Kinect::calibrateOn(nite::HandId nId)
     printf("calibration of %i=%f\n", nId, (count*smallconst)*(handPos.z*handPos.z));
     it->second.calibration = (count*smallconst)*(handPos.z*handPos.z);
     //Dessin
-    //Dessin
+    /*//Dessin
     QRgb value;
     const openni::DepthPixel* depthMap = (const openni::DepthPixel*)m_depthFrame.getData();
     for (int y = 0; y < YRES; ++y)
@@ -527,7 +459,7 @@ void Kinect::calibrateOn(nite::HandId nId)
                         m_imagecamera->setPixel(1279-(x+point.x), y+point.y, value);
                 }
         }
-    }
+    }*/
 }
 
 QImage Kinect::getCamera()
