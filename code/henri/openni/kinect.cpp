@@ -236,6 +236,7 @@ XnStatus Kinect::Run()
 
 XnStatus Kinect::Update()
 {
+    m_imagecamera->fill(Qt::black);
     XnStatus rc = m_rContext.WaitAnyUpdateAll();
     if (rc != XN_STATUS_OK)
     {
@@ -351,7 +352,7 @@ void Kinect::areaOf(XnUserID nId)
             else if(abs(*pImage - handPos.Z) < m_treshold)
                 value = qRgb(255,255,255);
             else
-                value = qRgb(0,0,0);
+                value = m_imagecamera->pixel(1279-x, y);
             m_imagecamera->setPixel(1279-x, y, value);
         }
         depthMap += XRES;
