@@ -306,11 +306,11 @@ void Kinect::areaOf(XnUserID nId)
     Rect dim(Point(0,0),Size(XRES,YRES));
     Rect roi;
 
-    rectangle[0].X  =   handPos.X-ROI_OFFSET;
-    rectangle[0].Y  =   handPos.Y-ROI_OFFSET;
+    rectangle[0].X  =   handPos.X-ROI_OFFSET+it->Value().offset;
+    rectangle[0].Y  =   handPos.Y-ROI_OFFSET+it->Value().offset;
     rectangle[0].Z  =   handPos.Z;
-    rectangle[1].X  =   handPos.X+ROI_OFFSET;
-    rectangle[1].Y  =   handPos.Y+ROI_OFFSET;
+    rectangle[1].X  =   handPos.X+ROI_OFFSET-it->Value().offset;
+    rectangle[1].Y  =   handPos.Y+ROI_OFFSET-it->Value().offset;
     rectangle[1].Z  =   handPos.Z;
     rectangle[2]    =   handPos;
 
@@ -335,7 +335,8 @@ void Kinect::areaOf(XnUserID nId)
     int count = countNonZero(handMat);
 
     const float smallconst = 1E-9;
-    //printf("c\t%i\t%f\n", r<0.68,r);
+    const float r = (count*smallconst)*(handPos.Z*handPos.Z)/it->Value().calibration;
+    printf("c\t%f\n",r);
 
     //Dessin
     QRgb value;
@@ -355,7 +356,6 @@ void Kinect::areaOf(XnUserID nId)
         }
         depthMap += XRES;
     }
-    const float r = (count*smallconst)*(handPos.Z*handPos.Z)/it->Value().calibration;
     //Display Hand positions
     for(int i = 0 ; i < 3 ; ++i)
     {
@@ -420,13 +420,23 @@ void Kinect::calibrateOn(XnUserID nId)
     medianBlur(handMat, handMat, 5);
 
     /* Calcul de la surface */
-    int count = countNonZero(handMat);
+    //Ajustement du ROI
+    int k;
+    for(k = 0; k < handMat.rows && countNonZero(handMat.row(k)) == 0 ; ++k);
+    //printf("%i\n",k)
+    assert(k < roi.width/2);
+    it->Value().offset = k*2*ROI_OFFSET/roi.width;
 
+    Rect roi2=Rect(Point(k, k), Point(roi.width-k, roi.height-k));
+    Mat handMat2 = handMat(roi2);
 
+    int count = countNonZero(handMat2);
     const float smallconst = 1E-9;
     printf("calibration of %i=%f\n", nId, (count*smallconst)*(handPos.Z*handPos.Z));
     it->Value().calibration = (count*smallconst)*(handPos.Z*handPos.Z);
     //Dessin
+    roi.x += k; roi.y += k;
+    roi.width -= k; roi.height -= k;
     QRgb value;
     const XnDepthPixel* depthMap = m_DepthGenerator.GetDepthMap();
     for (int y = 0; y < YRES; ++y)

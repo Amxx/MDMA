@@ -37,7 +37,7 @@
 #define YRES        480
 #define ROI_OFFSET  100
 
-#define TRESHOLD    0.68
+#define TRESHOLD    0.72
 
 class Kinect
 {
@@ -61,6 +61,7 @@ private:
         XnPoint3D pos;
         float area;
         float calibration;
+        float offset;
     } Hand;
 
     typedef XnHashT<XnUserID, Hand> HandHistory;

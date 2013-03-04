@@ -31,7 +31,6 @@ Kinect::~Kinect()
 openni::Status Kinect::Init()
 {
     openni::OpenNI::initialize();
-    printf("After initialization:\n%s\n", openni::OpenNI::getExtendedError());
     puts("Open device");
     openni::Status rc = m_device.open(openni::ANY_DEVICE);
 	if (rc != openni::STATUS_OK)
@@ -118,7 +117,7 @@ openni::Status Kinect::Init()
 
 openni::Status Kinect::Run()
 {
-    m_imagecamera = new QImage(2*m_width,m_height,QImage::Format_RGB888);
+    m_imagecamera = new QImage(m_width,m_height,QImage::Format_RGB888);
     m_imagedepth = new QImage(m_width,m_height,QImage::Format_RGB888);
 
     return openni::STATUS_OK;
@@ -194,7 +193,7 @@ openni::Status Kinect::Update()
             {
                 if (*pDepth != 0)
                 {
-                    QRgb value;
+                    QRgb value = depthTrans[*pDepth]*qRgb(1,1,1);
                     value = m_imagecamera->pixel(x,y);
                     value = qRgb(qRed(value)*depthHist[*pDepth],qGreen(value)*depthHist[*pDepth],qBlue(value)*depthHist[*pDepth]);
                     m_imagedepth->setPixel(x,y,value);
@@ -372,7 +371,6 @@ void Kinect::areaOf(nite::HandId nId)
 
 void Kinect::calibrateOn(nite::HandId nId)
 {
-    puts("Calibration");
     HandHistory::iterator it = this->m_history.find(nId);
     if (it == this->m_history.end())
     {
@@ -412,7 +410,7 @@ void Kinect::calibrateOn(nite::HandId nId)
     cv::Mat handCpy(depthShow, roi);
     cv::Mat handMat = handCpy.clone();
     puts("Threshold");
-    //Treshold
+    //Threshold
     handMat = (handMat > (handPos.z * DEPTH_SCALE_FACTOR - 5)) & (handMat < (handPos.z * DEPTH_SCALE_FACTOR + 5));
     puts("Median");
     //Filtre median pour supprimer les inpuretés
@@ -424,7 +422,6 @@ void Kinect::calibrateOn(nite::HandId nId)
     const float smallconst = 1E-9;
     printf("calibration of %i=%f\n", nId, (count*smallconst)*(handPos.z*handPos.z));
     it->second.calibration = (count*smallconst)*(handPos.z*handPos.z);
-    //Dessin
     /*//Dessin
     QRgb value;
     const openni::DepthPixel* depthMap = (const openni::DepthPixel*)m_depthFrame.getData();
