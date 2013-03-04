@@ -1,37 +1,20 @@
 #ifndef KINECT_H
 #define KINECT_H
 
-/****************************************************************************
-*                                                                           *
-*  OpenNI 1.x Alpha                                                         *
-*  Copyright (C) 2011 PrimeSense Ltd.                                       *
-*                                                                           *
-*  This file is part of OpenNI.                                             *
-*                                                                           *
-*  OpenNI is free software: you can redistribute it and/or modify           *
-*  it under the terms of the GNU Lesser General Public License as published *
-*  by the Free Software Foundation, either version 3 of the License, or     *
-*  (at your option) any later version.                                      *
-*                                                                           *
-*  OpenNI is distributed in the hope that it will be useful,                *
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of           *
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             *
-*  GNU Lesser General Public License for more details.                      *
-*                                                                           *
-*  You should have received a copy of the GNU Lesser General Public License *
-*  along with OpenNI. If not, see <http://www.gnu.org/licenses/>.           *
-*                                                                           *
-****************************************************************************/
-
 #include <QImage>
 
 #include <XnCppWrapper.h>
-#include <XnCyclicStackT.h>
 #include <XnHashT.h>
+
+#include <opencv2/opencv.hpp>
 
 #include "handdescriptor.h"
 
-typedef XnHashT<XnUserID, XnPoint3D> TrailHistory;
+#define XRES        640
+#define YRES        480
+#define ROI_OFFSET  100
+
+#define THRESHOLD    0.72
 
 class Kinect
 {
@@ -48,9 +31,18 @@ public:
     HandDescriptor& h_left;
     HandDescriptor& h_right;
 
-    const TrailHistory&	GetHistory()	const	{return m_History;}
+    //const TrailHistory&	GetHistory()	const	{return m_History;}
 
 private:
+    typedef struct {
+        XnPoint3D pos;
+        float area;
+        float calibration;
+        float offset;
+    } Hand;
+
+    typedef XnHashT<XnUserID, Hand> HandHistory;
+
     // OpenNI Gesture and Hands Generator callbacks
     static void Gesture_Recognized(xn::GestureGenerator&	generator,
                                 const XnChar*			strGesture,
@@ -77,8 +69,11 @@ private:
                                 XnFloat				fTime,
                                 void*				pCookie);
 
+    void calibrateOn(XnUserID	nId);
+    void areaOf(XnUserID		nId);
+
     xn::Context				m_rContext;
-    TrailHistory			m_History;
+    HandHistory             m_History;
     xn::GestureGenerator	m_GestureGenerator;
     xn::HandsGenerator		m_HandsGenerator;
     xn::ImageGenerator      m_ImageGenerator;
@@ -92,7 +87,8 @@ private:
     static XnListT<Kinect*>	sm_Instances;	// Living instances of the class
 
 private:
-    XN_DISABLE_COPY_AND_ASSIGN(Kinect);
+    Kinect(const Kinect&);
+    void operator=(const Kinect&);
 };
 
 #endif // KINECT_H
