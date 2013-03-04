@@ -225,8 +225,6 @@ XnStatus Kinect::Run()
 
     ADD_ALL_GESTURES;
 
-    m_DepthGenerator.GetMetaData(m_DepthMD);
-
     m_imagecamera = new QImage(640,480,QImage::Format_RGB888);
 
     return XN_STATUS_OK;
@@ -234,7 +232,6 @@ XnStatus Kinect::Run()
 
 XnStatus Kinect::Update()
 {
-    m_imagecamera->fill(Qt::black);
     XnStatus rc = m_rContext.WaitAnyUpdateAll();
     if (rc != XN_STATUS_OK)
     {
@@ -244,39 +241,28 @@ XnStatus Kinect::Update()
     m_ImageGenerator.GetMetaData(m_ImageMD);
     // draw image frame to texture
     const XnRGB24Pixel* pImageRow = m_ImageMD.RGB24Data();
-    QRgb value;
     *m_imagecamera = QImage((const uchar*)pImageRow, m_ImageMD.XRes(), m_ImageMD.YRes(), QImage::Format_RGB888);
-    /*for (XnUInt y = 0; y < m_ImageMD.YRes(); ++y)
-    {
-        const XnRGB24Pixel* pImage = pImageRow;
-        for (XnUInt x = 0; x < m_ImageMD.XRes(); ++x, ++pImage)
-        {
-            value = qRgb(pImage->nRed, pImage->nGreen, pImage->nBlue);
-            m_imagecamera->setPixel(x, y, value);
-        }
-        pImageRow += m_ImageMD.XRes();
-    }*/
     //Set left/right hands
     int i = 0;
     for(HandHistory::Iterator it = m_History.Begin(); it != m_History.End() && i < 2; ++it, ++i)
     {
         XnPoint3D	point = it->Value().pos;
         m_DepthGenerator.ConvertRealWorldToProjective(1, &point, &point);
-        point.X = 640 - point.X;
+        //point.X = 640 - point.X;
         if(i==0)
-            h_left.updatePos(point.X, point.Y, false);
+            h_left.updatePos(point.X, point.Y, it->Value().area / it->Value().calibration > THRESHOLD);
         if(i==1)
-            h_right.updatePos(point.X, point.Y, false);
+            h_right.updatePos(point.X, point.Y, it->Value().area / it->Value().calibration > THRESHOLD);
 
     }
-    //Display Hand positions
+    /*//Display Hand positions
     for(HandHistory::Iterator it = m_History.Begin(); it != m_History.End() ; ++it)
     {
         XnPoint3D	point = it->Value().pos;
         m_DepthGenerator.ConvertRealWorldToProjective(1, &point, &point);
         point.X = 640 - point.X;
         point.Y += 20;
-        value = qRgb(255,255,255);
+        QRgb value = qRgb(255,255,255);
         if(it->Value().area / it->Value().calibration < THRESHOLD)
             value = qRgb(0,255,255);
         for (XnUInt y = 0; y < 5; ++y)
@@ -286,7 +272,7 @@ XnStatus Kinect::Update()
                         m_imagecamera->setPixel(x+point.X, y+point.Y, value);
                 }
         }
-    }
+    }*/
     return rc;
 }
 
@@ -335,8 +321,8 @@ void Kinect::areaOf(XnUserID nId)
     int count = countNonZero(handMat);
 
     const float smallconst = 1E-9;
-    const float r = (count*smallconst)*(handPos.Z*handPos.Z)/it->Value().calibration;
-    printf("c\t%f\n",r);
+    //const float r = (count*smallconst)*(handPos.Z*handPos.Z)/it->Value().calibration;
+    //printf("c\t%f\n",r);
 
     /*//Dessin
     QRgb value;

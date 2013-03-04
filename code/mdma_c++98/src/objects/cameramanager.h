@@ -8,6 +8,7 @@
 
 #include "configuration.h"
 #include "../classes/handtracking.h"
+#include "../classes/kinect.h"
 #include "../config/constant.h"
 
 class CameraManager : public QObject
@@ -24,8 +25,10 @@ class CameraManager : public QObject
 		void track_updated();
 
 	private:
-		HandTracking& handtracking;
-		void display();
+        Kinect kinect;
+        HandTracking& handtracking;
+        void display();
+        bool useKinect;
 };
 
 QImage mat2qimage(const cv::Mat& mat);

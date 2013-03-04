@@ -79,7 +79,6 @@ private:
     xn::ImageGenerator      m_ImageGenerator;
     xn::DepthGenerator      m_DepthGenerator;
     xn::ImageMetaData       m_ImageMD;
-    xn::DepthMetaData       m_DepthMD;
 
     QImage*                 m_imagecamera;
     QImage*                 m_imagedepth;

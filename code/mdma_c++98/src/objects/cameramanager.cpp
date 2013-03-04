@@ -4,8 +4,19 @@
 
 CameraManager::CameraManager(HandTracking& _handtracking, QObject *parent) :
 	QObject(parent),
+    kinect(Configuration::config().left_hand, Configuration::config().right_hand),
 	handtracking(_handtracking)
 {
+    int rc = kinect.Init();
+    if(rc == 0)
+    {
+        rc = kinect.Run();
+    }
+    useKinect = rc == 0;
+    if(useKinect)
+    {
+        Configuration::config().calibration_status = MDMA::CALIBRATED;
+    }
 	startTimer(40);
 }
 
@@ -15,7 +26,23 @@ CameraManager::~CameraManager()
 
 void CameraManager::timerEvent(QTimerEvent*)
 {
-	if(Configuration::config().camera.isOpened() && !Configuration::config().freeze)
+    if(useKinect)
+    {
+        kinect.Update();
+        Configuration::config().ui->label_camera->setPixmap(QPixmap::fromImage(kinect.getCamera()));
+        if(Configuration::config().running)
+        {
+            if(Configuration::config().track_mouse)
+            {
+                QPoint cursor  = Configuration::config().main->mapFromGlobal(QCursor::pos()) - Configuration::config().ui->label_camera->pos();
+                int x = std::min(std::max(cursor.x(), 0), 640);
+                int y = std::min(std::max(cursor.y() - Configuration::config().ui->menubar->size().height(), 0), 480);
+                Configuration::config().mouse_hand.updatePos(x, y, QApplication::mouseButtons() == Qt::NoButton);
+            }
+            emit track_updated();
+        }
+    }
+    else if(Configuration::config().camera.isOpened() && !Configuration::config().freeze)
 	{
 		Configuration::config().camera >> Configuration::config().current_frame;
 
