@@ -10,10 +10,8 @@
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow),
-	camera_manager(handtracking, this),
-	event_manager(this),
-	handtracking(Configuration::config().left_hand, Configuration::config().right_hand),
-	midi_manager(),
+    event_manager(this),
+    midi_manager(),
 	zone_manager(this)
 {
 	ui->setupUi(this);
@@ -21,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	show();
 
 	Configuration::config().initialize(this, ui);
-	QObject::connect(&camera_manager, SIGNAL(track_updated()), &event_manager, SLOT(detection()));
+    QObject::connect(&Configuration::config().camera_manager, SIGNAL(track_updated()), &event_manager, SLOT(detection()));
 	QObject::connect(&event_manager, SIGNAL(sendMidi(MDMA::signal)), &midi_manager, SLOT(sendMessage(MDMA::signal)));
 }
 
@@ -199,7 +197,9 @@ void MainWindow::on_pushButton_run_clicked()
 
 void MainWindow::on_pushButton_calibrate_clicked()
 {
-	QEventLoop loop;
+    if(!Configuration::config().camera_manager.canDoCalibration())
+        return;
+    QEventLoop loop;
 	zone_manager.reset_clic();
 	ui_disable(true, true);
 
@@ -270,7 +270,7 @@ void MainWindow::on_pushButton_calibrate_clicked()
 
 	try
 	{
-		handtracking.Calibrate(Configuration::config().close_calib, MDMA::zone_leftclose, MDMA::zone_rightclose,
+        Configuration::config().handtracking.Calibrate(Configuration::config().close_calib, MDMA::zone_leftclose, MDMA::zone_rightclose,
 							   Configuration::config().open_calib, MDMA::zone_leftopen, MDMA::zone_rightopen,
 							   Configuration::config().user_mask);
 		Configuration::config().calibration_status = MDMA::CALIBRATED;

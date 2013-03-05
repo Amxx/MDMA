@@ -230,7 +230,7 @@ XnStatus Kinect::Run()
     return XN_STATUS_OK;
 }
 
-XnStatus Kinect::Update()
+XnStatus Kinect::Update(bool mirror)
 {
     XnStatus rc = m_rContext.WaitAnyUpdateAll();
     if (rc != XN_STATUS_OK)
@@ -248,7 +248,7 @@ XnStatus Kinect::Update()
     {
         XnPoint3D	point = it->Value().pos;
         m_DepthGenerator.ConvertRealWorldToProjective(1, &point, &point);
-        //point.X = 640 - point.X;
+        if(!mirror) point.X = 640 - point.X;
         if(i==0)
             h_left.updatePos(point.X, point.Y, it->Value().area / it->Value().calibration > THRESHOLD);
         if(i==1)
@@ -461,5 +461,5 @@ void Kinect::calibrateOn(XnUserID nId)
 
 QImage Kinect::getCamera()
 {
-    return m_imagecamera->mirrored(true, false);
+    return *m_imagecamera;
 }

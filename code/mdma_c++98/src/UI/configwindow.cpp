@@ -97,10 +97,14 @@ void ConfigWindow::on_checkBox_flip_zones_clicked()
 
 void ConfigWindow::on_pushButton_device_clicked()
 {
-	Configuration::config().setCamera(true);
+    Configuration::config().calibration_status = MDMA::NOT_CALIBRATED;
 
-	Configuration::config().calibration_status = MDMA::NOT_CALIBRATED;
-	Configuration::config().ui->pushButton_calibrate->setText("Calibrate");
+    bool ok = true;
+    do
+        Configuration::config().cameraPort = QInputDialog::getInt(0, "Camera selection", "Please select camera device number", Configuration::config().cameraPort, 0, 2147483647, 1, &ok);
+    while(ok && !Configuration::config().camera_manager.setCamera(Configuration::config().cameraPort));
+
+    Configuration::config().ui->pushButton_calibrate->setText("Calibrate");
 }
 
 void ConfigWindow::on_pushButton_hand_track_clicked()

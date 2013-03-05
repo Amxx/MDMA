@@ -14,6 +14,8 @@
 #include <opencv2/opencv.hpp>
 
 #include "../classes/eventzone.h"
+#include "../classes/handtracking.h"
+#include "../objects/cameramanager.h"
 #include "../classes/handdescriptor.h"
 #include "../classes/subconfig.h"
 #include "../config/constant.h"
@@ -77,11 +79,14 @@ class Configuration : public QWidget
 		HandDescriptor right_hand;
 		HandDescriptor mouse_hand;
 
+        HandTracking    handtracking;
+
 		// ----------------------------------------------------------
 
 		int cameraPort;
 		cv::VideoCapture camera;
 		cv::Mat current_frame;
+        CameraManager camera_manager;
 
 		// ----------------------------------------------------------
 

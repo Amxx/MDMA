@@ -1,35 +1,70 @@
 #include "cameramanager.h"
+#include "configuration.h"
 #include "ui_mainwindow.h"
 #include "ui_secondwindow.h"
 
 CameraManager::CameraManager(HandTracking& _handtracking, QObject *parent) :
 	QObject(parent),
-    kinect(Configuration::config().left_hand, Configuration::config().right_hand),
+    kinect(_handtracking.h_left, _handtracking.h_right),
 	handtracking(_handtracking)
 {
-    int rc = kinect.Init();
-    if(rc == 0)
-    {
-        rc = kinect.Run();
-    }
-    useKinect = rc == 0;
-    if(useKinect)
-    {
-        Configuration::config().calibration_status = MDMA::CALIBRATED;
-    }
-	startTimer(40);
+
 }
 
 CameraManager::~CameraManager()
 {
 }
 
+void CameraManager::Init()
+{
+    setCamera(0);
+    startTimer(40);
+}
+
+bool CameraManager::canDoCalibration()
+{
+    return !useKinect;
+}
+
+bool CameraManager::existsKinect()
+{
+    if(useKinect)
+        return true;
+    int rc = kinect.Init();
+    return rc == 0;
+}
+
+bool CameraManager::setCamera(int i)
+{
+    if(Configuration::config().camera.isOpened()) Configuration::config().camera.release();
+    if(i==KINECT_DEVICE || i == 0)
+    {
+        int rc = kinect.Init();
+        if(rc == 0)
+        {
+            rc = kinect.Run();
+        }
+        useKinect = rc == 0;
+    }
+    if(useKinect)
+        Configuration::config().calibration_status = MDMA::CALIBRATED;
+    if(i == 0 && useKinect)
+        return true;
+    Configuration::config().cameraPort = i;
+    return  Configuration::config().camera.open(Configuration::config().cameraPort);
+}
+
 void CameraManager::timerEvent(QTimerEvent*)
 {
     if(useKinect)
     {
-        kinect.Update();
-        Configuration::config().ui->label_camera->setPixmap(QPixmap::fromImage(kinect.getCamera()));
+        int rc = kinect.Update(Configuration::config().flip_display);
+        if(rc != 0)
+        {
+            useKinect = false;
+            return;
+        }
+        Configuration::config().ui->label_camera->setPixmap(QPixmap::fromImage(kinect.getCamera().mirrored(Configuration::config().flip_display,false)));
         if(Configuration::config().running)
         {
             if(Configuration::config().track_mouse)

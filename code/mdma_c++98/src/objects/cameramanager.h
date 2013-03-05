@@ -5,11 +5,11 @@
 #include <QObject>
 
 #include <opencv2/opencv.hpp>
-
-#include "configuration.h"
 #include "../classes/handtracking.h"
 #include "../classes/kinect.h"
 #include "../config/constant.h"
+
+#define KINECT_DEVICE      -1
 
 class CameraManager : public QObject
 {
@@ -17,6 +17,10 @@ class CameraManager : public QObject
 	public:
 		CameraManager(HandTracking & _handtracking, QObject *parent = 0);
 		~CameraManager();
+        bool canDoCalibration();
+        bool existsKinect();
+        bool setCamera(int i = KINECT_DEVICE);
+        void Init();
 
 	protected:
 		void timerEvent(QTimerEvent*);

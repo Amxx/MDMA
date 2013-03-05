@@ -24,7 +24,7 @@ public:
 
     XnStatus Init();
     XnStatus Run();
-    XnStatus Update();
+    XnStatus Update(bool mirror = false);
 
     QImage getCamera();
 
