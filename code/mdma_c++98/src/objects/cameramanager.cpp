@@ -17,7 +17,8 @@ CameraManager::~CameraManager()
 
 void CameraManager::Init()
 {
-    setCamera(0);
+    if(!setCamera(-1))
+        setCamera(0);
     startTimer(40);
 }
 
@@ -36,21 +37,20 @@ bool CameraManager::existsKinect()
 
 bool CameraManager::setCamera(int i)
 {
+    Configuration::config().cameraPort = i;
     if(Configuration::config().camera.isOpened()) Configuration::config().camera.release();
-    if(i==KINECT_DEVICE || i == 0)
+    if(i==KINECT_DEVICE)
     {
         int rc = kinect.Init();
         if(rc == 0)
         {
             rc = kinect.Run();
         }
-        useKinect = rc == 0;
+        if((useKinect = (rc == 0)))
+            Configuration::config().calibration_status = MDMA::CALIBRATED;
+        return useKinect;
     }
-    if(useKinect)
-        Configuration::config().calibration_status = MDMA::CALIBRATED;
-    if(i == 0 && useKinect)
-        return true;
-    Configuration::config().cameraPort = i;
+
     return  Configuration::config().camera.open(Configuration::config().cameraPort);
 }
 
