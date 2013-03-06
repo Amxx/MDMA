@@ -138,7 +138,7 @@ bool CameraManager::setCamera(int i)
         return useKinect;
     }
 
-    return  camera.open(cameraPort);
+    return camera.open(cameraPort);
 }
 
 void CameraManager::timerEvent(QTimerEvent*)

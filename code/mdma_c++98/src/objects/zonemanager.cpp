@@ -87,6 +87,8 @@ void ZoneManager::display()
 		drawText(QRect(5, 5, 150, 30), Qt::AlignCenter, "Display Freezed");
 	}
 
+    Configuration::config().displayMask(*this);
+
     switch(Configuration::config().camera_manager.isCalibrated())
 	{
 		case MDMA::NOT_CALIBRATED:
@@ -96,6 +98,14 @@ void ZoneManager::display()
 			break;
 
         case MDMA::HANDS_CLOSED:
+        {	QPolygon poly_left;
+            QPolygon poly_right;
+            for(QList<QPoint>::ConstIterator it = MDMA::zone_leftclose.begin() ; it != MDMA::zone_leftclose.end() ; ++it) poly_left << *it;
+            for(QList<QPoint>::ConstIterator it = MDMA::zone_rightclose.begin() ; it != MDMA::zone_rightclose.end() ; ++it) poly_right << *it;
+            drawPolygon(poly_left);
+            drawPolygon(poly_right);
+            break;
+        }
         case MDMA::HANDS_OPEN:
 		{	QPolygon poly_left;
 			QPolygon poly_right;
@@ -103,9 +113,10 @@ void ZoneManager::display()
             for(QList<QPoint>::ConstIterator it = MDMA::zone_rightopen.begin() ; it != MDMA::zone_rightopen.end() ; ++it) poly_right << *it;
             drawPolygon(poly_left);
             drawPolygon(poly_right);
+            break;
 		}
         case MDMA::MASK_DRAW:
-            Configuration::config().displayMask(*this);
+            break;
 	}
 
 	Configuration::config().ui->label_zone->setPixmap(pixmax);

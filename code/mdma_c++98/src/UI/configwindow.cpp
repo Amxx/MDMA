@@ -115,6 +115,7 @@ void ConfigWindow::on_pushButton_device_clicked()
     }
     while(ok && !success);
 
+    Configuration::config().user_mask.erase(Configuration::config().user_mask.begin(),Configuration::config().user_mask.end());
     Configuration::config().ui->pushButton_calibrate->setText("Calibrate");
 }
 
