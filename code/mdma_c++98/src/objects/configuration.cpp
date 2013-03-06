@@ -15,7 +15,6 @@ Configuration::Configuration() :
 	right_hand(0, 0, MDMA::RIGHT),
 	mouse_hand(0, 0, MDMA::MOUSE),
     handtracking(left_hand, right_hand),
-    cameraPort(0),
     camera_manager(handtracking, this)
 
 {
@@ -69,8 +68,7 @@ bool Configuration::reset()
 	running = false;
 	track_hand = true;
 	track_mouse = false;
-	changed = false;
-	cameraPort = 0;
+    changed = false;
 	ui->comboBox_tab->setCurrentIndex(0);
 	ui->treeWidget_list->clear();
 	return true;

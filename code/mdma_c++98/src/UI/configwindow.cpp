@@ -102,7 +102,7 @@ void ConfigWindow::on_pushButton_device_clicked()
     bool ok = true;
     bool success = false;
     do {
-        int i = QInputDialog::getInt(0, "Camera selection", "Please select camera device number\n\t0 for default camera\n\t-1 for Kinect", Configuration::config().cameraPort, -1, 2147483647, 1, &ok);
+        int i = QInputDialog::getInt(0, "Camera selection", "Please select camera device number\n\t0 for default camera\n\t-1 for Kinect", 0, -1, 2147483647, 1, &ok);
         if(ok)
         {
             success = Configuration::config().camera_manager.setCamera(i);

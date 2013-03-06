@@ -83,9 +83,7 @@ class Configuration : public QWidget
 
 		// ----------------------------------------------------------
 
-		int cameraPort;
-		cv::VideoCapture camera;
-		cv::Mat current_frame;
+        cv::Mat current_frame;
         CameraManager camera_manager;
 
 		// ----------------------------------------------------------

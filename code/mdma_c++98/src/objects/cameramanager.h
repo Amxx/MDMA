@@ -29,6 +29,8 @@ class CameraManager : public QObject
 		void track_updated();
 
 	private:
+        int cameraPort;
+        cv::VideoCapture camera;
         Kinect kinect;
         HandTracking& handtracking;
         void display();

@@ -37,8 +37,8 @@ bool CameraManager::existsKinect()
 
 bool CameraManager::setCamera(int i)
 {
-    Configuration::config().cameraPort = i;
-    if(Configuration::config().camera.isOpened()) Configuration::config().camera.release();
+    cameraPort = i;
+    if(camera.isOpened()) camera.release();
     if(i==KINECT_DEVICE)
     {
         int rc = kinect.Init();
@@ -51,7 +51,7 @@ bool CameraManager::setCamera(int i)
         return useKinect;
     }
 
-    return  Configuration::config().camera.open(Configuration::config().cameraPort);
+    return  camera.open(cameraPort);
 }
 
 void CameraManager::timerEvent(QTimerEvent*)
@@ -77,9 +77,9 @@ void CameraManager::timerEvent(QTimerEvent*)
             emit track_updated();
         }
     }
-    else if(Configuration::config().camera.isOpened() && !Configuration::config().freeze)
+    else if(camera.isOpened() && !Configuration::config().freeze)
 	{
-		Configuration::config().camera >> Configuration::config().current_frame;
+        camera >> Configuration::config().current_frame;
 
 
 		if(Configuration::config().flip_display) cv::flip(Configuration::config().current_frame, Configuration::config().current_frame, 1);
