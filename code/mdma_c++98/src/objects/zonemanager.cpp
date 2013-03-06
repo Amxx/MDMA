@@ -87,42 +87,25 @@ void ZoneManager::display()
 		drawText(QRect(5, 5, 150, 30), Qt::AlignCenter, "Display Freezed");
 	}
 
-	Configuration::config().displayMask(*this);
-
-	switch(Configuration::config().calibration_status)
+    switch(Configuration::config().camera_manager.isCalibrated())
 	{
 		case MDMA::NOT_CALIBRATED:
 		case MDMA::CALIBRATED:
-            //for(EventZone& evz : Configuration::config().data.zones)
             for(QMap<QString, EventZone>::Iterator it = Configuration::config().data.zones.begin() ; it != Configuration::config().data.zones.end() ; ++it)
                 if(it->tab == Configuration::config().data.current_tab) it->display(*this);
 			break;
 
-		case MDMA::MASK_DRAW:
-			break;
-
-		case MDMA::HANDS_CLOSED:
+        case MDMA::HANDS_CLOSED:
+        case MDMA::HANDS_OPEN:
 		{	QPolygon poly_left;
 			QPolygon poly_right;
-            //for(QPoint p : MDMA::zone_leftclose) poly_left << p;
-            //for(QPoint p : MDMA::zone_rightclose) poly_right << p;
-            for(QList<QPoint>::ConstIterator it = MDMA::zone_leftclose.begin() ; it != MDMA::zone_leftclose.end() ; ++it) poly_left << *it;
-            for(QList<QPoint>::ConstIterator it = MDMA::zone_rightclose.begin() ; it != MDMA::zone_rightclose.end() ; ++it) poly_right << *it;
-            drawPolygon(poly_left);
-			drawPolygon(poly_right);
-			break;
-		}
-		case MDMA::HANDS_OPEN:
-		{	QPolygon poly_left;
-			QPolygon poly_right;
-            //for(QPoint p : MDMA::zone_leftopen) poly_left << p;
-            //for(QPoint p : MDMA::zone_rightopen) poly_right << p;
             for(QList<QPoint>::ConstIterator it = MDMA::zone_leftopen.begin() ; it != MDMA::zone_leftopen.end() ; ++it) poly_left << *it;
             for(QList<QPoint>::ConstIterator it = MDMA::zone_rightopen.begin() ; it != MDMA::zone_rightopen.end() ; ++it) poly_right << *it;
             drawPolygon(poly_left);
-			drawPolygon(poly_right);
-			break;
+            drawPolygon(poly_right);
 		}
+        case MDMA::MASK_DRAW:
+            Configuration::config().displayMask(*this);
 	}
 
 	Configuration::config().ui->label_zone->setPixmap(pixmax);

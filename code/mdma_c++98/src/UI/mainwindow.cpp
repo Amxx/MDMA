@@ -33,7 +33,7 @@ void MainWindow::mousePressEvent(QMouseEvent* ev)
 	int x = ev->x()-ui->label_camera->x();
 	int y = ev->y()-ui->label_camera->y()-ui->menubar->size().height();
 
-	switch(Configuration::config().calibration_status)
+    switch(Configuration::config().camera_manager.isCalibrated())
 	{
 		case MDMA::NOT_CALIBRATED:
 		case MDMA::CALIBRATED:
@@ -157,7 +157,7 @@ void MainWindow::on_actionAbout_Qt_triggered()
 void MainWindow::on_pushButton_run_clicked()
 {
 
-	if(Configuration::config().calibration_status != MDMA::CALIBRATED && Configuration::config().track_hand)
+    if(Configuration::config().camera_manager.isCalibrated() != MDMA::CALIBRATED && Configuration::config().track_hand)
 	{
 		QMessageBox::information(this, "Calibration requested", "Calibration is needed to run image tracking, please run the calibration window before running");
 		return;
@@ -197,94 +197,28 @@ void MainWindow::on_pushButton_run_clicked()
 
 void MainWindow::on_pushButton_calibrate_clicked()
 {
+    zone_manager.reset_clic();
     if(!Configuration::config().camera_manager.canDoCalibration())
+    {
+        QMessageBox::information(this, "Calibration", "The device do not need calibration");
         return;
-    QEventLoop loop;
-	zone_manager.reset_clic();
-	ui_disable(true, true);
+    }
+    ui_disable(true, true);
 
-	MDMA::calibration old_calib = Configuration::config().calibration_status;
-
-	// -------------------------------------------------------
-
-	Configuration::config().calibration_status = MDMA::MASK_DRAW;
-
-	MaskWindow mask_window(0);
-	mask_window.show();
-	connect(&mask_window, SIGNAL(finished(int)), &loop, SLOT(quit()));
-	loop.exec();
-
-	Configuration::config().freeze = false;
-
-	// -------------------------------------------------------
-
-	if(mask_window.result() == QDialog::Rejected)
-	{
-		//Configuration::config().calibration_status = MDMA::NOT_CALIBRATED;
-		Configuration::config().calibration_status = old_calib;
-
-		ui_disable(false, true);
-		//ui->pushButton_calibrate->setText("Calibrate");
-		return;
-	}
-
-	// -------------------------------------------------------
-
-	Configuration::config().calibration_status = MDMA::HANDS_CLOSED;
-
-	HandCloseWindow handclose_window(0);
-	handclose_window.show();
-	connect(&handclose_window, SIGNAL(finished(int)), &loop, SLOT(quit()));
-	loop.exec();
-
-	// -------------------------------------------------------
-
-	if(handclose_window.result() == QDialog::Rejected)
-	{
-		Configuration::config().calibration_status = MDMA::NOT_CALIBRATED;
-		ui_disable(false, true);
-		ui->pushButton_calibrate->setText("Calibrate");
-		return;
-	}
-
-	// -------------------------------------------------------
-
-	Configuration::config().calibration_status = MDMA::HANDS_OPEN;
-
-	HandOpenWindow handopen_window(0);
-	handopen_window.show();
-	connect(&handopen_window, SIGNAL(finished(int)), &loop, SLOT(quit()));
-	loop.exec();
-
-	// -------------------------------------------------------
-
-	if(handopen_window.result() == QDialog::Rejected)
-	{
-		Configuration::config().calibration_status = MDMA::NOT_CALIBRATED;
-		ui_disable(false, true);
-		ui->pushButton_calibrate->setText("Calibrate");
-		return;
-	}
-
-	// -------------------------------------------------------
-
-	try
-	{
-        Configuration::config().handtracking.Calibrate(Configuration::config().close_calib, MDMA::zone_leftclose, MDMA::zone_rightclose,
-							   Configuration::config().open_calib, MDMA::zone_leftopen, MDMA::zone_rightopen,
-							   Configuration::config().user_mask);
-		Configuration::config().calibration_status = MDMA::CALIBRATED;
-		ui->pushButton_calibrate->setText("Recalibrate");
-		QMessageBox::information(this, "Calibration succesfull", "Calibration succesfull, run is now available");
-	}
-	catch(std::exception& e)
-	{
-		Configuration::config().calibration_status = MDMA::NOT_CALIBRATED;
-		ui->pushButton_calibrate->setText("Calibrate");
-		QMessageBox::critical(this, "Calibration unsuccesfull", "Calibration failed due to lack of contrast");
-	}
-	// -------------------------------------------------------
-	ui_disable(false, true);
+    if(!Configuration::config().camera_manager.calibrate())
+    {
+        ui->pushButton_calibrate->setText("Calibrate");
+        QMessageBox::critical(this, "Calibration unsuccesfull", "Calibration failed due to lack of contrast");
+    }
+    else
+    {
+        if(Configuration::config().camera_manager.isCalibrated() == MDMA::CALIBRATED)
+        {
+            ui->pushButton_calibrate->setText("Recalibrate");
+            QMessageBox::information(this, "Calibration succesfull", "Calibration succesfull, run is now available");
+        }
+    }
+    ui_disable(false, true);
 }
 
 

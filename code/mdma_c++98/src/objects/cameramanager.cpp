@@ -2,11 +2,14 @@
 #include "configuration.h"
 #include "ui_mainwindow.h"
 #include "ui_secondwindow.h"
+#include "../UI/handclosewindow.h"
+#include "../UI/handopenwindow.h"
+#include "../UI/maskwindow.h"
 
-CameraManager::CameraManager(HandTracking& _handtracking, QObject *parent) :
+CameraManager::CameraManager(HandDescriptor& l, HandDescriptor& r, QObject *parent) :
 	QObject(parent),
-    kinect(_handtracking.h_left, _handtracking.h_right),
-	handtracking(_handtracking)
+    kinect(l, r),
+    handtracking(l,r)
 {
 
 }
@@ -27,6 +30,89 @@ bool CameraManager::canDoCalibration()
     return !useKinect;
 }
 
+MDMA::calibration CameraManager::isCalibrated()
+{
+    return calibration_status;
+}
+
+bool CameraManager::calibrate()
+{
+    QEventLoop loop;
+    MDMA::calibration old_calib = calibration_status;
+
+    // -------------------------------------------------------
+
+    calibration_status = MDMA::MASK_DRAW;
+
+    MaskWindow mask_window(0);
+    mask_window.show();
+    connect(&mask_window, SIGNAL(finished(int)), &loop, SLOT(quit()));
+    loop.exec();
+
+    Configuration::config().freeze = false;
+
+    // -------------------------------------------------------
+
+    if(mask_window.result() == QDialog::Rejected)
+    {
+        //Configuration::config().calibration_status = MDMA::NOT_CALIBRATED;
+        calibration_status = old_calib;
+
+        return true;
+    }
+
+    // -------------------------------------------------------
+
+    calibration_status = MDMA::HANDS_CLOSED;
+    cv::Mat close_calib;
+    HandCloseWindow handclose_window(close_calib);
+    handclose_window.show();
+    connect(&handclose_window, SIGNAL(finished(int)), &loop, SLOT(quit()));
+    loop.exec();
+
+    // -------------------------------------------------------
+
+    if(handclose_window.result() == QDialog::Rejected)
+    {
+        calibration_status = old_calib;
+        return true;
+    }
+
+    // -------------------------------------------------------
+
+    calibration_status = MDMA::HANDS_OPEN;
+    cv::Mat open_calib;
+    HandOpenWindow handopen_window(open_calib);
+    handopen_window.show();
+    connect(&handopen_window, SIGNAL(finished(int)), &loop, SLOT(quit()));
+    loop.exec();
+
+    // -------------------------------------------------------
+
+    if(handopen_window.result() == QDialog::Rejected)
+    {
+        calibration_status = old_calib;
+        return true;
+    }
+
+    // -------------------------------------------------------
+
+    try
+    {
+        handtracking.Calibrate(close_calib, MDMA::zone_leftclose, MDMA::zone_rightclose,
+                               open_calib, MDMA::zone_leftopen, MDMA::zone_rightopen,
+                               Configuration::config().user_mask);
+        calibration_status = MDMA::CALIBRATED;
+        return true;
+    }
+    catch(...)
+    {
+        calibration_status = MDMA::NOT_CALIBRATED;
+    }
+    // -------------------------------------------------------
+    return false;
+}
+
 bool CameraManager::existsKinect()
 {
     if(useKinect)
@@ -37,6 +123,7 @@ bool CameraManager::existsKinect()
 
 bool CameraManager::setCamera(int i)
 {
+    calibration_status = MDMA::NOT_CALIBRATED;
     cameraPort = i;
     if(camera.isOpened()) camera.release();
     if(i==KINECT_DEVICE)
@@ -47,7 +134,7 @@ bool CameraManager::setCamera(int i)
             rc = kinect.Run();
         }
         if((useKinect = (rc == 0)))
-            Configuration::config().calibration_status = MDMA::CALIBRATED;
+            calibration_status = MDMA::CALIBRATED;
         return useKinect;
     }
 

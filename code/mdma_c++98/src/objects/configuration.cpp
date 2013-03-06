@@ -7,16 +7,13 @@ Configuration::Configuration() :
 	flip_zones(false),
 	freeze(false),
 	running(false),
-	changed(false),
-	calibration_status(MDMA::NOT_CALIBRATED),
+    changed(false),
 	track_hand(true),
 	track_mouse(false),
 	left_hand(0, 0, MDMA::LEFT),
 	right_hand(0, 0, MDMA::RIGHT),
-	mouse_hand(0, 0, MDMA::MOUSE),
-    handtracking(left_hand, right_hand),
-    camera_manager(handtracking, this)
-
+    mouse_hand(0, 0, MDMA::MOUSE),
+    camera_manager(left_hand,right_hand, this)
 {
 }
 

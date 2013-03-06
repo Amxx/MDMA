@@ -97,8 +97,6 @@ void ConfigWindow::on_checkBox_flip_zones_clicked()
 
 void ConfigWindow::on_pushButton_device_clicked()
 {
-    Configuration::config().calibration_status = MDMA::NOT_CALIBRATED;
-
     bool ok = true;
     bool success = false;
     do {

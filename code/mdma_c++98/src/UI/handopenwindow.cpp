@@ -1,9 +1,10 @@
 #include "handopenwindow.h"
 #include "ui_handopenwindow.h"
 
-HandOpenWindow::HandOpenWindow(QWidget *parent) :
+HandOpenWindow::HandOpenWindow(cv::Mat& mat, QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::HandOpenWindow)
+    ui(new Ui::HandOpenWindow),
+    mat(mat)
 {
 	ui->setupUi(this);
 	QObject::connect(&timer, SIGNAL(timeout()),this,SLOT(set_number()));
@@ -24,7 +25,7 @@ void HandOpenWindow::closeEvent()
 void HandOpenWindow::on_pushButton_next_clicked()
 {
 
-	if(Configuration::config().open_calib.empty())
+    if(mat.empty())
 		QMessageBox::critical(this, "", "");
 	else
 		accept();
@@ -50,8 +51,7 @@ void HandOpenWindow::set_number()
 	switch(ui->lcdNumber->intValue())
 	{
 		case 0:
-			Configuration::config().open_calib = Configuration::config().current_frame.clone();
-
+            mat = Configuration::config().current_frame.clone();
 			timer.stop();
 			ui->pushButton->setDisabled(false);
 			ui->pushButton_cancel->setDisabled(false);

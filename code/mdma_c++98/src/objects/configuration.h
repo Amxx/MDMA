@@ -14,7 +14,6 @@
 #include <opencv2/opencv.hpp>
 
 #include "../classes/eventzone.h"
-#include "../classes/handtracking.h"
 #include "../objects/cameramanager.h"
 #include "../classes/handdescriptor.h"
 #include "../classes/subconfig.h"
@@ -66,20 +65,15 @@ class Configuration : public QWidget
 		bool flip_zones;
 		bool freeze;
 		bool running;
-		bool changed;
-		MDMA::calibration calibration_status;
-		QList<QPoint> user_mask;
-		cv::Mat close_calib;
-		cv::Mat open_calib;
+        bool changed;
+        QList<QPoint> user_mask;
 
 		bool track_hand;
 		bool track_mouse;
 
 		HandDescriptor left_hand;
 		HandDescriptor right_hand;
-		HandDescriptor mouse_hand;
-
-        HandTracking    handtracking;
+        HandDescriptor mouse_hand;
 
 		// ----------------------------------------------------------
 
