@@ -2,53 +2,33 @@
 
 Zone::Zone()
 {
-	for(int i = 0; i < 9; ++i)
-		signal[i] = new unsigned char[3];
 }
 
-Zone::Zone(QPoint _p1, QPoint _p2, int _t)
+
+Zone::Zone(QRect r, int t) :
+	_type(MDMA::FADER),
+	_name("New Zone"),
+	_pos(r),
+	_tab(t),
+	_active(false)
 {
-	name = "New Zone";
-	pos[0] = _p1;
-	pos[1] = _p2;
-	tab = _t;
-	type = MDMA::FADER;
-	for(int i = 0; i < 9; ++i)
-	{
-		active[i] = MDMA::NOTHING;
-		signal[i] = new unsigned char[3];
-		signal[i][0] = 0;
-		signal[i][1] = 0;
-		signal[i][2] = 0;
-	}
-	variable[0] = false;
-	variable[1] = false;
 }
 
-Zone::Zone(const Zone& cpy)
+Zone::Zone(const Zone& cpy) :
+	QMap<MDMA::event, Signal>(cpy),
+	_type(cpy._type),
+	_name(cpy._name),
+	_pos(cpy._pos),
+	_tab(cpy._tab),
+	_active(cpy._active)
 {
-	name = cpy.name;
-	pos[0] = cpy.pos[0];
-	pos[1] = cpy.pos[1];
-	tab = cpy.tab;
-	type = cpy.type;
-	for(int i = 0; i < 9; ++i)
-	{
-		active[i] = cpy.active[i];
-		signal[i] = new unsigned char[3];
-		signal[i][0] = cpy.signal[i][0];
-		signal[i][1] = cpy.signal[i][1];
-		signal[i][2] = cpy.signal[i][2];
-	}
 }
-
 
 Zone::~Zone()
 {
-	for(int i = 0; i < 9; ++i)
-		delete[] signal[i];
 }
 
+/*
 void Zone::display(QPainter& painter)
 {
 	QFont font;
@@ -130,8 +110,8 @@ MDMA::signal Zone::getMidi(MDMA::event ev)
 		{
 			midi_signal = new unsigned char[3];
 			midi_signal[0] = 0x80 | (active[ev] << 4) | signal[ev][0];
-			midi_signal[1] = /*0x80 |*/ signal[ev][1];
-			midi_signal[2] = /*0x80 |*/ signal[ev][2];
+			midi_signal[1] = signal[ev][1];
+			midi_signal[2] = signal[ev][2];
 			break;
 		}
 		case MDMA::GOTO_TAB1:
@@ -152,6 +132,7 @@ QList<MDMA::event> Zone::update(QMap<int,Pointer>& pts)
 	{
 		switch(type)
 		{
+
 			case MDMA::FADER:
 			{
 				QRect rect(pos[0], pos[1]);
@@ -208,9 +189,9 @@ QList<MDMA::event> Zone::update(QMap<int,Pointer>& pts)
 					msgs << MDMA::CLOSE;
 				}
 
-				/*
-				 * implementer la frappe !!!!
-				 */
+		//
+		//			implementer la frappe !!!!
+		//
 
 				break;
 			}
@@ -242,6 +223,8 @@ QList<MDMA::event> Zone::update(QMap<int,Pointer>& pts)
 				break;
 			}
 		}
+
 	}
 	return msgs;
 }
+*/

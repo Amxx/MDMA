@@ -8,7 +8,6 @@
 
 namespace MDMA
 {
-	typedef unsigned char* signal;
 
 /*
  * ######################################################
@@ -33,7 +32,7 @@ namespace MDMA
  * ######################################################
  */
 
-	enum active
+	enum signal
 	{
 		NOTE_OFF,
 		NOTE_ON,
@@ -48,7 +47,7 @@ namespace MDMA
 		NOTHING
 	};
 
-	int isMidi(active a);
+//	int isMidi(active a);
 
 /*
  * ######################################################
@@ -79,9 +78,9 @@ namespace MDMA
 	const QColor tempColor = QColor(255, 255, 78, 128);
 	const QColor textColor = QColor(255, 255, 255, 255);
 
-	QString typeToString(type t);
-	QColor typeToBorderColor(type t, bool emph = false, bool alpha = true);
-	QColor typeToFillColor(type t, bool emph = false, bool alpha = true);
+//	QString typeToString(type t);
+//	QColor typeToBorderColor(type t, bool emph = false, bool alpha = true);
+//	QColor typeToFillColor(type t, bool emph = false, bool alpha = true);
 }
 
 
