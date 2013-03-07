@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     ht->Run();
     setFixedSize(640,480);
-    startTimer(25);
+    startTimer(40);
 }
 
 MainWindow::~MainWindow()
