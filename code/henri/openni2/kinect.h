@@ -11,7 +11,7 @@
 
 #define ROI_OFFSET  100
 
-#define TRESHOLD    0.68
+#define THRESHOLD   0.72
 
 class Kinect
 {
@@ -35,6 +35,7 @@ private:
         nite::Point3f pos;
         float area;
         float calibration;
+        float offset;
     } Hand;
 	
 	typedef std::map<int,Hand>	HandHistory;
@@ -57,9 +58,6 @@ private:
 
     QImage*                 m_imagecamera;
     QImage*                 m_imagedepth;
-
-    int                     m_treshold;
-    nite::Point3f           m_rectangle[3];
 
 private:
     Kinect(const Kinect&);
