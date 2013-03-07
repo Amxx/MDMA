@@ -24,7 +24,6 @@ QMAKE_CXXFLAGS += \
 SOURCES += \
     src/main.cpp\
     src/UI/mainwindow.cpp \
-    src/UI/zoneeditor.cpp \
     src/Interfaces/interface.cpp \
     src/Interfaces/mouse.cpp \
     src/Interfaces/webcam.cpp \
@@ -38,7 +37,6 @@ SOURCES += \
 HEADERS  += \
     src/core.h \
     src/UI/mainwindow.h \
-    src/UI/zoneeditor.h \
     src/Interfaces/interface.h \
     src/Interfaces/mouse.h \
     src/Interfaces/webcam.h \

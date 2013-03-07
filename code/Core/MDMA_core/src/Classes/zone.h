@@ -9,33 +9,32 @@
 #include "../Utils/define.h"
 #include "pointer.h"
 
-class Zone
+class Signal
+{
+	MDMA::signal type;
+	unsigned char signal[3];
+	unsigned char variable;
+};
+
+
+class Zone : QMap<MDMA::event, Signal>
 {
 	public:
 		Zone();
-		Zone(QPoint _p1, QPoint _p2, int _t);
+		Zone(QRect r, int t);
 		Zone(const Zone& cpy);
 		~Zone();
 
-		void display(QPainter& painter);
-		MDMA::signal getMidi(MDMA::event ev);
-		QList<MDMA::event> update(QMap<int,Pointer>& pts);
+		//void display(QPainter& painter);
+		//MDMA::signal getMidi(MDMA::event ev);
+		//QList<MDMA::event> update(QMap<int,Pointer>& pts);
 
-//	private:
-		QString name;
-		QPoint pos[2];
-		int tab;
-
-		MDMA::type type;
-		MDMA::active active[9];
-		MDMA::signal signal[9];
-
-		bool variable[2];
-		bool emph_display;
-		// bool is_active[3];
-		// bool hand_in[3];
-		// bool hand_open[3];
-
+	private:
+		MDMA::type _type;
+		QString _name;
+		QRect _pos;
+		int _tab;
+		bool _active;
 };
 
 /*

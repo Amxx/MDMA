@@ -18,7 +18,6 @@ Core::~Core()
 {
 	if(cfg) delete cfg;
 	if(itf) delete itf;
-	if(ui) delete ui;
 }
 
 void Core::init()
@@ -67,7 +66,7 @@ void Core::refresh()
 			QMap<int,Pointer> pts = itf->getPointers();
 			for(Zone& zn : *cfg)
 			{
-				zn.update(pts);
+//				zn.update(pts);
 //				zn.display();
 			}
 		}
