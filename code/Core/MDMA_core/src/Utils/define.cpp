@@ -1,5 +1,5 @@
 #include "define.h"
-
+/*
 int MDMA::isMidi(active a)
 {
 	int result = 0;
@@ -38,7 +38,7 @@ QString MDMA::typeToString(MDMA::type t)
 }
 
 
-QColor MDMA::typeToBorderColor(MDMA::type t, bool /*active*/, bool alpha)
+QColor MDMA::typeToBorderColor(MDMA::type t, bool, bool alpha)
 {
 	switch(t)
 	{
@@ -67,3 +67,4 @@ QColor MDMA::typeToFillColor(MDMA::type t, bool emph, bool alpha)
 	}
 	return QColor();
 }
+*/

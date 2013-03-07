@@ -3,31 +3,68 @@
 
 #include <QPoint>
 
-enum vect
+class TriPoint
 {
-	POS = 0,
-	SPE = 1,
-	ACC = 2
+	public:
+		TriPoint();
+		TriPoint(QPoint p);
+		TriPoint(int x, int y, int z = 0);
+		TriPoint(const TriPoint& cpy);
+		int x();
+		int y();
+		int z();
+		TriPoint& operator+=( const TriPoint& p ) { _x += p._x; _y += p._y; _z += p._z; return *this;}
+		TriPoint operator+( const TriPoint& p ) const { return TriPoint(*this).operator+=(p); }
+		TriPoint& operator-=( const TriPoint& p ) { _x -= p._x; _y -= p._y; _z -= p._z; return *this;}
+		TriPoint operator-( const TriPoint& p ) const { return TriPoint(*this).operator-=(p); }
+	private:
+		int _x;
+		int _y;
+		int _z;
 };
-enum timing
+class TriPointHist
 {
-	CURRENT = 0,
-	PREVIOU = 1
+	public:
+		TriPointHist();
+		TriPointHist(TriPoint p);
+		TriPointHist(const TriPointHist& cpy);
+		void update(TriPoint p);
+		TriPoint current();
+		TriPoint previous();
+	private :
+		TriPoint _cur;
+		TriPoint _pre;
 };
-
-
+class OnOffHist
+{
+	public:
+		OnOffHist();
+		OnOffHist(bool s);
+		OnOffHist(const OnOffHist& cpy);
+		void update(bool s);
+		bool current();
+		bool previous();
+	private:
+		bool _cur;
+		bool _pre;
+};
 
 class Pointer
 {
 	public:
 		Pointer();
-		Pointer(QPoint ps, bool st, int id);
-
-		void update(QPoint ps, bool st);
-
-		int id;
-		QPoint vects[3][2];
-		bool open[2];
+		Pointer(TriPoint p, bool s = false);
+		Pointer(const Pointer& cpy);
+		void update(TriPoint p, bool s);
+		TriPointHist pos();
+		TriPointHist spe();
+		TriPointHist acc();
+		OnOffHist on();
+	private:
+		TriPointHist _pos;
+		TriPointHist _spe;
+		TriPointHist _acc;
+		OnOffHist _onoff;
 };
 
 #endif // POINTER_H
