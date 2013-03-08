@@ -4,9 +4,6 @@
 #include <QDialog>
 #include <QPoint>
 
-//#include "notenumberwindow.h"
-//#include "../objects/configuration.h"
-
 #include "../Utils/define.h"
 #include "../Classes/zone.h"
 
@@ -19,14 +16,16 @@ class ZoneEditor : public QDialog
 		Q_OBJECT
 		
 	public:
-		explicit ZoneEditor(Zone& _evz, QWidget* parent = 0);
+		explicit ZoneEditor(Zone*_evz, QWidget* parent = 0);
 		~ZoneEditor();
 		
 	protected:
 		void init();
 
 	private slots:
-		void on_buttonBox_accepted();
+		void on_pushButton_apply_clicked();
+		void on_pushButton_delete_clicked();
+		void on_pushButton_cancel_clicked();
 
 		void on_comboBox_axex_0_currentIndexChanged(int index);
 		void on_comboBox_axey_0_currentIndexChanged(int index);
@@ -40,14 +39,13 @@ class ZoneEditor : public QDialog
 
 		void on_comboBox_in_currentIndexChanged(int index);
 		void on_comboBox_out_currentIndexChanged(int index);
-		void on_buttonBox_rejected();
 		void on_noteHelp_clicked();
 
 	private:
 		Ui::ZoneEditor *ui;
-		Zone& evz;
+		Zone* evz;
 };
 
-void EditZone(Zone& evz, QWidget* parent = 0);
+int EditZone(Zone* evz, QWidget* parent = 0);
 
 #endif // ZONEEDITOR_H

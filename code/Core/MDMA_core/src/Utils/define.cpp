@@ -1,6 +1,6 @@
 #include "define.h"
-/*
-int MDMA::isMidi(active a)
+
+int MDMA::isMidi(signal a)
 {
 	int result = 0;
 	switch(a)
@@ -25,7 +25,7 @@ int MDMA::isMidi(active a)
 	return result;
 }
 
-
+/*
 QString MDMA::typeToString(MDMA::type t)
 {
 	switch(t)

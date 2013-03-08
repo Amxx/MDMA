@@ -1,5 +1,14 @@
 #include "zone.h"
 
+Signal::Signal() :
+	type(MDMA::NOTHING),
+	variable(2)
+{
+	signal[0] = 0;
+	signal[1] = 0;
+	signal[2] = 0;
+}
+
 Zone::Zone()
 {
 }

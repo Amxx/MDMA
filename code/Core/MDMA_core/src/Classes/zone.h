@@ -12,6 +12,7 @@
 class Signal
 {
 	public:
+		Signal();
 		MDMA::signal type;
 		unsigned char signal[3];
 		unsigned char variable;

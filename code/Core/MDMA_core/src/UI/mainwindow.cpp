@@ -40,7 +40,7 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
 	{
 		case Qt::LeftButton:
 		{
-			zd = new ZoneDrager( new Zone(QRect(ui->display->mapFromGlobal(e->globalPos()), QSize(5, 5)), appCore().cfg->getTab()), ui->centralWidget );
+			zd = new ZoneDrager(new Zone(QRect(ui->display->mapFromGlobal(e->globalPos()), QSize(5, 5)), appCore().cfg->getTab()), ui->centralWidget);
 			zd->mousePressEvent(e, true);
 			break;
 		}

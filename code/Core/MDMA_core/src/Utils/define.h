@@ -47,7 +47,7 @@ namespace MDMA
 		NOTHING
 	};
 
-//	int isMidi(active a);
+	int isMidi(signal a);
 
 /*
  * ######################################################

@@ -22,36 +22,39 @@ QMAKE_CXXFLAGS += \
 
 
 SOURCES += \
+    src/core.cpp \
     src/main.cpp\
-    src/UI/mainwindow.cpp \
-    src/Interfaces/interface.cpp \
-    src/Interfaces/mouse.cpp \
-    src/Interfaces/webcam.cpp \
-    src/Interfaces/kinect.cpp \
+    src/Classes/configuration.cpp \
     src/Classes/pointer.cpp \
     src/Classes/zone.cpp \
-    src/Classes/configuration.cpp \
-    src/core.cpp \
+    src/Interfaces/interface.cpp \
+    src/Interfaces/kinect.cpp \
+    src/Interfaces/mouse.cpp \
+    src/Interfaces/webcam.cpp \
+    src/UI/mainwindow.cpp \
+    src/UI/zoneeditor.cpp\
     src/Utils/define.cpp \
-    src/Widgets/zonedrager.cpp \
-    src/Widgets/hotspot.cpp
+    src/Widgets/hotspot.cpp \
+    src/Widgets/zonedrager.cpp
 
 HEADERS  += \
     src/core.h \
-    src/UI/mainwindow.h \
+    src/Classes/configuration.h \
+    src/Classes/pointer.h \
+    src/Classes/zone.h \
     src/Interfaces/interface.h \
+    src/Interfaces/kinect.h \
     src/Interfaces/mouse.h \
     src/Interfaces/webcam.h \
-    src/Interfaces/kinect.h \
-    src/Classes/pointer.h \
+    src/UI/mainwindow.h \
+    src/UI/zoneeditor.h \
     src/Utils/define.h \
-    src/Classes/zone.h \
-    src/Classes/configuration.h \
-    src/Widgets/zonedrager.h \
-    src/Widgets/hotspot.h
+    src/Widgets/hotspot.h \
+    src/Widgets/zonedrager.h
 
 FORMS    += \
-    src/UI/mainwindow.ui
+    src/UI/mainwindow.ui \
+    src/UI/zoneeditor.ui
 
 
 LIBS += \
