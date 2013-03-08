@@ -7,14 +7,13 @@ Configuration::Configuration() :
 	flip_zones(false),
 	freeze(false),
 	running(false),
-	changed(false),
-	calibration_status(MDMA::NOT_CALIBRATED),
+    changed(false),
 	track_hand(true),
 	track_mouse(false),
 	left_hand(0, 0, MDMA::LEFT),
 	right_hand(0, 0, MDMA::RIGHT),
-	mouse_hand(0, 0, MDMA::MOUSE),
-	cameraPort(0)
+    mouse_hand(0, 0, MDMA::MOUSE),
+    camera_manager(left_hand,right_hand, this)
 {
 }
 
@@ -27,8 +26,7 @@ void Configuration::initialize(QWidget *_main, Ui::MainWindow *_ui)
 	main = _main;
 	ui = _ui;
 
-	camera.open(cameraPort);
-	setCamera();
+    camera_manager.Init();
 }
 
 // =========================================================================================================
@@ -37,21 +35,6 @@ void Configuration::setCurrentTab(int i)
 {
 	data.current_tab = i;
 	ui->comboBox_tab->setCurrentIndex(i);
-}
-
-
-bool Configuration::setCamera(bool force)
-{
-	bool run = !force;
-	bool ok = true;
-	while(ok && !(run && camera.isOpened()))
-	{
-		run = true;
-		cameraPort = QInputDialog::getInt(0, "Camera selection", "Please select camera device number", cameraPort, 0, 2147483647, 1, &ok);
-		if(camera.isOpened()) camera.release();
-		camera.open(cameraPort);
-	}
-	return ok;
 }
 
 // =========================================================================================================
@@ -82,8 +65,7 @@ bool Configuration::reset()
 	running = false;
 	track_hand = true;
 	track_mouse = false;
-	changed = false;
-	cameraPort = 0;
+    changed = false;
 	ui->comboBox_tab->setCurrentIndex(0);
 	ui->treeWidget_list->clear();
 	return true;

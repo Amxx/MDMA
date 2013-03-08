@@ -56,9 +56,7 @@ class MainWindow : public QMainWindow
 
 		Ui::MainWindow *ui;
 
-		CameraManager camera_manager;
-		EventManager event_manager;
-		HandTracking handtracking;
+        EventManager event_manager;
 		MidiManager midi_manager;
 		ZoneManager zone_manager;
 

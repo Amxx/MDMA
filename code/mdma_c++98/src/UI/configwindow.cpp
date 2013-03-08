@@ -97,10 +97,26 @@ void ConfigWindow::on_checkBox_flip_zones_clicked()
 
 void ConfigWindow::on_pushButton_device_clicked()
 {
-	Configuration::config().setCamera(true);
+    bool ok = true;
+    bool success = false;
+    do {
+        int i = QInputDialog::getInt(0, "Camera selection", "Please select camera device number\n\t0 for default camera\n\t-1 for Kinect", 0, -1, 2147483647, 1, &ok);
+        if(ok)
+        {
+            success = Configuration::config().camera_manager.setCamera(i);
+            QString msg;
+            if(i == -1 && !success)
+                msg = "Connection with Kinect failed";
+            else if(!success)
+                msg = "Connection with the camera failed";
+            if(!success)
+                QMessageBox::information(this, "Connection failed", msg);
+        }
+    }
+    while(ok && !success);
 
-	Configuration::config().calibration_status = MDMA::NOT_CALIBRATED;
-	Configuration::config().ui->pushButton_calibrate->setText("Calibrate");
+    Configuration::config().user_mask.erase(Configuration::config().user_mask.begin(),Configuration::config().user_mask.end());
+    Configuration::config().ui->pushButton_calibrate->setText("Calibrate");
 }
 
 void ConfigWindow::on_pushButton_hand_track_clicked()

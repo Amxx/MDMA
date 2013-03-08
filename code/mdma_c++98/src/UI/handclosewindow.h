@@ -16,7 +16,7 @@ class HandCloseWindow : public QDialog
 		Q_OBJECT
 		
 	public:
-		HandCloseWindow(QWidget *parent = 0);
+        HandCloseWindow(cv::Mat&, QWidget *parent = 0);
 		~HandCloseWindow();
 		void closeEvent();
 		
@@ -29,6 +29,7 @@ class HandCloseWindow : public QDialog
 	private:
 		QTimer timer;
 		Ui::HandCloseWindow *ui;
+        cv::Mat& mat;
 };
 
 #endif // MASKWINDOW_H

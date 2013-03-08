@@ -1,23 +1,172 @@
 #include "cameramanager.h"
+#include "configuration.h"
 #include "ui_mainwindow.h"
 #include "ui_secondwindow.h"
+#include "../UI/handclosewindow.h"
+#include "../UI/handopenwindow.h"
+#include "../UI/maskwindow.h"
 
-CameraManager::CameraManager(HandTracking& _handtracking, QObject *parent) :
+CameraManager::CameraManager(HandDescriptor& l, HandDescriptor& r, QObject *parent) :
 	QObject(parent),
-	handtracking(_handtracking)
+    kinect(l, r),
+    handtracking(l,r)
 {
-	startTimer(40);
+
 }
 
 CameraManager::~CameraManager()
 {
 }
 
+void CameraManager::Init()
+{
+    if(!setCamera(-1))
+        setCamera(0);
+    startTimer(40);
+}
+
+bool CameraManager::canDoCalibration()
+{
+    return !useKinect;
+}
+
+MDMA::calibration CameraManager::isCalibrated()
+{
+    return calibration_status;
+}
+
+bool CameraManager::calibrate()
+{
+    QEventLoop loop;
+    MDMA::calibration old_calib = calibration_status;
+
+    // -------------------------------------------------------
+
+    calibration_status = MDMA::MASK_DRAW;
+
+    MaskWindow mask_window(0);
+    mask_window.show();
+    connect(&mask_window, SIGNAL(finished(int)), &loop, SLOT(quit()));
+    loop.exec();
+
+    Configuration::config().freeze = false;
+
+    // -------------------------------------------------------
+
+    if(mask_window.result() == QDialog::Rejected)
+    {
+        //Configuration::config().calibration_status = MDMA::NOT_CALIBRATED;
+        calibration_status = old_calib;
+
+        return true;
+    }
+
+    // -------------------------------------------------------
+
+    calibration_status = MDMA::HANDS_CLOSED;
+    cv::Mat close_calib;
+    HandCloseWindow handclose_window(close_calib);
+    handclose_window.show();
+    connect(&handclose_window, SIGNAL(finished(int)), &loop, SLOT(quit()));
+    loop.exec();
+
+    // -------------------------------------------------------
+
+    if(handclose_window.result() == QDialog::Rejected)
+    {
+        calibration_status = old_calib;
+        return true;
+    }
+
+    // -------------------------------------------------------
+
+    calibration_status = MDMA::HANDS_OPEN;
+    cv::Mat open_calib;
+    HandOpenWindow handopen_window(open_calib);
+    handopen_window.show();
+    connect(&handopen_window, SIGNAL(finished(int)), &loop, SLOT(quit()));
+    loop.exec();
+
+    // -------------------------------------------------------
+
+    if(handopen_window.result() == QDialog::Rejected)
+    {
+        calibration_status = old_calib;
+        return true;
+    }
+
+    // -------------------------------------------------------
+
+    try
+    {
+        handtracking.Calibrate(close_calib, MDMA::zone_leftclose, MDMA::zone_rightclose,
+                               open_calib, MDMA::zone_leftopen, MDMA::zone_rightopen,
+                               Configuration::config().user_mask);
+        calibration_status = MDMA::CALIBRATED;
+        return true;
+    }
+    catch(...)
+    {
+        calibration_status = MDMA::NOT_CALIBRATED;
+    }
+    // -------------------------------------------------------
+    return false;
+}
+
+bool CameraManager::existsKinect()
+{
+    if(useKinect)
+        return true;
+    int rc = kinect.Init();
+    return rc == 0;
+}
+
+bool CameraManager::setCamera(int i)
+{
+    calibration_status = MDMA::NOT_CALIBRATED;
+    cameraPort = i;
+    if(camera.isOpened()) camera.release();
+    if(i==KINECT_DEVICE)
+    {
+        int rc = kinect.Init();
+        if(rc == 0)
+        {
+            rc = kinect.Run();
+        }
+        if((useKinect = (rc == 0)))
+            calibration_status = MDMA::CALIBRATED;
+        return useKinect;
+    }
+
+    return camera.open(cameraPort);
+}
+
 void CameraManager::timerEvent(QTimerEvent*)
 {
-	if(Configuration::config().camera.isOpened() && !Configuration::config().freeze)
+    if(useKinect)
+    {
+        int rc = kinect.Update(Configuration::config().flip_display);
+        if(rc != 0)
+        {
+            useKinect = false;
+            return;
+        }
+        Configuration::config().ui->label_camera->setPixmap(QPixmap::fromImage(kinect.getCamera().mirrored(Configuration::config().flip_display,false)));
+        if(Configuration::config().running)
+        {
+            if(Configuration::config().track_mouse)
+            {
+                QPoint cursor  = Configuration::config().main->mapFromGlobal(QCursor::pos()) - Configuration::config().ui->label_camera->pos();
+                int x = std::min(std::max(cursor.x(), 0), 640);
+                int y = std::min(std::max(cursor.y() - Configuration::config().ui->menubar->size().height(), 0), 480);
+                Configuration::config().mouse_hand.updatePos(x, y, QApplication::mouseButtons() == Qt::NoButton);
+            }
+            emit track_updated();
+        }
+    }
+    else if(camera.isOpened() && !Configuration::config().freeze)
 	{
-		Configuration::config().camera >> Configuration::config().current_frame;
+        camera >> Configuration::config().current_frame;
 
 
 		if(Configuration::config().flip_display) cv::flip(Configuration::config().current_frame, Configuration::config().current_frame, 1);
