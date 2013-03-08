@@ -7,15 +7,15 @@ HotSpot::HotSpot(QWidget * parent, Qt::WindowFlags f) :
 }
 void HotSpot::mousePressEvent(QMouseEvent *e)
 {
-	emit mousePress(e);
+	emit mousePress(e, true);
 }
 void HotSpot::mouseReleaseEvent(QMouseEvent *e)
 {
-	emit mouseRelease(e);
+	emit mouseRelease(e, true);
 }
 void HotSpot::mouseMoveEvent(QMouseEvent *e)
 {
-	emit mouseMove(e);
+	emit mouseMove(e, true);
 }
 void HotSpot::enterEvent (QEvent *)
 {

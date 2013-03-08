@@ -17,9 +17,9 @@ class HotSpot : public QWidget
 		void enterEvent(QEvent * e);
 
 	signals:
-		void mousePress(QMouseEvent *e);
-		void mouseRelease(QMouseEvent *e);
-		void mouseMove(QMouseEvent *e);
+		void mousePress(QMouseEvent *e, bool hs);
+		void mouseRelease(QMouseEvent *e, bool hs);
+		void mouseMove(QMouseEvent *e, bool hs);
 
 	private:
 		QWidget* p;
