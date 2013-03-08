@@ -64,7 +64,7 @@ void Core::refresh()
 		if(running)
 		{
 			QMap<int,Pointer> pts = itf->getPointers();
-			for(Zone& zn : *cfg)
+			for(Zone* zn : *cfg)
 			{
 //				zn.update(pts);
 //				zn.display();

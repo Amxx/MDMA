@@ -17,8 +17,9 @@ class Signal
 };
 
 
-class Zone : QMap<MDMA::event, Signal>
+class Zone : public QObject, public QMap<MDMA::event, Signal>
 {
+		Q_OBJECT
 	public:
 		Zone();
 		Zone(QRect r, int t);
@@ -26,13 +27,17 @@ class Zone : QMap<MDMA::event, Signal>
 		~Zone();
 
 		//void display(QPainter& painter);
-		//MDMA::signal getMidi(MDMA::event ev);
 		//QList<MDMA::event> update(QMap<int,Pointer>& pts);
 
-	private:
+	signals:
+		void updated();
+		void deleted();
+
+	//private:
+	public:
 		MDMA::type _type;
 		QString _name;
-		QRect _pos;
+		QRect _geo;
 		int _tab;
 		bool _active;
 };

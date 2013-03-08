@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 #include "../core.h"
 
-
 /*
  * ##################################################################################
  * #								CONSTRUCTORS									#
@@ -36,11 +35,25 @@ void MainWindow::init()
  */
 
 
-/*
-void MainWindow::closeEvent(QCloseEvent* ev)
+void MainWindow::mousePressEvent(QMouseEvent *e)
 {
+	switch(e->button())
+	{
+		case Qt::LeftButton:
+		{
+			zd = new ZoneDrager( new Zone(QRect(ui->display->mapFromGlobal(e->globalPos()), QSize(5, 5)), 0), ui->centralWidget );
+			zd->mousePressEventHot(e);
+			break;
+		}
+		default:
+			break;
+	}
+
 }
-*/
+void MainWindow::mouseMoveEvent(QMouseEvent *e)
+{
+	if ( e->buttons() & Qt::LeftButton ) zd->mouseMoveEvent(e);
+}
 
 /*
  * ##################################################################################

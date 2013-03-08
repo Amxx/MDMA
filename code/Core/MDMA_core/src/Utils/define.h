@@ -69,14 +69,15 @@ namespace MDMA
 	};
 	enum type
 	{
-		FADER,
-		PAD,
-		SEGMENT
+		NONE =		-1,
+		FADER =		0,
+		PAD =		1,
+		SEGMENT =	2
 	};
 
-	const int SEUIL = 2;
-	const QColor tempColor = QColor(255, 255, 78, 128);
-	const QColor textColor = QColor(255, 255, 255, 255);
+//	const int SEUIL = 2;
+//	const QColor tempColor = QColor(255, 255, 78, 128);
+//	const QColor textColor = QColor(255, 255, 255, 255);
 
 //	QString typeToString(type t);
 //	QColor typeToBorderColor(type t, bool emph = false, bool alpha = true);

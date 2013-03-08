@@ -32,7 +32,9 @@ SOURCES += \
     src/Classes/zone.cpp \
     src/Classes/configuration.cpp \
     src/core.cpp \
-    src/Utils/define.cpp
+    src/Utils/define.cpp \
+    src/Widgets/zonedrager.cpp \
+    src/Widgets/hotspot.cpp
 
 HEADERS  += \
     src/core.h \
@@ -44,11 +46,12 @@ HEADERS  += \
     src/Classes/pointer.h \
     src/Utils/define.h \
     src/Classes/zone.h \
-    src/Classes/configuration.h
+    src/Classes/configuration.h \
+    src/Widgets/zonedrager.h \
+    src/Widgets/hotspot.h
 
 FORMS    += \
-    src/UI/mainwindow.ui \
-    src/UI/zoneeditor.ui
+    src/UI/mainwindow.ui
 
 
 LIBS += \

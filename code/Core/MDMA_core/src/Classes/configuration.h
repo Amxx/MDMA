@@ -6,7 +6,7 @@
 
 #include "zone.h"
 
-class Configuration : public QMap<QString, Zone>
+class Configuration : public QMap<QString, Zone*>
 {
 	public:
 		Configuration();

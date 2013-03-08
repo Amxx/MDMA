@@ -3,22 +3,20 @@
 Zone::Zone()
 {
 }
-
-
 Zone::Zone(QRect r, int t) :
-	_type(MDMA::FADER),
+	_type(MDMA::NONE),
 	_name("New Zone"),
-	_pos(r),
+	_geo(r),
 	_tab(t),
 	_active(false)
 {
 }
-
 Zone::Zone(const Zone& cpy) :
+	QObject(cpy.parent()),
 	QMap<MDMA::event, Signal>(cpy),
 	_type(cpy._type),
 	_name(cpy._name),
-	_pos(cpy._pos),
+	_geo(cpy._geo),
 	_tab(cpy._tab),
 	_active(cpy._active)
 {
@@ -26,6 +24,7 @@ Zone::Zone(const Zone& cpy) :
 
 Zone::~Zone()
 {
+	emit deleted();
 }
 
 /*
