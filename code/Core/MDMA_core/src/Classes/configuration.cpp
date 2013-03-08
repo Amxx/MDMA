@@ -18,6 +18,7 @@ Configuration::~Configuration()
 void Configuration::Reset()
 {
 	for(Zone* z : *this) delete z;
+	clear();
 	_file = "";
 	_tab = 0;
 }
@@ -36,20 +37,6 @@ void Configuration::Saveas()
 
 
 
-void Configuration::add(Zone* z)
-{
-	if(!contains(z->_name))
-	{
-		insert(z->_name, z);
-	}
-	else
-	{
-		int i = 0;
-		while(contains(z->_name + "_" + QString::number(i))) ++i;
-		z->_name += "_" + QString::number(i);
-		insert(z->_name, z);
-	}
-}
 void Configuration::setTab(int t)
 {
 	_tab  = t;

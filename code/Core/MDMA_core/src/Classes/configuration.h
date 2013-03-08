@@ -2,11 +2,11 @@
 #define CONFIGURATION_H
 
 #include <QString>
-#include <QMap>
+#include <QSet>
 
 #include "zone.h"
 
-class Configuration : public QObject, public QMap<QString, Zone*>
+class Configuration : public QObject, public QSet<Zone*>
 {
 		Q_OBJECT
 	public:
@@ -18,7 +18,6 @@ class Configuration : public QObject, public QMap<QString, Zone*>
 		void Save();
 		void Saveas();
 
-		void add(Zone* z);
 		void setTab(int t);
 		int getTab();
 
