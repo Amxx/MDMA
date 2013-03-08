@@ -13,7 +13,7 @@
 #include "Interfaces/mouse.h"
 #include "Interfaces/webcam.h"
 #include "Utils/define.h"
-#include "UI/mainwindow.h"
+// #include "UI/mainwindow.h"
 
 
 class Core : public QObject
@@ -39,8 +39,8 @@ class Core : public QObject
 		bool setDevice(MDMA::device dev, void* pVoid = NULL);
 		void releaseDevice();
 
-		void setUi(MainWindow* mw) { ui = mw; }
-		MainWindow* Ui() { return ui; }
+		void setUi(QWidget* mw) { ui = mw; }
+		QWidget* Ui() { return ui; }
 
 
 
@@ -54,9 +54,10 @@ class Core : public QObject
 	public:
 		Configuration* cfg;
 		Interface* itf;
+
 	private:
 		QTimer tmr;
-		MainWindow* ui;
+		QWidget* ui;
 		bool running;
 
 };

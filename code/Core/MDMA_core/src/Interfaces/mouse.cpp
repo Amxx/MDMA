@@ -1,6 +1,4 @@
 #include "mouse.h"
-
-#include <QDebug>
 #include "../core.h"
 
 Mouse::Mouse(void*)
@@ -24,7 +22,7 @@ bool Mouse::isCalibrated()
 
 void Mouse::update()
 {
-	QPoint ps = appCore().Ui()->mapFromGlobal(QCursor::pos()) - appCore().Ui()->menuBar()->geometry().bottomLeft();
+	QPoint ps = appCore().Ui()->mapFromGlobal(QCursor::pos());
 	bool st = (QApplication::mouseButtons() == Qt::NoButton);
 	pts[0].update(ps, st);
 }

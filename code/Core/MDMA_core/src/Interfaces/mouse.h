@@ -4,7 +4,6 @@
 #include <QMenuBar>
 
 #include "interface.h"
-#include "../UI/mainwindow.h"
 #include "../Utils/define.h"
 
 class Mouse : public Interface

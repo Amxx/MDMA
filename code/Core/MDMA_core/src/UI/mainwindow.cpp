@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "../core.h"
 
 /*
  * ##################################################################################
@@ -24,7 +23,7 @@ MainWindow::~MainWindow()
 void MainWindow::init()
 {
 	show();
-	appCore().setUi(this);
+	appCore().setUi(ui->display);
 	connect(&appCore(), SIGNAL(refreshed()), this, SLOT(refreshImage()));
 }
 
@@ -41,18 +40,24 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
 	{
 		case Qt::LeftButton:
 		{
-			zd = new ZoneDrager( new Zone(QRect(ui->display->mapFromGlobal(e->globalPos()), QSize(5, 5)), 0), ui->centralWidget );
+			zd = new ZoneDrager( new Zone(QRect(ui->display->mapFromGlobal(e->globalPos()), QSize(5, 5)), appCore().cfg->getTab()), ui->centralWidget );
 			zd->mousePressEventHot(e);
 			break;
 		}
+		case Qt::RightButton:
+			appCore().cfg->setTab((appCore().cfg->getTab()+1)%3);
+			break;
 		default:
 			break;
 	}
-
 }
 void MainWindow::mouseMoveEvent(QMouseEvent *e)
 {
 	if ( e->buttons() & Qt::LeftButton ) zd->mouseMoveEvent(e);
+}
+void MainWindow::mouseReleaseEvent(QMouseEvent *e)
+{
+	if ( e->button() & Qt::LeftButton ) zd->mouseReleaseEvent(e);
 }
 
 /*
@@ -64,10 +69,5 @@ void MainWindow::mouseMoveEvent(QMouseEvent *e)
 
 void MainWindow::refreshImage()
 {
-	if(appCore().itf && appCore().cfg)
-	{
-		this->ui->display->setPixmap(QPixmap::fromImage(appCore().itf->getImage()));
-		//for(Zone& zn : *appCore().cfg)
-		//	zn.display();
-	}
+	this->ui->display->setPixmap(QPixmap::fromImage(appCore().itf->getImage()));
 }

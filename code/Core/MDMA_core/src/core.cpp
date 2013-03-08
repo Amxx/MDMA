@@ -57,25 +57,46 @@ void Core::stop()
 
 void Core::refresh()
 {
-	if(cfg && itf)
+	if(itf)
 	{
 		itf->update();
 
 		if(running)
 		{
 			QMap<int,Pointer> pts = itf->getPointers();
+			QList<Signal> sgns;
 			for(Zone* zn : *cfg)
-			{
-//				zn.update(pts);
-//				zn.display();
-			}
+				sgns << zn->update(pts);
+			for(Signal s : sgns)
+				switch(s.type)
+				{
+					case MDMA::NOTE_OFF:
+					case MDMA::NOTE_ON:
+					case MDMA::POLYFONIC_AFTERTOUCH:
+					case MDMA::CONTROL_CHANGE:
+					case MDMA::PROGRAM_CHANGE:
+					case MDMA::CHANNEL_AFTERTOUCH:
+					case MDMA::PITCH_BENDING:
+					{
+						break;
+					}
+					case MDMA::GOTO_TAB1:
+						cfg->setTab(0);
+						break;
+					case MDMA::GOTO_TAB2:
+						cfg->setTab(1);
+						break;
+					case MDMA::GOTO_TAB3:
+						cfg->setTab(2);
+						break;
+					case MDMA::NOTHING:
+						break;
+				}
 		}
 
 		emit refreshed();
 	}
 }
-
-
 
 /*
  * ##################################################################################

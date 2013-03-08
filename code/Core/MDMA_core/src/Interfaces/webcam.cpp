@@ -1,7 +1,5 @@
 #include "webcam.h"
 
-#include <QDebug>
-
 QImage mat2qimage(const cv::Mat& mat)
 {
 	if(mat.type()==CV_8UC1)

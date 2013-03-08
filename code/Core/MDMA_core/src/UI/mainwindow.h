@@ -6,6 +6,7 @@
 #include <QDebug>
 
 
+#include "../core.h"
 #include "../Widgets/zonedrager.h"
 
 namespace Ui {
@@ -22,15 +23,13 @@ class MainWindow : public QMainWindow
 		void init();
 		void mousePressEvent(QMouseEvent *e);
 		void mouseMoveEvent(QMouseEvent *e);
+		void mouseReleaseEvent(QMouseEvent *e);
 		
 	public slots:
 		void refreshImage();
 
 	private:
 		Ui::MainWindow *ui;
-
-
-
 		ZoneDrager* zd;
 };
 

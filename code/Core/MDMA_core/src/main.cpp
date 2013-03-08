@@ -1,14 +1,7 @@
 #include <QApplication>
 
-
 #include "core.h"
 #include "src/UI/mainwindow.h"
-
-
-
-#include "Classes/pointer.h"
-
-
 
 int main(int argc, char *argv[])
 {

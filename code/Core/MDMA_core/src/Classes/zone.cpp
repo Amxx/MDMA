@@ -93,45 +93,16 @@ void Zone::display(QPainter& painter)
 		}
 	}
 }
+*/
 
-MDMA::signal Zone::getMidi(MDMA::event ev)
+QList<Signal> Zone::update(QMap<int,Pointer>& pts)
 {
-	MDMA::signal midi_signal = NULL;
-	switch(active[ev])
-	{
-		case MDMA::NOTE_OFF:
-		case MDMA::NOTE_ON:
-		case MDMA::POLYFONIC_AFTERTOUCH:
-		case MDMA::CONTROL_CHANGE:
-		case MDMA::PROGRAM_CHANGE:
-		case MDMA::CHANNEL_AFTERTOUCH:
-		case MDMA::PITCH_BENDING:
-		{
-			midi_signal = new unsigned char[3];
-			midi_signal[0] = 0x80 | (active[ev] << 4) | signal[ev][0];
-			midi_signal[1] = signal[ev][1];
-			midi_signal[2] = signal[ev][2];
-			break;
-		}
-		case MDMA::GOTO_TAB1:
-		case MDMA::GOTO_TAB2:
-		case MDMA::GOTO_TAB3:
-		case MDMA::NOTHING:
-			break;
-	}
-	return midi_signal;
-}
-
-QList<MDMA::event> Zone::update(QMap<int,Pointer>& pts)
-{
-	QList<MDMA::event> msgs;
-	emph_display = false;
-
+	QList<Signal> msgs;
+	_active = false;
 	for(Pointer& pt : pts)
-	{
-		switch(type)
+		switch(_type)
 		{
-
+			/*
 			case MDMA::FADER:
 			{
 				QRect rect(pos[0], pos[1]);
@@ -221,9 +192,11 @@ QList<MDMA::event> Zone::update(QMap<int,Pointer>& pts)
 				}
 				break;
 			}
+			*/
+			default:
+				break;
 		}
-
-	}
+	emit updated();
 	return msgs;
 }
-*/
+

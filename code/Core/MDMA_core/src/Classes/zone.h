@@ -11,9 +11,10 @@
 
 class Signal
 {
-	MDMA::signal type;
-	unsigned char signal[3];
-	unsigned char variable;
+	public:
+		MDMA::signal type;
+		unsigned char signal[3];
+		unsigned char variable;
 };
 
 
@@ -25,15 +26,10 @@ class Zone : public QObject, public QMap<MDMA::event, Signal>
 		Zone(QRect r, int t);
 		Zone(const Zone& cpy);
 		~Zone();
-
-		//void display(QPainter& painter);
-		//QList<MDMA::event> update(QMap<int,Pointer>& pts);
-
+		QList<Signal> update(QMap<int,Pointer>& pts);
 	signals:
 		void updated();
 		void deleted();
-
-	//private:
 	public:
 		MDMA::type _type;
 		QString _name;

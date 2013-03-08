@@ -1,6 +1,5 @@
 #include "interface.h"
 
-
 Interface::Interface(void*)
 {
 

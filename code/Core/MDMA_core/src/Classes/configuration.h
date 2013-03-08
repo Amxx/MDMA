@@ -6,8 +6,9 @@
 
 #include "zone.h"
 
-class Configuration : public QMap<QString, Zone*>
+class Configuration : public QObject, public QMap<QString, Zone*>
 {
+		Q_OBJECT
 	public:
 		Configuration();
 		~Configuration();
@@ -17,19 +18,16 @@ class Configuration : public QMap<QString, Zone*>
 		void Save();
 		void Saveas();
 
-		void setTab(int tb);
+		void add(Zone* z);
+		void setTab(int t);
 		int getTab();
 
-		/*
-		void addZone(Zone zn);
-		Zone& getZone(QString zn_id);
-		*/
+	signals:
+		void tabChanged(int);
 
 	private:
-		QString file;
-
-		int tab;
-//		QMap<QString,Zone> zns;
+		QString _file;
+		int _tab;
 };
 
 #endif // CONFIGURATION_H
