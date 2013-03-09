@@ -28,6 +28,13 @@ class MainWindow : public QMainWindow
 	public slots:
 		void refreshImage();
 
+	private slots:
+		void on_actionNew_triggered();
+		void on_actionOpen_triggered();
+		void on_actionSave_triggered();
+		void on_actionSave_as_triggered();
+		void on_actionAbout_MDMA_triggered();
+
 	private:
 		Ui::MainWindow *ui;
 		ZoneDrager* zd;

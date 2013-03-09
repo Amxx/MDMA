@@ -40,12 +40,13 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
 	{
 		case Qt::LeftButton:
 		{
-			zd = new ZoneDrager(new Zone(QRect(ui->display->mapFromGlobal(e->globalPos()), QSize(5, 5)), appCore().cfg->getTab()), ui->centralWidget);
+			Zone zn(QRect(ui->display->mapFromGlobal(e->globalPos()), QSize(5, 5)), appCore().getTab());
+			zd = new ZoneDrager(appCore().cfg.insertZone(zn), ui->centralWidget);
 			zd->mousePressEvent(e, true);
 			break;
 		}
 		case Qt::MidButton:
-			appCore().cfg->setTab((appCore().cfg->getTab()+1)%3);
+			appCore().setTab((appCore().getTab()+1)%3);
 			break;
 		default:
 			break;
@@ -70,4 +71,35 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *e)
 void MainWindow::refreshImage()
 {
 	this->ui->display->setPixmap(QPixmap::fromImage(appCore().itf->getImage()));
+}
+
+/*
+ * ##################################################################################
+ * #								PRIVATE SLOTS									#
+ * ##################################################################################
+ */
+
+void MainWindow::on_actionNew_triggered()
+{
+	appCore().cfg.reset();
+}
+
+void MainWindow::on_actionOpen_triggered()
+{
+//	appCore().load();
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+//	appCore().save();
+}
+
+void MainWindow::on_actionSave_as_triggered()
+{
+//	appCore().saveas();
+}
+
+void MainWindow::on_actionAbout_MDMA_triggered()
+{
+	qApp->aboutQt();
 }

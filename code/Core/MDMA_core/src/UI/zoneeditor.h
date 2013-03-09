@@ -16,7 +16,7 @@ class ZoneEditor : public QDialog
 		Q_OBJECT
 		
 	public:
-		explicit ZoneEditor(Zone*_evz, QWidget* parent = 0);
+		explicit ZoneEditor(Zone& zn, QWidget* parent = 0);
 		~ZoneEditor();
 		
 	protected:
@@ -43,9 +43,9 @@ class ZoneEditor : public QDialog
 
 	private:
 		Ui::ZoneEditor *ui;
-		Zone* evz;
+		Zone& _zn;
 };
 
-int EditZone(Zone* evz, QWidget* parent = 0);
+int EditZone(Zone& zn, QWidget* parent = 0);
 
 #endif // ZONEEDITOR_H

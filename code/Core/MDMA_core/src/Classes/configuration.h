@@ -2,31 +2,40 @@
 #define CONFIGURATION_H
 
 #include <QString>
-#include <QSet>
+#include <QMap>
+
+#include <QFileDialog>
 
 #include "zone.h"
 
-class Configuration : public QObject, public QSet<Zone*>
+class Configuration : public QObject, public QList<Zone>//QMap<int,Zone>
 {
 		Q_OBJECT
 	public:
 		Configuration();
+		Configuration(const Configuration& cpy);
 		~Configuration();
+		static void initZone();
 
-		void Reset();
-		void Load();
-		void Save();
-		void Saveas();
+		Zone& insertZone(Zone& z);
+		void removeZone(Zone& z);
 
-		void setTab(int t);
-		int getTab();
+		bool reset();
+		bool load();
+		bool save();
+		bool saveas();
 
-	signals:
-		void tabChanged(int);
+	public slots:
+		void edited();
 
-	private:
+	public:
 		QString _file;
 		int _tab;
+		bool _edit;
 };
+
+Q_DECLARE_METATYPE(Configuration)
+QDataStream & operator << (QDataStream & out, const Configuration& c);
+QDataStream & operator >> (QDataStream & in, Configuration& c);
 
 #endif // CONFIGURATION_H

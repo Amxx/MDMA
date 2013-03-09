@@ -1,5 +1,13 @@
 #include "zone.h"
 
+#include <QDebug>
+
+/*
+ * ##################################################################################
+ * #									SIGNAL										#
+ * ##################################################################################
+ */
+
 Signal::Signal() :
 	type(MDMA::NOTHING),
 	variable(2)
@@ -9,7 +17,44 @@ Signal::Signal() :
 	signal[2] = 0;
 }
 
-Zone::Zone()
+void Signal::initSignal ()
+{
+	qRegisterMetaTypeStreamOperators<Signal>("Signal");
+	qMetaTypeId<Signal>();
+}
+QDataStream& operator << (QDataStream& out, const Signal& s)
+{
+	out << (int) s.type							// int (MDMA::signal)
+		<< s.signal[0]							// int
+		<< s.signal[1]							// int
+		<< s.signal[2]							// int
+		<< s.variable;							// int
+	return out;
+}
+QDataStream& operator >> (QDataStream& in, Signal& s)
+{
+	int t;
+	in >> t;									// int (MDMA::signal)
+		s.type = (MDMA::signal) t;
+	in >> s.signal[0];							// int
+	in >> s.signal[1];							// int
+	in >> s.signal[2];							// int
+	in >> s.variable;							// int
+	return in;
+}
+
+/*
+ * ##################################################################################
+ * #									ZONE										#
+ * ##################################################################################
+ */
+
+Zone::Zone() :
+	_type(MDMA::NONE),
+	_name("New Zone"),
+	_geo(),
+	_tab(0),
+	_active(false)
 {
 }
 Zone::Zone(QRect r, int t) :
@@ -30,7 +75,6 @@ Zone::Zone(const Zone& cpy) :
 	_active(cpy._active)
 {
 }
-
 Zone::~Zone()
 {
 	emit deleted();
@@ -209,3 +253,41 @@ QList<Signal> Zone::update(QMap<int,Pointer>& pts)
 	return msgs;
 }
 
+void Zone::initZone ()
+{
+	qRegisterMetaTypeStreamOperators<Zone>("Zone");
+	qMetaTypeId<Zone>();
+}
+
+QDataStream& operator << (QDataStream& out, const Zone& z)
+{
+	out << (int) z._type						// int (MDMA::type)
+		<< z._name								// QString
+		<< z._geo								// QRect
+		<< z._tab								// int
+		<< z._active							// bool
+		<< z.size();							// int
+//	for(MDMA::event s : z.keys())
+//		out << s << z.value(s);
+	return out;
+}
+QDataStream& operator >> (QDataStream& in, Zone& z)
+{
+	int t;
+	in >> t;									// int (MDMA::type)
+		z._type = (MDMA::type) t;
+	in >> z._name;								// QString
+	in >> z._geo;								// QRect
+	in >> z._tab;								// int
+	in >> z._active;							// bool
+	in >> t;									// int
+//	for(int i = 0; i < t; ++i)
+//	{
+//		int k;
+//		Signal s;
+//		in >> k;
+//		in >> s;
+//		z.insert((MDMA::event) k, s);
+//	}
+	return in;
+}

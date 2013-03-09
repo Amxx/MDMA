@@ -30,11 +30,17 @@ class Core : public QObject
 			static Core mycore;
 			return mycore;
 		}
-		
 
 		void start();
 		void stop();
-//		void exit(int retcode = 0);
+/*
+		bool reset();
+		bool load();
+		bool save();
+		bool saveas();
+*/
+		void setTab(int t);
+		int getTab();
 
 		bool setDevice(MDMA::device dev, void* pVoid = NULL);
 		void releaseDevice();
@@ -49,10 +55,11 @@ class Core : public QObject
 
 	signals:
 		void refreshed();
+		void tabChanged(int);
 
 
 	public:
-		Configuration* cfg;
+		Configuration cfg;
 		Interface* itf;
 
 	private:
