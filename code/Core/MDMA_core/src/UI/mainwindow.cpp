@@ -34,6 +34,13 @@ void MainWindow::init()
  * ##################################################################################
  */
 
+void MainWindow::closeEvent(QCloseEvent *e)
+{
+	if(appCore().exit())
+		e->accept();
+	else
+		e->ignore();
+}
 
 void MainWindow::mousePressEvent(QMouseEvent *e)
 {

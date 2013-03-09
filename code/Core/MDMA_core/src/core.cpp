@@ -37,64 +37,51 @@ void Core::init()
 
 /*
  * ##################################################################################
- * #									SLOTS										#
+ * #									METHODES									#
  * ##################################################################################
  */
 
-
-void Core::start()
+void Core::setUi(QWidget* mw)
+{
+	ui = mw;
+}
+QWidget* Core::Ui()
+{
+	return ui;
+}
+void Core::setTab(int t)
+{
+	cfg._tab  = t;
+	emit tabChanged(t);
+}
+int Core::getTab()
+{
+	return cfg._tab;
+}
+void Core::run()
 {
 	// ============
-	running = true;
-}
-
-void Core::stop()
-{
+	qDebug() << "run";
 	// ============
-	running = false;
 }
-
-void Core::refresh()
+bool Core::exit()
 {
-	if(itf)
-	{
-		itf->update();
-
-		if(running)
+	if(cfg._edit)
+		switch(QMessageBox::question(0, "Changed have been made to the configuration", "Would you like to save changes ?", QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel, QMessageBox::Save))
 		{
-			QMap<int,Pointer> pts = itf->getPointers();
-			QList<Signal> sgns;
-			for(Zone& zn : cfg)
-				sgns << zn.update(pts);
-			for(Signal s : sgns)
-				switch(s.type)
-				{
-					case MDMA::NOTE_OFF:
-					case MDMA::NOTE_ON:
-					case MDMA::POLYFONIC_AFTERTOUCH:
-					case MDMA::CONTROL_CHANGE:
-					case MDMA::PROGRAM_CHANGE:
-					case MDMA::CHANNEL_AFTERTOUCH:
-					case MDMA::PITCH_BENDING:
-					{
-						break;
-					}
-					case MDMA::GOTO_TAB1:
-						setTab(0);
-						break;
-					case MDMA::GOTO_TAB2:
-						setTab(1);
-						break;
-					case MDMA::GOTO_TAB3:
-						setTab(2);
-						break;
-					case MDMA::NOTHING:
-						break;
-				}
+			case QMessageBox::Save:
+				return save();
+				break;
+			case QMessageBox::Discard:
+				return true;
+				break;
+			case QMessageBox::Cancel:
+				return false;
+				break;
+			default:
+				break;
 		}
-
-		emit refreshed();
-	}
+	return true;
 }
 
 /*
@@ -170,18 +157,51 @@ bool Core::saveas()
 
 /*
  * ##################################################################################
- * #										TAB										#
+ * #									SLOTS										#
  * ##################################################################################
  */
 
-void Core::setTab(int t)
+void Core::refresh()
 {
-	cfg._tab  = t;
-	emit tabChanged(t);
-}
-int Core::getTab()
-{
-	return cfg._tab;
+	if(itf)
+	{
+		itf->update();
+
+		if(running)
+		{
+			QMap<int,Pointer> pts = itf->getPointers();
+			QList<Signal> sgns;
+			for(Zone& zn : cfg)
+				sgns << zn.update(pts);
+			for(Signal s : sgns)
+				switch(s.type)
+				{
+					case MDMA::NOTE_OFF:
+					case MDMA::NOTE_ON:
+					case MDMA::POLYFONIC_AFTERTOUCH:
+					case MDMA::CONTROL_CHANGE:
+					case MDMA::PROGRAM_CHANGE:
+					case MDMA::CHANNEL_AFTERTOUCH:
+					case MDMA::PITCH_BENDING:
+					{
+						break;
+					}
+					case MDMA::GOTO_TAB1:
+						setTab(0);
+						break;
+					case MDMA::GOTO_TAB2:
+						setTab(1);
+						break;
+					case MDMA::GOTO_TAB3:
+						setTab(2);
+						break;
+					case MDMA::NOTHING:
+						break;
+				}
+		}
+
+		emit refreshed();
+	}
 }
 
 /*

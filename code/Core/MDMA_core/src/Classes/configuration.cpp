@@ -20,7 +20,6 @@ Configuration::Configuration(const Configuration &cpy) :
 
 Configuration::~Configuration()
 {
-	qDebug() << size() << "zone(s) in configuration";
 }
 
 /*

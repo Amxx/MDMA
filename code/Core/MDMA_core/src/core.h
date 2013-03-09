@@ -33,24 +33,22 @@ class Core : public QObject
 			return mycore;
 		}
 
-		void start();
-		void stop();
+		void setUi(QWidget* mw);
+		QWidget* Ui();
+
+		void setTab(int t);
+		int getTab();
+
+		void run();
+		bool exit();
 
 		bool reset();
 		bool load();
 		bool save();
 		bool saveas();
 
-		void setTab(int t);
-		int getTab();
-
 		bool setDevice(MDMA::device dev, void* pVoid = NULL);
 		void releaseDevice();
-
-		void setUi(QWidget* mw) { ui = mw; }
-		QWidget* Ui() { return ui; }
-
-
 
 	public slots:
 		void refresh();

@@ -21,6 +21,7 @@ class MainWindow : public QMainWindow
 		MainWindow(QWidget *parent = 0);
 		~MainWindow();
 		void init();
+		void closeEvent(QCloseEvent *e);
 		void mousePressEvent(QMouseEvent *e);
 		void mouseMoveEvent(QMouseEvent *e);
 		void mouseReleaseEvent(QMouseEvent *e);
