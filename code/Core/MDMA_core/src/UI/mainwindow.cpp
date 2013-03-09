@@ -25,6 +25,7 @@ void MainWindow::init()
 	show();
 	appCore().setUi(ui->display);
 	connect(&appCore(), SIGNAL(refreshed()), this, SLOT(refreshImage()));
+	connect(&appCore(), SIGNAL(reconstruct()), this, SLOT(reconstruct()));
 }
 
 /*
@@ -73,6 +74,12 @@ void MainWindow::refreshImage()
 	this->ui->display->setPixmap(QPixmap::fromImage(appCore().itf->getImage()));
 }
 
+void MainWindow::reconstruct()
+{
+	for(Zone& z : appCore().cfg)
+		new ZoneDrager(z, ui->centralWidget);
+}
+
 /*
  * ##################################################################################
  * #								PRIVATE SLOTS									#
@@ -81,22 +88,22 @@ void MainWindow::refreshImage()
 
 void MainWindow::on_actionNew_triggered()
 {
-	appCore().cfg.reset();
+	appCore().reset();
 }
 
 void MainWindow::on_actionOpen_triggered()
 {
-//	appCore().load();
+	appCore().load();
 }
 
 void MainWindow::on_actionSave_triggered()
 {
-//	appCore().save();
+	appCore().save();
 }
 
 void MainWindow::on_actionSave_as_triggered()
 {
-//	appCore().saveas();
+	appCore().saveas();
 }
 
 void MainWindow::on_actionAbout_MDMA_triggered()

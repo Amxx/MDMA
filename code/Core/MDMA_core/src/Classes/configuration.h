@@ -1,29 +1,21 @@
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
 
-#include <QString>
-#include <QMap>
-
-#include <QFileDialog>
+#include <QList>
 
 #include "zone.h"
 
-class Configuration : public QObject, public QList<Zone>//QMap<int,Zone>
+class Configuration : public QObject, public QList<Zone>
 {
 		Q_OBJECT
 	public:
 		Configuration();
 		Configuration(const Configuration& cpy);
 		~Configuration();
-		static void initZone();
+		static void initConfiguration();
 
 		Zone& insertZone(Zone& z);
 		void removeZone(Zone& z);
-
-		bool reset();
-		bool load();
-		bool save();
-		bool saveas();
 
 	public slots:
 		void edited();

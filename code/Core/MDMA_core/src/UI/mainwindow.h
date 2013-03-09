@@ -27,6 +27,7 @@ class MainWindow : public QMainWindow
 		
 	public slots:
 		void refreshImage();
+		void reconstruct();
 
 	private slots:
 		void on_actionNew_triggered();

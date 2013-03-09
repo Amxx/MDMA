@@ -3,9 +3,12 @@
 
 #include <QApplication>
 #include <QDebug>
+#include <QFileDialog>
 #include <QMessageBox>
 #include <QObject>
+#include <QSettings>
 #include <QTimer>
+
 
 #include "Classes/configuration.h"
 #include "Interfaces/interface.h"
@@ -13,7 +16,6 @@
 #include "Interfaces/mouse.h"
 #include "Interfaces/webcam.h"
 #include "Utils/define.h"
-// #include "UI/mainwindow.h"
 
 
 class Core : public QObject
@@ -33,12 +35,12 @@ class Core : public QObject
 
 		void start();
 		void stop();
-/*
+
 		bool reset();
 		bool load();
 		bool save();
 		bool saveas();
-*/
+
 		void setTab(int t);
 		int getTab();
 
@@ -55,8 +57,8 @@ class Core : public QObject
 
 	signals:
 		void refreshed();
+		void reconstruct();
 		void tabChanged(int);
-
 
 	public:
 		Configuration cfg;
