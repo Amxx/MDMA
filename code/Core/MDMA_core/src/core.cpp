@@ -23,15 +23,18 @@ void Core::init()
 {
 	if(setDevice(MDMA::Kinect))
 	{
-		QMessageBox::information(0, "Welcome to MDMA", "Connection with Kinect established");
+		emit setStatus("Connection with Kinect established", 5000);
+		//QMessageBox::information(0, "Welcome to MDMA", "Connection with Kinect established");
 	}
 	else if(setDevice(MDMA::WebCam))
 	{
-		QMessageBox::information(0, "Welcome to MDMA", "Connection with WebCam established");
+		emit setStatus("Connection with Webcam established", 5000);
+		//QMessageBox::information(0, "Welcome to MDMA", "Connection with WebCam established");
 	}
 	else if(setDevice(MDMA::Mouse))
 	{
-		QMessageBox::critical(0, "Input error", "No video device has been detected");
+		emit setStatus("No video device has been detected", 5000);
+		//QMessageBox::critical(0, "Input error", "No video device has been detected");
 	}
 }
 
@@ -220,15 +223,12 @@ bool Core::setDevice(MDMA::device dev, void* pVoid)
 		{
 			case MDMA::Kinect:
 				itf = new Kinect(pVoid);
-				qDebug() << "Connection established to Kinect";
 				break;
 			case MDMA::Mouse:
 				itf = new Mouse(pVoid);
-				qDebug() << "Connection established to Mouse";
 				break;
 			case MDMA::WebCam:
 				itf = new WebCam(pVoid);
-				qDebug() << "Connection established to WebCam";
 				break;
 		}
 		connect(&tmr, SIGNAL(timeout()), this, SLOT(refresh()));

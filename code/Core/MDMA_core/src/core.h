@@ -57,6 +57,7 @@ class Core : public QObject
 		void refreshed();
 		void reconstruct();
 		void tabChanged(int);
+		void setStatus(QString, int = 0);
 
 	public:
 		Configuration cfg;

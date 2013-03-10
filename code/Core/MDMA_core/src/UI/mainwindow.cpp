@@ -23,9 +23,11 @@ MainWindow::~MainWindow()
 void MainWindow::init()
 {
 	show();
+
 	appCore().setUi(ui->display);
 	connect(&appCore(), SIGNAL(refreshed()), this, SLOT(refreshImage()));
 	connect(&appCore(), SIGNAL(reconstruct()), this, SLOT(reconstruct()));
+	connect(&appCore(), SIGNAL(setStatus(QString,int)), ui->statusBar, SLOT(showMessage(QString,int)));
 }
 
 /*

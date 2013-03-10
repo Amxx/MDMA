@@ -56,6 +56,8 @@ FORMS    += \
     src/UI/mainwindow.ui \
     src/UI/zoneeditor.ui
 
+RESOURCES += \
+    src/ressources.qrc
 
 LIBS += \
     -lopencv_core \
