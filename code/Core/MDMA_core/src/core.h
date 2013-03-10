@@ -3,8 +3,6 @@
 
 #include <QApplication>
 #include <QDebug>
-#include <QFileDialog>
-#include <QMessageBox>
 #include <QObject>
 #include <QSettings>
 #include <QTimer>
@@ -36,16 +34,8 @@ class Core : public QObject
 		void setUi(QWidget* mw);
 		QWidget* Ui();
 
-		void setTab(int t);
-		int getTab();
-
 		void run();
 		bool exit();
-
-		bool reset();
-		bool load();
-		bool save();
-		bool saveas();
 
 		bool setDevice(MDMA::device dev, void* pVoid = NULL);
 		void releaseDevice();
@@ -55,8 +45,6 @@ class Core : public QObject
 
 	signals:
 		void refreshed();
-		void reconstruct();
-		void tabChanged(int);
 		void setStatus(QString, int = 0);
 
 	public:

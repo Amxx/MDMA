@@ -52,15 +52,6 @@ QWidget* Core::Ui()
 {
 	return ui;
 }
-void Core::setTab(int t)
-{
-	cfg._tab  = t;
-	emit tabChanged(t);
-}
-int Core::getTab()
-{
-	return cfg._tab;
-}
 void Core::run()
 {
 	// ============
@@ -69,11 +60,11 @@ void Core::run()
 }
 bool Core::exit()
 {
-	if(cfg._edit)
+	if(cfg.isEdited())
 		switch(QMessageBox::question(0, "Changed have been made to the configuration", "Would you like to save changes ?", QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel, QMessageBox::Save))
 		{
 			case QMessageBox::Save:
-				return save();
+				return cfg.save();
 				break;
 			case QMessageBox::Discard:
 				return true;
@@ -87,76 +78,6 @@ bool Core::exit()
 	return true;
 }
 
-/*
- * ##################################################################################
- * #								CONFIG MANAGEMENT								#
- * ##################################################################################
-*/
-
-bool Core::reset()
-{
-	if(cfg._edit)
-		switch(QMessageBox::question(0, "Changed have been made to the configuration", "Would you like to save changes ?", QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel, QMessageBox::Save))
-		{
-			case QMessageBox::Save:
-				if(!save()) return false;
-				break;
-			case QMessageBox::Discard:
-				break;
-			case QMessageBox::Cancel:
-				return false;
-				break;
-			default:
-				break;
-		}
-	cfg.clear();
-	cfg._file = "";
-	cfg._tab = 0;
-	cfg._edit = false;
-	return true;
-}
-
-bool Core::load()
-{
-	if(reset())
-	{
-		cfg._file = QFileDialog::getOpenFileName(0, "Open file", QDir::homePath(), "MDMA configuration (*.mdma);;All file (*)", 0, 0);
-		if(cfg._file == "") return false;
-
-		Configuration::initConfiguration();
-		QSettings file(cfg._file, QSettings::IniFormat);
-		cfg << file.value("Configuration", qVariantFromValue(Configuration())).value<Configuration>();
-		emit reconstruct();
-		return true;
-	}
-	return false;
-}
-
-bool Core::save()
-{
-	if(cfg._file == "")
-	{
-		cfg._file = QFileDialog::getSaveFileName(0, "Save file", QDir::homePath()+"/new_config.mdma", "MDMA configuration (*.mdma);;All file (*)", 0, 0);
-		if(cfg._file == "") return false;
-	}
-
-	Configuration::initConfiguration();
-	QSettings file(cfg._file, QSettings::IniFormat);
-	file.setValue("Configuration", qVariantFromValue(cfg));
-	file.sync();
-
-	cfg._edit = false;
-	return true;
-}
-bool Core::saveas()
-{
-	QString new_path = QFileDialog::getSaveFileName(0, "Save file as", (cfg._file == "")?(QDir::homePath()+"/new_config.mdma"):cfg._file, "MDMA configuration (*.mdma);;All file (*)", 0, 0);
-	if(new_path == "") return false;
-
-	cfg._file = new_path;
-	save();
-	return true;
-}
 
 /*
  * ##################################################################################
@@ -190,13 +111,13 @@ void Core::refresh()
 						break;
 					}
 					case MDMA::GOTO_TAB1:
-						setTab(0);
+						cfg.setTab(0);
 						break;
 					case MDMA::GOTO_TAB2:
-						setTab(1);
+						cfg.setTab(1);
 						break;
 					case MDMA::GOTO_TAB3:
-						setTab(2);
+						cfg.setTab(2);
 						break;
 					case MDMA::NOTHING:
 						break;

@@ -16,12 +16,6 @@ Signal::Signal() :
 	signal[1] = 0;
 	signal[2] = 0;
 }
-
-void Signal::initSignal ()
-{
-	qRegisterMetaTypeStreamOperators<Signal>("Signal");
-	qMetaTypeId<Signal>();
-}
 QDataStream& operator << (QDataStream& out, const Signal& s)
 {
 	out << (int) s.type							// int (MDMA::signal)
@@ -67,7 +61,7 @@ Zone::Zone(QRect r, int t) :
 }
 Zone::Zone(const Zone& cpy) :
 	QObject(cpy.parent()),
-	QMap<MDMA::event, Signal>(cpy),
+	QMap<int, Signal>(cpy),
 	_type(cpy._type),
 	_name(cpy._name),
 	_geo(cpy._geo),
@@ -253,12 +247,6 @@ QList<Signal> Zone::update(QMap<int,Pointer>& pts)
 	return msgs;
 }
 
-void Zone::initZone ()
-{
-	qRegisterMetaTypeStreamOperators<Zone>("Zone");
-	qMetaTypeId<Zone>();
-}
-
 QDataStream& operator << (QDataStream& out, const Zone& z)
 {
 	out << (int) z._type						// int (MDMA::type)
@@ -266,28 +254,21 @@ QDataStream& operator << (QDataStream& out, const Zone& z)
 		<< z._geo								// QRect
 		<< z._tab								// int
 		<< z._active							// bool
-		<< z.size();							// int
-//	for(MDMA::event s : z.keys())
-//		out << s << z.value(s);
+		<< (QMap<int,Signal>) z;
 	return out;
 }
 QDataStream& operator >> (QDataStream& in, Zone& z)
 {
 	int t;
+	QMap<int,Signal> m;
 	in >> t;									// int (MDMA::type)
-		z._type = (MDMA::type) t;
 	in >> z._name;								// QString
 	in >> z._geo;								// QRect
 	in >> z._tab;								// int
 	in >> z._active;							// bool
-	in >> t;									// int
-//	for(int i = 0; i < t; ++i)
-//	{
-//		int k;
-//		Signal s;
-//		in >> k;
-//		in >> s;
-//		z.insert((MDMA::event) k, s);
-//	}
+	in >> m;
+
+	z._type = (MDMA::type) t;
+	z.unite(m);
 	return in;
 }

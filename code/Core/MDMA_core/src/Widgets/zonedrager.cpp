@@ -12,15 +12,13 @@ ZoneDrager::ZoneDrager(Zone& zn, QWidget* parent, Qt::WindowFlags f):
 {
 	_hs = new HotSpot(this);
 	_hs->resize(5,5);
-	QObject::connect(&appCore(), SIGNAL(tabChanged(int)), this, SLOT(update()));
+	QObject::connect(&appCore().cfg, SIGNAL(tabChanged(int)), this, SLOT(update()));
 	QObject::connect(&_zn, SIGNAL(updated()), this, SLOT(update()));
 	QObject::connect(&_zn, SIGNAL(destroyed()), this, SLOT(deleteLater()));
 	QObject::connect(_hs, SIGNAL(mousePress(QMouseEvent*, bool)), this, SLOT(mousePressEvent(QMouseEvent*, bool)));
 	QObject::connect(_hs, SIGNAL(mouseRelease(QMouseEvent*, bool)), this, SLOT(mouseReleaseEvent(QMouseEvent*)));
 	QObject::connect(_hs, SIGNAL(mouseMove(QMouseEvent*, bool)), this, SLOT(mouseMoveEvent(QMouseEvent*)));
 	update();
-	show();
-
 }
 ZoneDrager::~ZoneDrager()
 {
@@ -142,7 +140,7 @@ void ZoneDrager::leaveEvent(QEvent *)
 
 void ZoneDrager::update()
 {
-	setVisible(_zn._tab == appCore().getTab());
+	setVisible(_zn._tab == appCore().cfg.getTab());
 	switch(_zn._type)
 	{
 		case MDMA::NONE:

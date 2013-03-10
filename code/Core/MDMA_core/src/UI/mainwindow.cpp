@@ -26,8 +26,8 @@ void MainWindow::init()
 
 	appCore().setUi(ui->display);
 	connect(&appCore(), SIGNAL(refreshed()), this, SLOT(refreshImage()));
-	connect(&appCore(), SIGNAL(reconstruct()), this, SLOT(reconstruct()));
 	connect(&appCore(), SIGNAL(setStatus(QString,int)), ui->statusBar, SLOT(showMessage(QString,int)));
+	connect(&appCore().cfg, SIGNAL(reconstruct()), this, SLOT(reconstruct()));
 }
 
 /*
@@ -50,13 +50,13 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
 	{
 		case Qt::LeftButton:
 		{
-			Zone zn(QRect(ui->display->mapFromGlobal(e->globalPos()), QSize(5, 5)), appCore().getTab());
+			Zone zn(QRect(ui->display->mapFromGlobal(e->globalPos()), QSize(5, 5)), appCore().cfg.getTab());
 			zd = new ZoneDrager(appCore().cfg.insertZone(zn), ui->centralWidget);
 			zd->mousePressEvent(e, true);
 			break;
 		}
 		case Qt::MidButton:
-			appCore().setTab((appCore().getTab()+1)%3);
+			appCore().cfg.setTab((appCore().cfg.getTab()+1)%3);
 			break;
 		default:
 			break;
@@ -87,6 +87,7 @@ void MainWindow::reconstruct()
 {
 	for(Zone& z : appCore().cfg)
 		new ZoneDrager(z, ui->centralWidget);
+	appCore().cfg.edited(false);
 }
 
 /*
@@ -97,22 +98,22 @@ void MainWindow::reconstruct()
 
 void MainWindow::on_actionNew_triggered()
 {
-	appCore().reset();
+	appCore().cfg.reset();
 }
 
 void MainWindow::on_actionOpen_triggered()
 {
-	appCore().load();
+	appCore().cfg.load();
 }
 
 void MainWindow::on_actionSave_triggered()
 {
-	appCore().save();
+	appCore().cfg.save();
 }
 
 void MainWindow::on_actionSave_as_triggered()
 {
-	appCore().saveas();
+	appCore().cfg.saveas();
 }
 
 void MainWindow::on_actionAbout_MDMA_triggered()
