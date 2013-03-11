@@ -10,19 +10,26 @@ ZoneDrager::ZoneDrager(Zone& zn, QWidget* parent, Qt::WindowFlags f):
 	QLabel(parent, f),
 	_zn(zn)
 {
-	_hs = new HotSpot(this);
-	_hs->resize(5,5);
 	QObject::connect(&appCore().cfg, SIGNAL(tabChanged(int)), this, SLOT(update()));
 	QObject::connect(&_zn, SIGNAL(updated()), this, SLOT(update()));
 	QObject::connect(&_zn, SIGNAL(destroyed()), this, SLOT(deleteLater()));
-	QObject::connect(_hs, SIGNAL(mousePress(QMouseEvent*, bool)), this, SLOT(mousePressEvent(QMouseEvent*, bool)));
-	QObject::connect(_hs, SIGNAL(mouseRelease(QMouseEvent*, bool)), this, SLOT(mouseReleaseEvent(QMouseEvent*)));
-	QObject::connect(_hs, SIGNAL(mouseMove(QMouseEvent*, bool)), this, SLOT(mouseMoveEvent(QMouseEvent*)));
+	for(int i = 0; i < 4; i++)
+	{
+		_hs[i] = new HotSpot((corner) i, this);
+		_hs[i]->resize(5,5);
+		QObject::connect(_hs[i], SIGNAL(mousePress(QMouseEvent*, corner)), this, SLOT(mousePressEvent(QMouseEvent*, corner)));
+		QObject::connect(_hs[i], SIGNAL(mouseRelease(QMouseEvent*, corner)), this, SLOT(mouseReleaseEvent(QMouseEvent*)));
+		QObject::connect(_hs[i], SIGNAL(mouseMove(QMouseEvent*, corner)), this, SLOT(mouseMoveEvent(QMouseEvent*)));
+
+	}
 	update();
 }
 ZoneDrager::~ZoneDrager()
 {
-	delete _hs;
+	delete _hs[0];
+	delete _hs[1];
+	delete _hs[2];
+	delete _hs[3];
 }
 
 /*
@@ -33,21 +40,39 @@ ZoneDrager::~ZoneDrager()
 
 void ZoneDrager::mousePressEvent(QMouseEvent *e)
 {
-	mousePressEvent(e, false);
+	mousePressEvent(e, NONE);
 }
-void ZoneDrager::mousePressEvent(QMouseEvent *e, bool hs)
+void ZoneDrager::mousePressEvent(QMouseEvent *e, corner c)
 {
 	raise();
 	switch(e->button())
 	{
 		case Qt::LeftButton:
-		{
-			_pos = e->globalPos();
-			_move = hs ? RESIZE : DRAG;
+			switch(c)
+			{
+				case NONE:
+					_pos = e->globalPos();
+					_move = DRAG;
+					break;
+				case NW:
+					_pos = geometry().bottomRight();
+					_move = RESIZE;
+					break;
+				case NE:
+					_pos = geometry().bottomLeft();
+					_move = RESIZE;
+					break;
+				case SE:
+					_pos = geometry().topLeft();
+					_move = RESIZE;
+					break;
+				case SW:
+					_pos = geometry().topRight();
+					_move = RESIZE;
+					break;
+			}
 			break;
-		}
 		case Qt::RightButton:
-		{
 			switch(EditZone(_zn))
 			{
 				case QDialog::Accepted:
@@ -62,7 +87,6 @@ void ZoneDrager::mousePressEvent(QMouseEvent *e, bool hs)
 					break;
 			}
 			break;
-		}
 		default:
 			break;
 	}
@@ -89,34 +113,36 @@ void ZoneDrager::mouseReleaseEvent(QMouseEvent*)
 }
 void ZoneDrager::mouseMoveEvent(QMouseEvent *e)
 {
-	if(_move == UNDEFINED)
-	{
-		_pos = e->globalPos();
-		_move = ((e->globalPos() - mapToGlobal(geometry().bottomRight())).manhattanLength() < 5) ? RESIZE : DRAG;
-	}
 	QPoint delta;
 	switch(_move)
 	{
 		case DRAG:
+		{
 			delta = e->globalPos() - _pos;
 			move(x()+delta.x(), y()+delta.y());
-			_pos += delta;
+			_pos = e->globalPos();
 			break;
+		}
 		case RESIZE:
-			delta = e->globalPos() - _pos;
-			delta.setX(std::max(delta.x(), 5 - width()));
-			delta.setY(std::max(delta.y(), 5 - height()));
-			resize(width()+delta.x(), height()+delta.y());
-			_pos += delta;
+		{
+			QPoint _current = appCore().Ui()->mapFromGlobal(e->globalPos());
+			int x = qMin(_pos.x(), _current.x());
+			int y = qMin(_pos.y(), _current.y());
+			int w = abs(_pos.x() - _current.x());
+			int h = abs(_pos.y() - _current.y());
+			setGeometry(x, y, w, h);
 			break;
-		default:
+		}
+		case UNDEFINED:
 			break;
 	}
 	_zn._geo = geometry();
 }
 void ZoneDrager::resizeEvent(QResizeEvent *)
 {
-	_hs->move(width() - _hs->width(), height()-_hs->height());
+	_hs[NE]->move(width() - _hs[NW]->width(), 0);
+	_hs[SE]->move(width() - _hs[NW]->width(), height()-_hs[NW]->height());
+	_hs[SW]->move(0, height()-_hs[NW]->height());
 	if(_zn._type != MDMA::NONE) appCore().cfg.edited();
 }
 void ZoneDrager::moveEvent(QMoveEvent *)

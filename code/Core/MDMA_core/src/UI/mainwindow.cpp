@@ -52,7 +52,7 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
 		{
 			Zone zn(QRect(ui->display->mapFromGlobal(e->globalPos()), QSize(5, 5)), appCore().cfg.getTab());
 			zd = new ZoneDrager(appCore().cfg.insertZone(zn), ui->centralWidget);
-			zd->mousePressEvent(e, true);
+			zd->mousePressEvent(e, SE);
 			break;
 		}
 		case Qt::MidButton:
