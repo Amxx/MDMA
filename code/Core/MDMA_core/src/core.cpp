@@ -96,7 +96,7 @@ void Core::refresh()
 			QMap<int,Pointer> pts = itf->getPointers();
 			QList<Signal> sgns;
 			for(Zone& zn : cfg)
-				sgns << zn.update(pts);
+				sgns << zn.getSignals(pts);
 			for(Signal s : sgns)
 				switch(s.type)
 				{

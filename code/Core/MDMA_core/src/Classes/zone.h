@@ -31,17 +31,20 @@ class Zone : public QObject, public QMap<int, Signal>
 		Zone(const Zone& cpy);
 		~Zone();
 
-		QList<Signal> update(QMap<int,Pointer>& pts);
+		QList<Signal> getSignals(QMap<int,Pointer>& pts);
 		bool operator==( const Zone& z ) const { return this == &z; }
+
+	public slots:
+		void update();
 	signals:
 		void updated();
 		void deleted();
 	public:
-		//int _id;
 		MDMA::type _type;
 		QString _name;
 		QRect _geo;
 		int _tab;
+		int _var;
 		bool _active;
 };
 

@@ -4,20 +4,20 @@
 #include <QApplication>
 #include <QLabel>
 
-enum corner
+enum direction
 {
 	NONE = -1,
-	NW = 0,
-	NE = 1,
-	SE = 2,
-	SW = 3
+	W = 0x00,
+	N = 0x00,
+	E = 0x01,
+	S = 0x02
 };
 
 class HotSpot : public QWidget
 {
 		Q_OBJECT
 	public:
-		HotSpot(corner c, QWidget * parent, Qt::WindowFlags f = 0);
+		HotSpot(int c, QWidget * parent, Qt::WindowFlags f = 0);
 
 	public slots:
 		void mousePressEvent(QMouseEvent *e);
@@ -26,13 +26,13 @@ class HotSpot : public QWidget
 		void enterEvent(QEvent * e);
 
 	signals:
-		void mousePress(QMouseEvent *e, corner c);
-		void mouseRelease(QMouseEvent *e, corner c);
-		void mouseMove(QMouseEvent *e, corner c);
+		void mousePress(QMouseEvent *e, int c);
+		void mouseRelease(QMouseEvent *e, int c);
+		void mouseMove(QMouseEvent *e, int c);
 
 	private:
 		QWidget* _p;
-		corner _c;
+		int _c;
 };
 
 #endif // HOTSPOT_H

@@ -25,7 +25,7 @@ class ZoneDrager : public QLabel
 
 	public slots:
 		void mousePressEvent(QMouseEvent *e);
-		void mousePressEvent(QMouseEvent *e, corner hs);
+		void mousePressEvent(QMouseEvent *e, int hs);
 		void mouseReleaseEvent(QMouseEvent *e);
 		void mouseMoveEvent(QMouseEvent *e);
 		void moveEvent(QMoveEvent *);
@@ -33,6 +33,8 @@ class ZoneDrager : public QLabel
 		void enterEvent (QEvent *);
 		void leaveEvent (QEvent *);
 		void update();
+
+		void paintEvent(QPaintEvent *);
 
 	private:
 		state _move;

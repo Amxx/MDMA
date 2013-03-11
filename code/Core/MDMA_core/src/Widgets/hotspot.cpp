@@ -1,6 +1,6 @@
 #include "hotspot.h"
 
-HotSpot::HotSpot(corner c, QWidget * parent, Qt::WindowFlags f) :
+HotSpot::HotSpot(int c, QWidget * parent, Qt::WindowFlags f) :
 	QWidget(parent, f),
 	_p(parent),
 	_c(c)
@@ -22,12 +22,12 @@ void HotSpot::enterEvent (QEvent *)
 {
 	switch(_c)
 	{
-		case NW:
-		case SE:
+		case N|W:
+		case S|E:
 			setCursor(Qt::SizeFDiagCursor);
 			break;
-		case NE:
-		case SW:
+		case N|E:
+		case S|W:
 			setCursor(Qt::SizeBDiagCursor);
 			break;
 		case NONE:

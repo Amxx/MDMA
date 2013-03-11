@@ -68,10 +68,8 @@ ZoneEditor::~ZoneEditor()
 
 void ZoneEditor::on_pushButton_apply_clicked()
 {
-
+	_zn._type = (MDMA::type) ui->tabWidget_type->currentIndex();
 	_zn._name = ui->lineEdit_name->text();
-	_zn._tab = ui->comboBox_tab->currentIndex();
-	_zn._type = MDMA::type(ui->tabWidget_type->currentIndex());
 
 	_zn[MDMA::EVENT_X].type = (MDMA::signal) (ui->comboBox_axex_0->currentIndex());
 	if(!MDMA::isMidi(_zn[MDMA::EVENT_X].type)) _zn[MDMA::EVENT_X].type = MDMA::NOTHING;
@@ -87,6 +85,10 @@ void ZoneEditor::on_pushButton_apply_clicked()
 	_zn[MDMA::EVENT_Y].signal[2] = ui->spinBox_axey_3->value();
 	_zn[MDMA::EVENT_Y].variable = ui->radioButton_variable_2_1->isChecked()?1:2;
 
+
+	// ------------------------------------------------------------------------------------
+	_zn._tab = ui->comboBox_tab->currentIndex();
+	// ------------------------------------------------------------------------------------
 	_zn[MDMA::ENTER].type = (MDMA::signal) ui->comboBox_enter->currentIndex();
 	_zn[MDMA::ENTER].signal[0] = ui->spinBox_enter_1->value();
 	_zn[MDMA::ENTER].signal[1] = ui->spinBox_enter_2->value();
@@ -107,7 +109,7 @@ void ZoneEditor::on_pushButton_apply_clicked()
 	_zn[MDMA::SHOCK].signal[0] = ui->spinBox_shock_1->value();
 	_zn[MDMA::SHOCK].signal[1] = ui->spinBox_shock_2->value();
 	_zn[MDMA::SHOCK].signal[2] = ui->spinBox_shock_3->value();
-
+	// ------------------------------------------------------------------------------------
 	_zn[MDMA::IN].type = (MDMA::signal) ui->comboBox_in->currentIndex();
 	_zn[MDMA::IN].signal[0] = ui->spinBox_in_1->value();
 	_zn[MDMA::IN].signal[1] = ui->spinBox_in_2->value();
@@ -116,7 +118,8 @@ void ZoneEditor::on_pushButton_apply_clicked()
 	_zn[MDMA::OUT].signal[0] = ui->spinBox_out_1->value();
 	_zn[MDMA::OUT].signal[1] = ui->spinBox_out_2->value();
 	_zn[MDMA::OUT].signal[2] = ui->spinBox_out_3->value();
-
+	// ------------------------------------------------------------------------------------
+	_zn.update();
 	accept();
 }
 
@@ -130,26 +133,93 @@ void ZoneEditor::on_pushButton_delete_clicked()
 	done(-1);
 }
 
-// ========================================================================================
+/*
+ * ==========================================================================================
+ * =										GENERAL											=
+ * ==========================================================================================
+ */
 
+void ZoneEditor::on_tabWidget_type_currentChanged(int index)
+{
+//	_zn._type = (MDMA::type) index;
+//	_zn.update();
+}
+
+void ZoneEditor::on_lineEdit_name_textChanged(const QString &arg1)
+{
+//	_zn._name = arg1;
+//	_zn.update();
+}
+
+/*
+ * ==========================================================================================
+ * =										AXE X											=
+ * ==========================================================================================
+ */
 
 void ZoneEditor::on_comboBox_axex_0_currentIndexChanged(int index)
 {
+//	_zn[MDMA::EVENT_X].type = (MDMA::signal) index;
+//	if(!MDMA::isMidi(_zn[MDMA::EVENT_X].type)) _zn[MDMA::EVENT_X].type = MDMA::NOTHING;
 
 	ui->spinBox_axex_1->setDisabled(MDMA::isMidi((MDMA::signal) index) < 1);
 	ui->spinBox_axex_2->setDisabled((MDMA::isMidi((MDMA::signal) index) < 1)); // || evz.variable[0][0]);
 	ui->spinBox_axex_3->setDisabled((MDMA::isMidi((MDMA::signal) index) < 2)); // || evz.variable[0][1]);
-
 }
+void ZoneEditor::on_spinBox_axex_1_valueChanged(int arg1)
+{
+//	_zn[MDMA::EVENT_X].signal[0] = arg1;
+}
+void ZoneEditor::on_spinBox_axex_2_valueChanged(int arg1)
+{
+//	_zn[MDMA::EVENT_X].signal[1] = arg1;
+}
+void ZoneEditor::on_spinBox_axex_3_valueChanged(int arg1)
+{
+//	_zn[MDMA::EVENT_X].signal[2] = arg1;
+}
+void ZoneEditor::on_radioButton_variable_1_1_toggled(bool checked)
+{
+//	_zn[MDMA::EVENT_X].variable = checked?1:2;
+}
+
+/*
+ * ==========================================================================================
+ * =										AXE Y											=
+ * ==========================================================================================
+ */
 
 void ZoneEditor::on_comboBox_axey_0_currentIndexChanged(int index)
 {
+//	_zn[MDMA::EVENT_Y].type = (MDMA::signal) index;
+//	if(!MDMA::isMidi(_zn[MDMA::EVENT_X].type)) _zn[MDMA::EVENT_X].type = MDMA::NOTHING;
+
 	ui->spinBox_axey_1->setDisabled(MDMA::isMidi((MDMA::signal) index) < 1);
 	ui->spinBox_axey_2->setDisabled((MDMA::isMidi((MDMA::signal) index) < 1)); // || evz.variable[1][0]);
 	ui->spinBox_axey_3->setDisabled((MDMA::isMidi((MDMA::signal) index) < 2)); // || evz.variable[1][1]);
 }
+void ZoneEditor::on_spinBox_axey_1_valueChanged(int arg1)
+{
+//	_zn[MDMA::EVENT_Y].signal[0] = arg1;
+}
+void ZoneEditor::on_spinBox_axey_2_valueChanged(int arg1)
+{
+//	_zn[MDMA::EVENT_Y].signal[1] = arg1;
+}
+void ZoneEditor::on_spinBox_axey_3_valueChanged(int arg1)
+{
+//	_zn[MDMA::EVENT_Y].signal[2] = arg1;
+}
+void ZoneEditor::on_radioButton_variable_2_1_toggled(bool checked)
+{
+//	_zn[MDMA::EVENT_Y].variable = checked?1:2;
+}
 
-// ========================================================================================
+/*
+ * ==========================================================================================
+ * =										ELSE											=
+ * ==========================================================================================
+ */
 
 void ZoneEditor::on_comboBox_enter_currentIndexChanged(int index)
 {
@@ -202,6 +272,8 @@ void ZoneEditor::on_comboBox_out_currentIndexChanged(int index)
 }
 
 
+
+
 void ZoneEditor::on_noteHelp_clicked()
 {
 //	NoteNumberWindow* noteWindow = new NoteNumberWindow(this);
@@ -217,4 +289,9 @@ int EditZone(Zone& zn, QWidget* parent)
 {
 	return ZoneEditor(zn, parent).exec();
 }
+
+
+
+
+
 

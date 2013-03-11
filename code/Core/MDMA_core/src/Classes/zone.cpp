@@ -48,6 +48,7 @@ Zone::Zone() :
 	_name("New Zone"),
 	_geo(),
 	_tab(0),
+	_var(0),
 	_active(false)
 {
 }
@@ -56,6 +57,7 @@ Zone::Zone(QRect r, int t) :
 	_name("New Zone"),
 	_geo(r),
 	_tab(t),
+	_var(0),
 	_active(false)
 {
 }
@@ -66,6 +68,7 @@ Zone::Zone(const Zone& cpy) :
 	_name(cpy._name),
 	_geo(cpy._geo),
 	_tab(cpy._tab),
+	_var(cpy._var),
 	_active(cpy._active)
 {
 }
@@ -74,75 +77,8 @@ Zone::~Zone()
 	emit deleted();
 }
 
-/*
-void Zone::display(QPainter& painter)
-{
-	QFont font;
-	font.setPointSize(8);
-	painter.setFont(font);
 
-	switch(type)
-	{
-		case MDMA::FADER :
-		{
-			painter.fillRect(QRect(pos[0], pos[1]), MDMA::typeToFillColor(type, emph_display));
-			painter.setPen(QPen(QBrush(MDMA::typeToBorderColor(type, emph_display)), 3, Qt::SolidLine, Qt::SquareCap));
-			if(MDMA::isMidi(active[MDMA::EVENT_X]))
-			{
-				int x_min = std::min(pos[0].x(), pos[1].x());
-				int x_max = std::max(pos[0].x(), pos[1].x());
-				int x_value = x_min + (x_max - x_min) * signal[MDMA::EVENT_X][variable[0]?1:2]/127;
-				painter.drawLine(QPoint(x_value, pos[0].y()), QPoint(x_value, pos[1].y()));
-			}
-			if(MDMA::isMidi(active[MDMA::EVENT_Y]))
-			{
-				int y_min = std::min(pos[0].y(), pos[1].y());
-				int y_max = std::max(pos[0].y(), pos[1].y());
-				int y_value = y_max - (y_max - y_min) * signal[MDMA::EVENT_Y][variable[1]?1:2]/127;
-				painter.drawLine(QPoint(pos[0].x(), y_value), QPoint(pos[1].x(), y_value));
-			}
-
-			painter.setPen(MDMA::textColor);
-			painter.drawText(std::min(pos[0].x(), pos[1].x())+2, std::min(pos[0].y(), pos[1].y())+10, name);
-			break;
-		}
-
-		case MDMA::PAD :
-		{
-			painter.fillRect(QRect(pos[0], pos[1]), MDMA::typeToFillColor(type, emph_display));
-
-			painter.setPen(MDMA::textColor);
-			painter.drawText(std::min(pos[0].x(), pos[1].x())+2, std::min(pos[0].y(), pos[1].y())+10, name);
-			break;
-		}
-
-		case MDMA::SEGMENT :
-		{
-			QPolygon poly;
-			QPoint center, director;
-
-			painter.setPen(QPen(QBrush(MDMA::typeToFillColor(type, emph_display)), 3, Qt::SolidLine, Qt::RoundCap));
-			painter.drawLine(pos[0], pos[1]);
-
-			painter.setPen(QPen(QBrush(MDMA::typeToFillColor(type, emph_display)), 1, Qt::SolidLine, Qt::RoundCap));
-			painter.setBrush(QBrush(MDMA::typeToFillColor(type, emph_display)));
-			center = (pos[0]+pos[1])/2;
-			director = pos[0]-pos[1];
-			director *= 20/sqrt(director.x()*director.x()+director.y()*director.y());
-			poly << center + director/2;
-			poly << center + sqrt(3)*QPoint(-director.y(), director.x())/2;
-			poly << center - director/2;
-			painter.drawPolygon(poly);
-
-			painter.setPen(MDMA::textColor);
-			painter.drawText(pos[(pos[0].y()<pos[1].y() || pos[0].x()<pos[1].x())?0:1], name);
-			break;
-		}
-	}
-}
-*/
-
-QList<Signal> Zone::update(QMap<int,Pointer>& pts)
+QList<Signal> Zone::getSignals(QMap<int,Pointer>& pts)
 {
 	QList<Signal> msgs;
 	_active = false;
@@ -247,12 +183,19 @@ QList<Signal> Zone::update(QMap<int,Pointer>& pts)
 	return msgs;
 }
 
+
+void Zone::update()
+{
+	emit updated();
+}
+
 QDataStream& operator << (QDataStream& out, const Zone& z)
 {
 	out << (int) z._type						// int (MDMA::type)
 		<< z._name								// QString
 		<< z._geo								// QRect
 		<< z._tab								// int
+		<< z._var								// int
 		<< z._active							// bool
 		<< (QMap<int,Signal>) z;
 	return out;
@@ -265,6 +208,7 @@ QDataStream& operator >> (QDataStream& in, Zone& z)
 	in >> z._name;								// QString
 	in >> z._geo;								// QRect
 	in >> z._tab;								// int
+	in >> z._var;								// int
 	in >> z._active;							// bool
 	in >> m;
 
