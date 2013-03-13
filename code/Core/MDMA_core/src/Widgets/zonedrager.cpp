@@ -33,7 +33,7 @@ ZoneDrager::~ZoneDrager()
 
 /*
  * ##################################################################################
- * #									SLOTS										#
+ * #									MOUSE SLOTS									#
  * ##################################################################################
  */
 
@@ -53,21 +53,25 @@ void ZoneDrager::mousePressEvent(QMouseEvent *e, int c)
 					_pos = e->globalPos();
 					_move = DRAG;
 					break;
-				case N|W:
-					_pos = geometry().bottomRight();
+				case S|E:
+					_pos = geometry().topLeft();
 					_move = RESIZE;
+					_moveVar = _zn._var;
 					break;
 				case N|E:
 					_pos = geometry().bottomLeft();
 					_move = RESIZE;
+					_moveVar = (_zn._var+1)%4;
 					break;
-				case S|E:
-					_pos = geometry().topLeft();
+				case N|W:
+					_pos = geometry().bottomRight();
 					_move = RESIZE;
+					_moveVar = (_zn._var+2)%4;
 					break;
 				case S|W:
 					_pos = geometry().topRight();
 					_move = RESIZE;
+					_moveVar = (_zn._var+3)%4;
 					break;
 			}
 			break;
@@ -88,7 +92,9 @@ void ZoneDrager::mousePressEvent(QMouseEvent *e, int c)
 		case Qt::MiddleButton:
 			if(_zn._type == MDMA::SEGMENT)
 			{
-				_zn._var = (_zn._var + 1) % 4;
+				_zn._var += 1;
+				_zn._var %= 4;
+
 				appCore().cfg.edited();
 				update();
 			}
@@ -101,18 +107,29 @@ void ZoneDrager::mouseReleaseEvent(QMouseEvent*)
 {
 	setCursor(Qt::OpenHandCursor);
 	QApplication::processEvents();
-	if(_zn._type == MDMA::NONE)
+
+	switch(_zn._type)
 	{
-		_zn._type = MDMA::FADER;
-		switch(EditZone(_zn))
-		{
-			case QDialog::Accepted:
-				appCore().cfg.edited();
-				break;
-			default:
-				appCore().cfg.removeZone(_zn);
-				break;
-		}
+		case MDMA::NONE:
+			_zn._type = MDMA::FADER;
+			switch(EditZone(_zn))
+			{
+				case QDialog::Accepted:
+					appCore().cfg.edited();
+					break;
+				default:
+					appCore().cfg.removeZone(_zn);
+					break;
+			}
+			break;
+
+		case MDMA::FADER:
+			break;
+		case MDMA::PAD:
+			break;
+		case MDMA::SEGMENT:
+			updateHS();
+			break;
 	}
 	_move = UNDEFINED;
 }
@@ -136,6 +153,14 @@ void ZoneDrager::mouseMoveEvent(QMouseEvent *e)
 			int w = abs(_pos.x() - _current.x());
 			int h = abs(_pos.y() - _current.y());
 			setGeometry(x, y, w, h);
+			if(_zn._type == MDMA::SEGMENT)
+			{
+				_zn._var = _moveVar;
+				if(_current.x() < _pos.x() && _current.y() >= _pos.y()) _zn._var += 1;
+				if(_current.x() >= _pos.x() && _current.y() < _pos.y()) _zn._var += 3;
+				if(_current.x() < _pos.x() && _current.y() < _pos.y()) _zn._var += 2;
+				_zn._var %= 4;
+			}
 			break;
 		}
 		case UNDEFINED:
@@ -143,6 +168,13 @@ void ZoneDrager::mouseMoveEvent(QMouseEvent *e)
 	}
 	_zn._geo = geometry();
 }
+
+/*
+ * ##################################################################################
+ * #								CHANGE EVENTS									#
+ * ##################################################################################
+ */
+
 void ZoneDrager::resizeEvent(QResizeEvent *)
 {
 	_hs[N|E]->move(width() - _hs[N|W]->width(), 0);
@@ -165,13 +197,14 @@ void ZoneDrager::leaveEvent(QEvent *)
 
 /*
  * ##################################################################################
- * #									DISPLAY										#
+ * #									UPDATE										#
  * ##################################################################################
  */
 
 void ZoneDrager::update()
 {
 	setVisible(_zn._tab == appCore().cfg.getTab());
+	updateHS();
 	switch(_zn._type)
 	{
 		case MDMA::NONE:
@@ -188,17 +221,41 @@ void ZoneDrager::update()
 			break;
 	}
 }
+void ZoneDrager::updateHS()
+{
+	switch(_zn._type)
+	{
+		case MDMA::NONE:
+		case MDMA::FADER:
+		case MDMA::PAD:
+			_hs[0]->show();
+			_hs[1]->show();
+			_hs[2]->show();
+			_hs[3]->show();
+			break;
+		case MDMA::SEGMENT:
+			_hs[0]->setVisible(_zn._var == 0 || _zn._var == 2);
+			_hs[3]->setVisible(_zn._var == 0 || _zn._var == 2);
+			_hs[1]->setVisible(_zn._var == 1 || _zn._var == 3);
+			_hs[2]->setVisible(_zn._var == 1 || _zn._var == 3);
+			break;
+	}
+}
 
-
+/*
+ * ##################################################################################
+ * #									DISPLAY										#
+ * ##################################################################################
+ */
 
 void ZoneDrager::paintEvent(QPaintEvent *)
 {
-
 	QPainter pt(this);
 	switch(_zn._type)
 	{
 		case MDMA::NONE:
 			break;
+
 		case MDMA::FADER:
 			pt.setPen(QPen(QBrush(Qt::red), 2, Qt::SolidLine, Qt::SquareCap));
 			if(MDMA::isMidi(_zn[MDMA::EVENT_X].type))
@@ -212,11 +269,14 @@ void ZoneDrager::paintEvent(QPaintEvent *)
 				pt.drawLine(QPoint(0, y), QPoint(width(), y));
 			}
 			break;
+
 		case MDMA::PAD:
 			break;
+
 		case MDMA::SEGMENT:
 		{
 			QPoint pos[2];
+
 			switch(_zn._var)
 			{
 				case 0:
@@ -236,22 +296,24 @@ void ZoneDrager::paintEvent(QPaintEvent *)
 					pos[1] = QPoint(width(), 0);
 					break;
 				default:
-					throw;
+					throw "[ ZoneDrager::painEvent ] _zn._var out of bound";
 					break;
 			}
-			pt.setPen(QPen(QBrush(QColor(78, 167, 255, 128)), 3, Qt::SolidLine, Qt::RoundCap));
-			pt.drawLine(pos[0], pos[1]);
 
-			QPolygon poly;
 			QPoint center, director;
-			pt.setPen(QPen(QBrush(QColor(78, 167, 255, 128)), 1, Qt::SolidLine, Qt::RoundCap));
-			pt.setBrush(QBrush(QColor(78, 167, 255, 128)));
 			center = (pos[0]+pos[1])/2;
 			director = pos[0]-pos[1];
-			director *= 20/sqrt(director.x()*director.x()+director.y()*director.y());
-			poly << center + director/2;
-			poly << center + sqrt(3)*QPoint(-director.y(), director.x())/2;
-			poly << center - director/2;
+			director *= 10/sqrt(director.x()*director.x()+director.y()*director.y());
+
+			QPolygon poly;
+			poly << pos[0];
+			poly << center + director;
+			poly << center + sqrt(3)*QPoint(-director.y(), director.x());
+			poly << center - director;
+			poly << pos[1];
+
+			pt.setPen(QPen(QBrush(QColor(78, 167, 255, 128)), 1, Qt::SolidLine, Qt::RoundCap));
+			pt.setBrush(QBrush(QColor(78, 167, 255, 128)));
 			pt.drawPolygon(poly);
 			break;
 		}

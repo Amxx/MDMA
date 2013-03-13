@@ -32,12 +32,15 @@ class ZoneDrager : public QLabel
 		void resizeEvent(QResizeEvent *);
 		void enterEvent (QEvent *);
 		void leaveEvent (QEvent *);
+
 		void update();
+		void updateHS();
 
 		void paintEvent(QPaintEvent *);
 
 	private:
 		state _move;
+		int _moveVar;
 		QPoint _pos;
 		HotSpot* _hs[4];
 		Zone& _zn;
